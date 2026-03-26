@@ -1,0 +1,71 @@
+<?php
+// $currentPage is set by each page before including this file
+// Possible values: home, shop, insurance, plans, about
+if (!isset($currentPage)) $currentPage = 'home';
+
+$nav = [
+  ['id' => 'home',      'label' => 'Home',             'href' => 'index.php',     'sub' => [
+    ['label' => 'Creating Tablet Applications', 'href' => 'index.php'],
+    ['label' => 'Education',                    'href' => 'about.php'],
+    ['label' => 'Insurance',                    'href' => 'insurance.php'],
+    ['label' => 'Business & Conferences',       'href' => 'about.php'],
+  ]],
+  ['id' => 'shop',      'label' => 'Shopping',         'href' => 'shop.php',      'sub' => [
+    ['label' => 'Apple',     'href' => 'shop.php'],
+    ['label' => 'Samsung',   'href' => 'shop.php'],
+    ['label' => 'Microsoft', 'href' => 'shop.php'],
+    ['label' => 'Amazon',    'href' => 'shop.php'],
+    ['label' => 'Services',  'href' => 'insurance.php'],
+  ]],
+  ['id' => 'insurance', 'label' => 'Insurance & Repair','href' => 'insurance.php', 'sub' => [
+    ['label' => 'Coverage Plans',      'href' => 'insurance.php'],
+    ['label' => 'Screen Repair',       'href' => 'insurance.php'],
+    ['label' => 'Battery Replacement', 'href' => 'insurance.php'],
+    ['label' => 'Water Damage',        'href' => 'insurance.php'],
+    ['label' => 'Book a Repair',       'href' => 'insurance.php#book-form'],
+  ]],
+  ['id' => 'plans',     'label' => 'Plans & Pricing',  'href' => 'plans.php',     'sub' => []],
+  ['id' => 'about',     'label' => 'About',             'href' => 'about.php',     'sub' => []],
+];
+?>
+<nav class="nav">
+  <a class="logo" href="index.php">
+    <img src="assets/images/logo.png" alt="Tablet Masters" class="logo-img" />
+  </a>
+
+  <ul class="nav-links">
+    <?php foreach ($nav as $item): ?>
+    <li class="nav-item">
+      <a
+        class="nav-link <?= $currentPage === $item['id'] ? 'active' : '' ?>"
+        href="<?= htmlspecialchars($item['href']) ?>"
+      ><?= htmlspecialchars($item['label']) ?><?= count($item['sub']) ? ' &#9662;' : '' ?></a>
+
+      <?php if (count($item['sub'])): ?>
+      <div class="dropdown">
+        <?php foreach ($item['sub'] as $sub): ?>
+        <a class="dropdown-link" href="<?= htmlspecialchars($sub['href']) ?>"><?= htmlspecialchars($sub['label']) ?></a>
+        <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+  </ul>
+
+  <div class="nav-right">
+    <a class="nav-btn-outline" href="shop.php">Shop Tablets</a>
+    <button class="nav-cart" onclick="openCart()">
+      <i class="fas fa-shopping-cart"></i> <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+    <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <?php foreach ($nav as $item): ?>
+  <a class="nav-link <?= $currentPage === $item['id'] ? 'active' : '' ?>" href="<?= htmlspecialchars($item['href']) ?>"><?= htmlspecialchars($item['label']) ?></a>
+  <?php endforeach; ?>
+</div>

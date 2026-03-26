@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "name": "Tablet Masters",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": true,
+    "emmet.includeLanguages": { "php": "html" },
+    "emmet.triggerExpansionOnTab": true
+  },
+  "extensions": {
+    "recommendations": [
+      "bmewburn.vscode-intelephense-client",
+      "ritwickdey.liveserver",
+      "esbenp.prettier-vscode",
+      "ecmel.vscode-html-css",
+      "formulahendry.auto-close-tag",
+      "formulahendry.auto-rename-tag"
+    ]
+  }
+}
