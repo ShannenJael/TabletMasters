@@ -787,9 +787,10 @@ body {
   border-radius:  4px;
   z-index:        2;
 }
-.badge-default { background: var(--gold);  color: #1A0A00; }
-.badge-new     { background: var(--blue);  color: #fff; }
-.badge-sale    { background: #EF4444;      color: #fff; }
+.badge-default { background: var(--gold);    color: #1A0A00; }
+.badge-new     { background: var(--blue);    color: #fff; }
+.badge-sale    { background: #EF4444;        color: #fff; }
+.badge-prev    { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
 
 .product-info { padding: 18px 18px 20px; }
 .product-name  { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
