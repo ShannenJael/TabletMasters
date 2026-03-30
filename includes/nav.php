@@ -29,8 +29,8 @@ $nav = [
 ];
 ?>
 <nav class="nav">
-  <a class="logo" href="index.php">
-    <img src="assets/images/logo.png" alt="Tablet Masters" class="logo-img" />
+  <a class="logo" href="index.php" aria-label="Tablet Masters home">
+    <img src="assets/images/tabletmasters-logo.png" alt="Tablet Masters" class="logo-img" />
   </a>
 
   <ul class="nav-links">

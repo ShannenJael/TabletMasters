@@ -1,8 +1,8 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <a class="logo" href="index.php" style="font-size:22px">
-        <span class="logo-dot"></span> TABLET MASTERS
+      <a class="logo" href="index.php" aria-label="Tablet Masters home">
+        <img src="assets/images/tabletmasters-logo.png" alt="Tablet Masters" class="logo-img" />
       </a>
       <p>Tablets sales, service and cloud solutions. Protecting your tech investment since 2019.</p>
     </div>
