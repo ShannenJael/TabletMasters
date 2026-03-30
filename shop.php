@@ -66,8 +66,16 @@ function badgeClass($badge) {
     ?>
     <div class="product-card" data-brand="<?= htmlspecialchars($p['brand']) ?>">
       <div class="product-img">
-        <?php if (!empty($p['img'])): ?>
-        <img src="<?= htmlspecialchars($p['img']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <?php
+          $imgSrc = '';
+          if ($p['name'] === 'Fire HD 11') {
+            $imgSrc = 'assets/images/Fire HD 11.jpg';
+          } elseif (!empty($p['img'])) {
+            $imgSrc = $p['img'];
+          }
+        ?>
+        <?php if (!empty($imgSrc)): ?>
+        <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <span style="display:none"><?= $p['emoji'] ?></span>
         <?php else: ?>
         <span><?= $p['emoji'] ?></span>
