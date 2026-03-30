@@ -5,7 +5,7 @@ if (!isset($currentPage)) $currentPage = 'home';
 
 $nav = [
   ['id' => 'home',      'label' => 'Home',             'href' => 'index.php',     'sub' => [
-    ['label' => 'Creating Tablet Applications', 'href' => 'index.php'],
+    ['label' => 'Creating Tablet Applications', 'href' => 'https://clouddogg.com', 'external' => true],
     ['label' => 'Education',                    'href' => 'about.php'],
     ['label' => 'Insurance',                    'href' => 'insurance.php'],
     ['label' => 'Business & Conferences',       'href' => 'about.php'],
@@ -44,7 +44,7 @@ $nav = [
       <?php if (count($item['sub'])): ?>
       <div class="dropdown">
         <?php foreach ($item['sub'] as $sub): ?>
-        <a class="dropdown-link" href="<?= htmlspecialchars($sub['href']) ?>"><?= htmlspecialchars($sub['label']) ?></a>
+        <a class="dropdown-link" href="<?= htmlspecialchars($sub['href']) ?>" <?= isset($sub['external']) && $sub['external'] ? 'target="_blank" rel="noreferrer"' : '' ?>><?= htmlspecialchars($sub['label']) ?></a>
         <?php endforeach; ?>
       </div>
       <?php endif; ?>
