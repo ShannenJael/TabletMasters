@@ -22,10 +22,10 @@ $products = [
   // ── CURRENT GEN (2022–2024) ──────────────────────────────────────
   ['id'=>13, 'name'=>'iPad Pro M4 11"',      'brand'=>'Apple',     'price'=>449,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-select-wifi-spacegray-202405?wid=470&hei=556&fmt=png-alpha'],
   ['id'=>14, 'name'=>'iPad Pro M4 13"',      'brand'=>'Apple',     'price'=>599,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202405?wid=470&hei=556&fmt=png-alpha'],
-  ['id'=>15, 'name'=>'iPad Air M2 11"',      'brand'=>'Apple',     'price'=>299,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>4,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-11-m2-select-wifi-blue-202405?wid=470&hei=556&fmt=png-alpha'],
+  ['id'=>15, 'name'=>'iPad Air M2 11"',      'brand'=>'Apple',     'price'=>299,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>4,  'img'=>'assets/images/iPad Air M2 11.png'],
   ['id'=>16, 'name'=>'iPad Air M2 13"',      'brand'=>'Apple',     'price'=>359,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-13-m2-select-wifi-blue-202405?wid=470&hei=556&fmt=png-alpha'],
-  ['id'=>17, 'name'=>'iPad Mini 7',          'brand'=>'Apple',     'price'=>249,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>5,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-blue-202409?wid=470&hei=556&fmt=png-alpha'],
-  ['id'=>18, 'name'=>'iPad 10th Gen',        'brand'=>'Apple',     'price'=>120,   'orig'=>null, 'emoji'=>'📱', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-10th-wifi-select-blue-202210?wid=470&hei=556&fmt=png-alpha'],
+  ['id'=>17, 'name'=>'iPad Mini 7',          'brand'=>'Apple',     'price'=>249,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>5,  'img'=>'assets/images/iPad Mini 7.png'],
+  ['id'=>18, 'name'=>'iPad 10th Gen',        'brand'=>'Apple',     'price'=>120,   'orig'=>null, 'emoji'=>'📱', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'assets/images/iPad 10th Gen.png'],
   ['id'=>1,  'name'=>'iPad Air (5th Gen)',   'brand'=>'Apple',     'price'=>85,    'orig'=>100,  'emoji'=>'📱', 'badge'=>'Sale',        'condition'=>'Grade A',  'stock'=>5,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=470&hei=556&fmt=png-alpha'],
   ['id'=>2,  'name'=>'iPad Pro 12.9"',       'brand'=>'Apple',     'price'=>115,   'orig'=>null, 'emoji'=>'📱', 'badge'=>null,          'condition'=>'Like New', 'stock'=>2,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=470&hei=556&fmt=png-alpha'],
   ['id'=>3,  'name'=>'iPad Mini 6',          'brand'=>'Apple',     'price'=>10,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Best Seller', 'condition'=>'Grade B',  'stock'=>8,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-purple-202109?wid=470&hei=556&fmt=png-alpha'],
@@ -39,19 +39,19 @@ $products = [
   ['id'=>6,  'name'=>'Galaxy Tab A8',        'brand'=>'Samsung',   'price'=>200,   'orig'=>null, 'emoji'=>'📟', 'badge'=>'Best Seller', 'condition'=>'Grade B',  'stock'=>11, 'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/12082021/tab-a8-gray-front.jpg'],
   ['id'=>7,  'name'=>'Galaxy Tab S7 FE',     'brand'=>'Samsung',   'price'=>30,    'orig'=>null, 'emoji'=>'📟', 'badge'=>null,          'condition'=>'Grade B',  'stock'=>6,  'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/06252021/tab-s7-fe-mystic-navy-front.jpg'],
 
-  ['id'=>23, 'name'=>'Surface Pro 11',       'brand'=>'Microsoft', 'price'=>549,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4Tp3h?ver=62c8'],
-  ['id'=>24, 'name'=>'Surface Go 4',         'brand'=>'Microsoft', 'price'=>279,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>5,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4TkWH?ver=3f96'],
+  ['id'=>23, 'name'=>'Surface Pro 11',       'brand'=>'Microsoft', 'price'=>549,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/Surface Pro 11.png'],
+  ['id'=>24, 'name'=>'Surface Go 4',         'brand'=>'Microsoft', 'price'=>279,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>5,  'img'=>'assets/images/Surface Go 4.png'],
   ['id'=>8,  'name'=>'Surface Pro 9',        'brand'=>'Microsoft', 'price'=>150,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Like New', 'stock'=>2,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXfM?ver=7e6c'],
   ['id'=>9,  'name'=>'Surface Go 3',         'brand'=>'Microsoft', 'price'=>200,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4Fp5C?ver=35b6'],
   ['id'=>10, 'name'=>'Surface Pro 8',        'brand'=>'Microsoft', 'price'=>110,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>4,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXfL?ver=7dbc'],
 
-  ['id'=>25, 'name'=>'Fire HD 10 (2023)',    'brand'=>'Amazon',    'price'=>65,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>6,  'img'=>'https://m.media-amazon.com/images/I/71xFq8UH5CL._AC_SX679_.jpg'],
-  ['id'=>11, 'name'=>'Fire HD 10 Plus',      'brand'=>'Amazon',    'price'=>28.50, 'orig'=>30,   'emoji'=>'🔥', 'badge'=>'Sale',        'condition'=>'Grade A',  'stock'=>9,  'img'=>'https://m.media-amazon.com/images/I/51VZGxfmMRL._AC_SX679_.jpg'],
-  ['id'=>12, 'name'=>'Fire Max 11',          'brand'=>'Amazon',    'price'=>45,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>null,          'condition'=>'Like New', 'stock'=>3,  'img'=>'https://m.media-amazon.com/images/I/61s5I6biLCL._AC_SX679_.jpg'],
+  ['id'=>25, 'name'=>'Fire HD 10 (2023)',    'brand'=>'Amazon',    'price'=>65,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>6,  'img'=>'assets/images/Fire HD 10 (2025) 1.png', 'imgClass'=>'product-shot-centered'],
+  ['id'=>11, 'name'=>'Fire HD 10 Plus',      'brand'=>'Amazon',    'price'=>28.50, 'orig'=>30,   'emoji'=>'🔥', 'badge'=>'Sale',        'condition'=>'Grade A',  'stock'=>9,  'img'=>'assets/images/Fire HD 10 (2025).png', 'imgClass'=>'product-shot-centered'],
+  ['id'=>12, 'name'=>'Fire Max 11',          'brand'=>'Amazon',    'price'=>45,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>null,          'condition'=>'Like New', 'stock'=>3,  'img'=>'assets/images/Fire Max 11.png',       'imgClass'=>'product-shot-centered'],
 
   // ── PREVIOUS GEN ────────────────────────────────────────────────
-  ['id'=>26, 'name'=>'iPad Air 4th Gen',     'brand'=>'Apple',     'price'=>75,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>6,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-green-202104?wid=470&hei=556&fmt=png-alpha'],
-  ['id'=>27, 'name'=>'iPad 9th Gen',         'brand'=>'Apple',     'price'=>55,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>9,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-9th-wifi-select-silver-202104?wid=470&hei=556&fmt=png-alpha'],
+  ['id'=>26, 'name'=>'iPad Air 4th Gen',     'brand'=>'Apple',     'price'=>75,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>6,  'img'=>'assets/images/iPad Air 4th Gen.png'],
+  ['id'=>27, 'name'=>'iPad 9th Gen',         'brand'=>'Apple',     'price'=>55,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>9,  'img'=>'assets/images/iPad 9th Gen.png'],
   ['id'=>28, 'name'=>'iPad Mini 5',          'brand'=>'Apple',     'price'=>45,    'orig'=>null, 'emoji'=>'📱', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>4,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-silver-201903?wid=470&hei=556&fmt=png-alpha'],
 
   ['id'=>29, 'name'=>'Galaxy Tab S7',        'brand'=>'Samsung',   'price'=>55,    'orig'=>null, 'emoji'=>'📟', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>7,  'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/08052020/tab-s7-mystic-silver-front.jpg'],
@@ -59,10 +59,10 @@ $products = [
   ['id'=>31, 'name'=>'Galaxy Tab S6 Lite',   'brand'=>'Samsung',   'price'=>40,    'orig'=>null, 'emoji'=>'📟', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>10, 'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/04162020/tab-s6-lite-oxford-gray-front.jpg'],
 
   ['id'=>32, 'name'=>'Surface Pro 7',        'brand'=>'Microsoft', 'price'=>95,    'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>6,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4GBhW?ver=3d7e'],
-  ['id'=>33, 'name'=>'Surface Pro X',        'brand'=>'Microsoft', 'price'=>110,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>3,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4GBhV?ver=33a5'],
+  ['id'=>33, 'name'=>'Surface Pro X',        'brand'=>'Microsoft', 'price'=>110,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>3,  'img'=>'assets/images/Surface Pro 10 3-Photoroom.png'],
 
   ['id'=>34, 'name'=>'Fire HD 8 (2022)',     'brand'=>'Amazon',    'price'=>22,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>12, 'img'=>'https://m.media-amazon.com/images/I/71N+Gv4i4kL._AC_SX679_.jpg'],
-  ['id'=>35, 'name'=>'Fire HD 7',            'brand'=>'Amazon',    'price'=>15,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>8,  'img'=>'https://m.media-amazon.com/images/I/71R4Cj7tC7L._AC_SX679_.jpg'],
+  ['id'=>35, 'name'=>'Fire HD 7',            'brand'=>'Amazon',    'price'=>15,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>8,  'img'=>'assets/images/Fire 7 (2024).png',   'imgClass'=>'product-shot-centered'],
 ];
 
 function badgeClass($badge) {
@@ -125,8 +125,9 @@ function conditionClass($condition) {
             $imgSrc = $p['img'];
           }
         ?>
+        <?php $imgClass = !empty($p['imgClass']) ? ' ' . $p['imgClass'] : ''; ?>
         <?php if (!empty($imgSrc)): ?>
-        <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <img class="<?= htmlspecialchars(trim($imgClass)) ?>" src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <span style="display:none"><?= $p['emoji'] ?></span>
         <?php else: ?>
         <span><?= $p['emoji'] ?></span>
@@ -185,6 +186,7 @@ foreach ($products as $p) {
     'condition' => $p['condition'],
     'stock'     => $p['stock'],
     'img'       => $p['img'],
+    'imgClass'  => isset($p['imgClass']) ? $p['imgClass'] : '',
   ];
 }
 ?>
@@ -201,8 +203,9 @@ function openQuickView(id) {
   var p = TM_PRODUCTS.find(function(x){ return x.id === id; });
   if (!p) return;
 
+  var imgClass = p.imgClass ? ' class="' + escHtml(p.imgClass) + '"' : '';
   var imgHtml = p.img
-    ? '<img src="' + escHtml(p.img) + '" alt="' + escHtml(p.name) + '" onerror="this.style.display=\'none\'">'
+    ? '<img' + imgClass + ' src="' + escHtml(p.img) + '" alt="' + escHtml(p.name) + '" onerror="this.style.display=\'none\'">'
     : '<span class="modal-emoji">' + p.emoji + '</span>';
 
   var origHtml   = p.orig ? '<span class="modal-price-orig">$' + parseFloat(p.orig).toFixed(2) + '</span>' : '';
