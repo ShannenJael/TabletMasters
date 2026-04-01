@@ -41,9 +41,9 @@ $products = [
 
   ['id'=>23, 'name'=>'Surface Pro 11',       'brand'=>'Microsoft', 'price'=>760,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/Surface Pro 11.png'],
   ['id'=>24, 'name'=>'Surface Go 4',         'brand'=>'Microsoft', 'price'=>340,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>5,  'img'=>'assets/images/Surface Go 4.png'],
-  ['id'=>8,  'name'=>'Surface Pro 9',        'brand'=>'Microsoft', 'price'=>520,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Like New', 'stock'=>2,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXfM?ver=7e6c'],
-  ['id'=>9,  'name'=>'Surface Go 3',         'brand'=>'Microsoft', 'price'=>170,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4Fp5C?ver=35b6'],
-  ['id'=>10, 'name'=>'Surface Pro 8',        'brand'=>'Microsoft', 'price'=>370,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>4,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4OXfL?ver=7dbc'],
+  ['id'=>8,  'name'=>'Surface Pro 9',        'brand'=>'Microsoft', 'price'=>520,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/Surface Pro 9.png', 'imgClass'=>'product-shot-centered'],
+  ['id'=>9,  'name'=>'Surface Go 3',         'brand'=>'Microsoft', 'price'=>170,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'assets/images/Surface Go 3.png', 'imgClass'=>'product-shot-centered'],
+  ['id'=>10, 'name'=>'Surface Pro 8',        'brand'=>'Microsoft', 'price'=>370,   'orig'=>null, 'emoji'=>'💻', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>4,  'img'=>'assets/images/Surface Pro 8.png', 'imgClass'=>'product-shot-centered'],
 
   ['id'=>25, 'name'=>'Fire HD 10 (2023)',    'brand'=>'Amazon',    'price'=>80,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>6,  'img'=>'assets/images/Fire HD 10 (2025) 1.png', 'imgClass'=>'product-shot-centered'],
   ['id'=>11, 'name'=>'Fire HD 10 Plus',      'brand'=>'Amazon',    'price'=>90,    'orig'=>100,  'emoji'=>'🔥', 'badge'=>'Sale',        'condition'=>'Grade A',  'stock'=>9,  'img'=>'assets/images/Fire HD 10 (2025).png', 'imgClass'=>'product-shot-centered'],
@@ -58,10 +58,10 @@ $products = [
   ['id'=>30, 'name'=>'Galaxy Tab S7+',       'brand'=>'Samsung',   'price'=>200,   'orig'=>null, 'emoji'=>'📟', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>5,  'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/08052020/tab-s7-plus-mystic-silver-front.jpg'],
   ['id'=>31, 'name'=>'Galaxy Tab S6 Lite',   'brand'=>'Samsung',   'price'=>100,   'orig'=>null, 'emoji'=>'📟', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>10, 'img'=>'https://image-us.samsung.com/SamsungUS/home/mobile/galaxy-tab/all-galaxy-tabs/04162020/tab-s6-lite-oxford-gray-front.jpg'],
 
-  ['id'=>32, 'name'=>'Surface Pro 7',        'brand'=>'Microsoft', 'price'=>200,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>6,  'img'=>'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4GBhW?ver=3d7e'],
+  ['id'=>32, 'name'=>'Surface Pro 7',        'brand'=>'Microsoft', 'price'=>200,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>6,  'img'=>'assets/images/Surface Pro 7.png', 'imgClass'=>'product-shot-centered'],
   ['id'=>33, 'name'=>'Surface Pro X',        'brand'=>'Microsoft', 'price'=>180,   'orig'=>null, 'emoji'=>'💻', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>3,  'img'=>'assets/images/Surface Pro 10 3-Photoroom.png'],
 
-  ['id'=>34, 'name'=>'Fire HD 8 (2022)',     'brand'=>'Amazon',    'price'=>45,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>12, 'img'=>'https://m.media-amazon.com/images/I/71N+Gv4i4kL._AC_SX679_.jpg'],
+  ['id'=>34, 'name'=>'Fire HD 8 (2022)',     'brand'=>'Amazon',    'price'=>45,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>12, 'img'=>'assets/images/Fire HD 8.png', 'imgClass'=>'product-shot-centered'],
   ['id'=>35, 'name'=>'Fire HD 7',            'brand'=>'Amazon',    'price'=>30,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>8,  'img'=>'assets/images/Fire 7 (2024).png',   'imgClass'=>'product-shot-centered'],
 ];
 
