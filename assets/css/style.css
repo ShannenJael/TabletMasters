@@ -899,6 +899,44 @@ body {
   flex-wrap:   wrap;
 }
 
+.shop-search {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            10px;
+  min-width:      260px;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  border-radius:  8px;
+  padding:        0 14px;
+  transition:     border-color 0.2s, background 0.2s;
+}
+
+.shop-search:focus-within {
+  border-color:   var(--blue);
+  background:     var(--bg3);
+}
+
+.shop-search i {
+  color:          var(--muted);
+  font-size:      13px;
+}
+
+.shop-search input {
+  width:          100%;
+  min-width:      0;
+  background:     transparent;
+  border:         none;
+  color:          var(--white);
+  padding:        10px 0;
+  font-family:    var(--body);
+  font-size:      13px;
+  outline:        none;
+}
+
+.shop-search input::placeholder {
+  color:          var(--muted);
+}
+
 /* ── SORT DROPDOWN ── */
 .sort-select {
   background:    var(--surface);
@@ -914,6 +952,21 @@ body {
 }
 .sort-select:hover,
 .sort-select:focus { border-color: var(--blue); }
+
+.shop-empty-state {
+  display:        flex;
+  align-items:    center;
+  justify-content:center;
+  min-height:     120px;
+  margin-top:     20px;
+  background:     var(--bg2);
+  border:         1px dashed var(--border);
+  border-radius:  8px;
+  color:          var(--muted);
+  font-size:      14px;
+  text-align:     center;
+  padding:        24px;
+}
 
 /* ── QUICK VIEW BUTTON ── */
 .quick-view-btn {
@@ -1408,6 +1461,8 @@ footer {
   .claim-steps { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
   .claim-steps::before { display: none; }
   .shop-section, .ins-section, .about-section, .plans-section { padding-left: 20px; padding-right: 20px; }
+  .shop-controls { width: 100%; }
+  .shop-search { width: 100%; min-width: 0; }
   .repair-cta { padding: 36px 28px; flex-direction: column; }
   .footer-inner { flex-direction: column; }
   .footer-brand .logo-img { height: 96px; }

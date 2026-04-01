@@ -132,12 +132,21 @@ function showToast(msg) {
 
 // ── BRAND FILTER (shop page) ─────────────────────────────────────
 function filterBrand(brand) {
+  if (typeof window.TM_ACTIVE_BRAND !== 'undefined') {
+    window.TM_ACTIVE_BRAND = brand;
+  }
+
   // Update active tab
   document.querySelectorAll('.brand-tab').forEach(function(btn){
     btn.classList.toggle('active', btn.dataset.brand === brand);
   });
 
-  // Show/hide product cards
+  if (typeof window.applyProductFilters === 'function') {
+    window.applyProductFilters();
+    return;
+  }
+
+  // Fallback for pages that only use brand filtering
   document.querySelectorAll('.product-card[data-brand]').forEach(function(card){
     var show = brand === 'All' || card.dataset.brand === brand;
     card.style.display = show ? '' : 'none';

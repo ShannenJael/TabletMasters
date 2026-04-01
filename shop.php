@@ -86,6 +86,16 @@ function conditionClass($condition) {
       <div class="section-title">TABLETS SALES</div>
     </div>
     <div class="shop-controls">
+      <label class="shop-search" for="shop-search">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input
+          id="shop-search"
+          type="search"
+          placeholder="Search tablets, brands, condition"
+          aria-label="Search tablets"
+          oninput="setSearchQuery(this.value)"
+        />
+      </label>
       <div class="brand-tabs">
         <?php foreach (['All','Apple','Samsung','Microsoft','Amazon'] as $brand): ?>
         <button
@@ -115,7 +125,15 @@ function conditionClass($condition) {
         ? 'Only ' . $p['stock'] . ' left!'
         : 'In Stock (' . $p['stock'] . ')';
     ?>
-    <div class="product-card" data-brand="<?= htmlspecialchars($p['brand']) ?>" data-price="<?= $p['price'] ?>" data-id="<?= $p['id'] ?>">
+    <div
+      class="product-card"
+      data-brand="<?= htmlspecialchars($p['brand']) ?>"
+      data-price="<?= $p['price'] ?>"
+      data-id="<?= $p['id'] ?>"
+      data-name="<?= htmlspecialchars($p['name']) ?>"
+      data-condition="<?= htmlspecialchars($p['condition']) ?>"
+      data-badge="<?= htmlspecialchars((string)($p['badge'] ?? '')) ?>"
+    >
       <div class="product-img">
         <?php
           $imgSrc = '';
@@ -161,6 +179,7 @@ function conditionClass($condition) {
     </div>
     <?php endforeach; ?>
   </div>
+  <div class="shop-empty-state" id="shop-empty-state" hidden>No products match your search.</div>
 </div>
 
 <!-- Quick View Modal -->
@@ -192,6 +211,8 @@ foreach ($products as $p) {
 ?>
 <script>
 var TM_PRODUCTS = <?= json_encode($jsProducts) ?>;
+var TM_ACTIVE_BRAND = 'All';
+var TM_SEARCH_QUERY = '';
 
 function _condClass(c) {
   if (c === 'Like New') return 'condition-like-new';
@@ -244,6 +265,37 @@ function sortProducts(val) {
     return parseInt(a.dataset.id) - parseInt(b.dataset.id);
   });
   cards.forEach(function(c){ grid.appendChild(c); });
+  applyProductFilters();
+}
+
+function setSearchQuery(query) {
+  TM_SEARCH_QUERY = String(query || '').trim().toLowerCase();
+  applyProductFilters();
+}
+
+function applyProductFilters() {
+  var cards = document.querySelectorAll('.product-card[data-brand]');
+  var empty = document.getElementById('shop-empty-state');
+  var visibleCount = 0;
+
+  cards.forEach(function(card){
+    var matchesBrand = TM_ACTIVE_BRAND === 'All' || card.dataset.brand === TM_ACTIVE_BRAND;
+    var haystack = [
+      card.dataset.name,
+      card.dataset.brand,
+      card.dataset.condition,
+      card.dataset.badge
+    ].join(' ').toLowerCase();
+    var matchesSearch = TM_SEARCH_QUERY === '' || haystack.indexOf(TM_SEARCH_QUERY) !== -1;
+    var show = matchesBrand && matchesSearch;
+
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount += 1;
+  });
+
+  if (empty) {
+    empty.hidden = visibleCount !== 0;
+  }
 }
 
 document.addEventListener('keydown', function(e){
