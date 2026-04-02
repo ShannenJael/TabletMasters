@@ -2,10 +2,10 @@
 /**
  * send-repair.php
  * Handles the repair booking form submission from insurance.php
- * Update $toEmail below to your real address before going live.
+ * Sends repair requests to the Tablet Masters service inbox.
  */
 
-$toEmail = 'your@email.com';   // <-- CHANGE THIS to your real email address
+$toEmail = 'service@tablet-masters.com';
 
 // Only accept POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -42,7 +42,7 @@ $message = "New repair booking request from the Tablet Masters website.\n\n"
          . "Phone: $phone\n"
          . "Type:  $type\n";
 
-$headers  = "From: noreply@tabletmasters.com\r\n";
+$headers  = "From: service@tablet-masters.com\r\n";
 $headers .= "Reply-To: $email\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion();
 
