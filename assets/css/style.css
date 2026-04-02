@@ -1455,6 +1455,7 @@ footer {
   .nav-hamburger { display: block; }
   .logo-img { height: 64px; }
   .hero { padding: 60px 20px; }
+  .hero-bg-video { object-position: 60% center !important; width: 122%; max-width: none; left: -11%; transform: none; }
   .hero-stats { gap: 28px; }
   .ins-hero, .about-grid { grid-template-columns: 1fr; }
   .plans-grid { grid-template-columns: 1fr; }

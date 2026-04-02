@@ -7,7 +7,7 @@
   <title>Tablet Masters — Sales · Service · Cloud Solutions</title>
   <meta name="description" content="Tablet Masters provides everything tablet — Apple iPad, Samsung Galaxy, Microsoft Surface, Amazon Fire. Expert service, cloud integration, and a lifetime replacement guarantee." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20260402-mobile-hero-person-2" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
