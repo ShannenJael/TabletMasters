@@ -20,10 +20,10 @@
 $products = [
 
   // ── CURRENT GEN (2022–2024) ──────────────────────────────────────
-  ['id'=>13, 'name'=>'iPad Pro M4 11"',      'brand'=>'Apple',     'price'=>750,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-select-wifi-spacegray-202405?wid=470&hei=556&fmt=png-alpha'],
-  ['id'=>14, 'name'=>'iPad Pro M4 13"',      'brand'=>'Apple',     'price'=>950,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202405?wid=470&hei=556&fmt=png-alpha'],
+  ['id'=>13, 'name'=>'iPad Pro M4 11"',      'brand'=>'Apple',     'price'=>750,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'assets/images/iPad Pro M4 11.png'],
+  ['id'=>14, 'name'=>'iPad Pro M4 13"',      'brand'=>'Apple',     'price'=>950,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/iPad Pro M4 13.png'],
   ['id'=>15, 'name'=>'iPad Air M2 11"',      'brand'=>'Apple',     'price'=>420,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>4,  'img'=>'assets/images/iPad Air M2 11.png'],
-  ['id'=>16, 'name'=>'iPad Air M2 13"',      'brand'=>'Apple',     'price'=>510,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-13-m2-select-wifi-blue-202405?wid=470&hei=556&fmt=png-alpha'],
+  ['id'=>16, 'name'=>'iPad Air M2 13"',      'brand'=>'Apple',     'price'=>510,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'assets/images/iPad Air M2 13.png'],
   ['id'=>17, 'name'=>'iPad Mini 7',          'brand'=>'Apple',     'price'=>380,   'orig'=>null, 'emoji'=>'📱', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>5,  'img'=>'assets/images/iPad Mini 7.png'],
   ['id'=>18, 'name'=>'iPad 10th Gen',        'brand'=>'Apple',     'price'=>220,   'orig'=>null, 'emoji'=>'📱', 'badge'=>null,          'condition'=>'Grade A',  'stock'=>7,  'img'=>'assets/images/iPad 10th Gen.png'],
   ['id'=>1,  'name'=>'iPad Air (5th Gen)',   'brand'=>'Apple',     'price'=>179,   'orig'=>200,  'emoji'=>'📱', 'badge'=>'Sale',        'condition'=>'Grade A',  'stock'=>5,  'img'=>'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=470&hei=556&fmt=png-alpha'],
