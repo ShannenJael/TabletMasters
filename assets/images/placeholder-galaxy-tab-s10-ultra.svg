@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Galaxy Tab S10 Ultra placeholder</title>
+  <desc id="desc">Placeholder artwork for Galaxy Tab S10 Ultra.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="45%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" stop-opacity="0.96" />
+      <stop offset="100%" stop-color="#dbeafe" stop-opacity="0.76" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#bg)" />
+  <circle cx="930" cy="220" r="210" fill="#ffffff" fill-opacity="0.08" />
+  <circle cx="220" cy="1020" r="250" fill="#ffffff" fill-opacity="0.06" />
+  <rect x="165" y="190" width="870" height="820" rx="72" fill="#020617" fill-opacity="0.30" stroke="#ffffff" stroke-opacity="0.22" stroke-width="4" />
+  <rect x="235" y="260" width="730" height="520" rx="42" fill="url(#screen)" />
+  <rect x="262" y="287" width="676" height="466" rx="24" fill="#0f172a" fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.24" />
+  <path d="M350 640C450 520 590 460 690 420C760 390 826 344 862 292" fill="none" stroke="#bfdbfe" stroke-linecap="round" stroke-width="18" />
+  <path d="M360 705C470 610 596 594 714 614" fill="none" stroke="#93c5fd" stroke-linecap="round" stroke-width="18" />
+  <rect x="475" y="806" width="250" height="16" rx="8" fill="#ffffff" fill-opacity="0.30" />
+  <text x="600" y="886" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" text-anchor="middle">GALAXY TAB S10 ULTRA</text>
+  <text x="600" y="948" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="600" letter-spacing="8" text-anchor="middle">PLACEHOLDER IMAGE</text>
+  <text x="600" y="404" fill="#eff6ff" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" text-anchor="middle">SAMSUNG</text>
+</svg>

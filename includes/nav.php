@@ -11,10 +11,10 @@ $nav = [
     ['label' => 'Business & Conferences',       'href' => 'about.php'],
   ]],
   ['id' => 'shop',      'label' => 'Shopping',         'href' => 'shop.php',      'sub' => [
-    ['label' => 'Apple',     'href' => 'shop.php'],
-    ['label' => 'Samsung',   'href' => 'shop.php'],
-    ['label' => 'Microsoft', 'href' => 'shop.php'],
-    ['label' => 'Amazon',    'href' => 'shop.php'],
+    ['label' => 'Apple',     'href' => 'shop.php?brand=Apple'],
+    ['label' => 'Samsung',   'href' => 'shop.php?brand=Samsung'],
+    ['label' => 'Microsoft', 'href' => 'shop.php?brand=Microsoft'],
+    ['label' => 'Amazon',    'href' => 'shop.php?brand=Amazon'],
     ['label' => 'Services',  'href' => 'insurance.php'],
   ]],
   ['id' => 'insurance', 'label' => 'Insurance & Repair','href' => 'insurance.php', 'sub' => [

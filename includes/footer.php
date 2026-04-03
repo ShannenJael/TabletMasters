@@ -9,10 +9,10 @@
 
     <div class="footer-col">
       <h4>Shop</h4>
-      <a class="footer-link" href="shop.php">Apple</a>
-      <a class="footer-link" href="shop.php">Samsung</a>
-      <a class="footer-link" href="shop.php">Microsoft</a>
-      <a class="footer-link" href="shop.php">Amazon</a>
+      <a class="footer-link" href="shop.php?brand=Apple">Apple</a>
+      <a class="footer-link" href="shop.php?brand=Samsung">Samsung</a>
+      <a class="footer-link" href="shop.php?brand=Microsoft">Microsoft</a>
+      <a class="footer-link" href="shop.php?brand=Amazon">Amazon</a>
       <a class="footer-link" href="insurance.php">Services</a>
     </div>
 

@@ -63,7 +63,36 @@ $products = [
 
   ['id'=>34, 'name'=>'Fire HD 8 (2022)',     'brand'=>'Amazon',    'price'=>45,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>12, 'img'=>'assets/images/Fire HD 8.png', 'imgClass'=>'product-shot-centered'],
   ['id'=>35, 'name'=>'Fire HD 7',            'brand'=>'Amazon',    'price'=>30,    'orig'=>null, 'emoji'=>'🔥', 'badge'=>'Previous Gen','condition'=>'Grade B',  'stock'=>8,  'img'=>'assets/images/Fire 7 (2024).png',   'imgClass'=>'product-shot-centered'],
+  ['id'=>36, 'name'=>'Galaxy Tab S10',       'brand'=>'Samsung',   'price'=>449,   'orig'=>null, 'emoji'=>'ðŸ“Ÿ', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>3,  'img'=>'assets/images/placeholder-galaxy-tab-s10.svg'],
+  ['id'=>37, 'name'=>'Galaxy Tab S10+',      'brand'=>'Samsung',   'price'=>589,   'orig'=>null, 'emoji'=>'ðŸ“Ÿ', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/placeholder-galaxy-tab-s10-plus.svg'],
+  ['id'=>38, 'name'=>'Galaxy Tab S10 Ultra', 'brand'=>'Samsung',   'price'=>799,   'orig'=>null, 'emoji'=>'ðŸ“Ÿ', 'badge'=>'Latest',      'condition'=>'Like New', 'stock'=>2,  'img'=>'assets/images/placeholder-galaxy-tab-s10-ultra.svg'],
+  ['id'=>39, 'name'=>'Galaxy Tab S10 FE',    'brand'=>'Samsung',   'price'=>299,   'orig'=>null, 'emoji'=>'ðŸ“Ÿ', 'badge'=>'Latest',      'condition'=>'Grade A',  'stock'=>4,  'img'=>'assets/images/placeholder-galaxy-tab-s10-fe.svg'],
 ];
+
+$samsungS10Order = [
+  'Galaxy Tab S10' => 0,
+  'Galaxy Tab S10+' => 1,
+  'Galaxy Tab S10 Ultra' => 2,
+  'Galaxy Tab S10 FE' => 3,
+];
+$insertAfter = 9;
+
+foreach ($products as $index => &$product) {
+  $sortOrder = $index;
+
+  if (isset($samsungS10Order[$product['name']])) {
+    $sortOrder = $insertAfter + $samsungS10Order[$product['name']];
+  } elseif ($index >= $insertAfter) {
+    $sortOrder = $index + count($samsungS10Order);
+  }
+
+  $product['sortOrder'] = $sortOrder;
+}
+unset($product);
+
+usort($products, function($a, $b) {
+  return $a['sortOrder'] <=> $b['sortOrder'];
+});
 
 function badgeClass($badge) {
   if ($badge === 'Sale') return 'badge-sale';
@@ -130,6 +159,7 @@ function conditionClass($condition) {
       data-brand="<?= htmlspecialchars($p['brand']) ?>"
       data-price="<?= $p['price'] ?>"
       data-id="<?= $p['id'] ?>"
+      data-sort-order="<?= $p['sortOrder'] ?>"
       data-name="<?= htmlspecialchars($p['name']) ?>"
       data-condition="<?= htmlspecialchars($p['condition']) ?>"
       data-badge="<?= htmlspecialchars((string)($p['badge'] ?? '')) ?>"
@@ -206,6 +236,7 @@ foreach ($products as $p) {
     'stock'     => $p['stock'],
     'img'       => $p['img'],
     'imgClass'  => isset($p['imgClass']) ? $p['imgClass'] : '',
+    'sortOrder' => $p['sortOrder'],
   ];
 }
 ?>
@@ -262,7 +293,7 @@ function sortProducts(val) {
   cards.sort(function(a, b) {
     if (val === 'price-asc')  return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
     if (val === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
-    return parseInt(a.dataset.id) - parseInt(b.dataset.id);
+    return parseInt(a.dataset.sortOrder) - parseInt(b.dataset.sortOrder);
   });
   cards.forEach(function(c){ grid.appendChild(c); });
   applyProductFilters();

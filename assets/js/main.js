@@ -153,6 +153,18 @@ function filterBrand(brand) {
   });
 }
 
+function getInitialShopBrand() {
+  var params = new URLSearchParams(window.location.search);
+  var brand = params.get('brand');
+  if (!brand) return 'All';
+
+  var isValid = Array.from(document.querySelectorAll('.brand-tab')).some(function(btn){
+    return btn.dataset.brand === brand;
+  });
+
+  return isValid ? brand : 'All';
+}
+
 // ── VIDEO PLAY/PAUSE ──────────────────────────────────────────────
 function initVideo() {
   var video   = document.getElementById('hero-video');
@@ -217,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function(){
   var overlay = document.getElementById('cart-overlay');
   if (overlay) overlay.addEventListener('click', closeCart);
 
-  // Default brand filter to 'All'
+  // Default brand filter to the requested URL brand when present
   if (document.querySelector('.brand-tab')) {
-    filterBrand('All');
+    filterBrand(getInitialShopBrand());
   }
 });

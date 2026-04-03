@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Galaxy Tab S10 FE placeholder</title>
+  <desc id="desc">Placeholder artwork for Galaxy Tab S10 FE.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#67e8f9" />
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdfa" stop-opacity="0.96" />
+      <stop offset="100%" stop-color="#ccfbf1" stop-opacity="0.78" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#bg)" />
+  <path d="M0 1020C170 900 320 860 500 905C705 956 850 1040 1200 930V1200H0Z" fill="#ffffff" fill-opacity="0.08" />
+  <rect x="215" y="210" width="770" height="780" rx="66" fill="#020617" fill-opacity="0.28" stroke="#ffffff" stroke-opacity="0.20" stroke-width="4" />
+  <rect x="285" y="280" width="630" height="488" rx="40" fill="url(#screen)" />
+  <rect x="315" y="310" width="570" height="428" rx="26" fill="#0f172a" fill-opacity="0.14" stroke="#ffffff" stroke-opacity="0.24" />
+  <path d="M375 645L482 540L580 620L712 488L825 580" fill="none" stroke="#99f6e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="18" />
+  <circle cx="480" cy="420" r="34" fill="#f0fdfa" fill-opacity="0.92" />
+  <rect x="500" y="795" width="200" height="16" rx="8" fill="#ffffff" fill-opacity="0.30" />
+  <text x="600" y="875" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" text-anchor="middle">GALAXY TAB S10 FE</text>
+  <text x="600" y="940" fill="#ccfbf1" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" letter-spacing="8" text-anchor="middle">PLACEHOLDER IMAGE</text>
+  <text x="600" y="404" fill="#f0fdfa" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" text-anchor="middle">SAMSUNG</text>
+</svg>
