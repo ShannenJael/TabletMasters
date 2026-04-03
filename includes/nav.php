@@ -11,6 +11,7 @@ $nav = [
     ['label' => 'Business & Conferences',       'href' => 'about.php'],
   ]],
   ['id' => 'shop',      'label' => 'Shopping',         'href' => 'shop.php',      'sub' => [
+    ['label' => 'All',       'href' => 'shop.php'],
     ['label' => 'Apple',     'href' => 'shop.php?brand=Apple'],
     ['label' => 'Samsung',   'href' => 'shop.php?brand=Samsung'],
     ['label' => 'Microsoft', 'href' => 'shop.php?brand=Microsoft'],
