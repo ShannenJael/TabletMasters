@@ -111,24 +111,20 @@ function stripeCheckout() {
   var btn = document.getElementById('checkout-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Redirecting...'; }
 
-  fetch('/checkout.php', {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ items: cart.map(function(i){ return { id: i.id, qty: i.qty }; }) }),
-  })
-  .then(function(res){ return res.json(); })
-  .then(function(data) {
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      showToast('Checkout error: ' + (data.error || 'Please try again.'));
-      if (btn) { btn.disabled = false; btn.textContent = 'Checkout'; }
-    }
-  })
-  .catch(function() {
-    showToast('Connection error. Please try again.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Checkout'; }
-  });
+  // Submit as a standard form POST to avoid ModSecurity JSON blocking
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = '/checkout.php';
+  form.style.display = 'none';
+
+  var input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'cart';
+  input.value = JSON.stringify(cart.map(function(i){ return { id: i.id, qty: i.qty }; }));
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
 }
 
 // ── CART DRAWER ──────────────────────────────────────────────────
