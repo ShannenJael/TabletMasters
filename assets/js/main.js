@@ -103,6 +103,34 @@ function escHtml(str) {
   return d.innerHTML;
 }
 
+// ── STRIPE CHECKOUT ──────────────────────────────────────────────
+function stripeCheckout() {
+  var cart = getCart();
+  if (cart.length === 0) return;
+
+  var btn = document.getElementById('checkout-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting...'; }
+
+  fetch('/checkout.php', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ items: cart.map(function(i){ return { id: i.id, qty: i.qty }; }) }),
+  })
+  .then(function(res){ return res.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      showToast('Checkout error: ' + (data.error || 'Please try again.'));
+      if (btn) { btn.disabled = false; btn.textContent = 'Checkout'; }
+    }
+  })
+  .catch(function() {
+    showToast('Connection error. Please try again.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Checkout'; }
+  });
+}
+
 // ── CART DRAWER ──────────────────────────────────────────────────
 function openCart() {
   renderCartItems();

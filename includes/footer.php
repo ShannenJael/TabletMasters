@@ -61,7 +61,7 @@
       <span class="cart-total-label">Total</span>
       <span class="cart-total-price" id="cart-total">$0.00</span>
     </div>
-    <button class="btn-primary full">Checkout</button>
+    <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
   </div>
 </div>
 
