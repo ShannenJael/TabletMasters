@@ -28,6 +28,7 @@
 
     <div class="footer-col">
       <h4>Solutions</h4>
+      <a class="footer-link" href="support.php">Support Center</a>
       <a class="footer-link" href="insurance.php">Insurance &amp; Repair</a>
       <a class="footer-link" href="about.php">Education</a>
       <a class="footer-link" href="about.php">Business</a>

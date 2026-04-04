@@ -5,6 +5,7 @@ const PRECACHE = [
   '/index.php',
   '/shop.php',
   '/insurance.php',
+  '/support.php',
   '/plans.php',
   '/about.php',
   '/privacy.php',

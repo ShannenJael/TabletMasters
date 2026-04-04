@@ -20,6 +20,7 @@ $nav = [
   ]],
   ['id' => 'insurance', 'label' => 'Insurance & Repair','href' => 'insurance.php', 'sub' => [
     ['label' => 'Coverage Plans',      'href' => 'insurance.php'],
+    ['label' => 'Support Center',      'href' => 'support.php'],
     ['label' => 'Screen Repair',       'href' => 'insurance.php'],
     ['label' => 'Battery Replacement', 'href' => 'insurance.php'],
     ['label' => 'Water Damage',        'href' => 'insurance.php'],
