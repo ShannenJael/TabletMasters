@@ -264,10 +264,10 @@ function openQuickView(id) {
   var origHtml = p.orig ? '<span class="modal-price-orig">$' + parseFloat(p.orig).toFixed(2) + '</span>' : '';
   var stockClass = p.stock <= 3 ? 'stock-low' : 'stock-ok';
   var stockText = p.stock <= 3 ? 'Only ' + p.stock + ' left!' : 'In Stock (' + p.stock + ')';
-  var addPayload = 'addToCart({id:' + p.id + ',name:' + JSON.stringify(p.name) + ',brand:' + JSON.stringify(p.brand) + ',price:' + p.price + ',emoji:' + JSON.stringify(p.emoji) + '})';
-
   document.getElementById('qv-img-side').innerHTML = imgHtml;
-  document.getElementById('qv-info-side').innerHTML =
+
+  var infoEl = document.getElementById('qv-info-side');
+  infoEl.innerHTML =
     '<div class="modal-brand">' + escHtml(p.brand) + '</div>' +
     '<div class="modal-name">' + escHtml(p.name) + '</div>' +
     '<span class="condition-badge ' + _condClass(p.condition) + '">' + escHtml(p.condition) + '</span>' +
@@ -277,7 +277,12 @@ function openQuickView(id) {
     '</div>' +
     '<div class="stock-tag ' + stockClass + '" style="margin-top:4px">' + stockText + '</div>' +
     '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; Lifetime Insurance - Free Replacement Included</div>' +
-    '<button class="modal-add-btn" onclick="' + escHtml(addPayload) + '; closeQuickView();">Add to Cart</button>';
+    '<button class="modal-add-btn" id="qv-add-btn">Add to Cart</button>';
+
+  document.getElementById('qv-add-btn').addEventListener('click', function() {
+    addToCart({ id: p.id, name: p.name, brand: p.brand, price: p.price, emoji: p.emoji });
+    closeQuickView();
+  });
 
   document.getElementById('qv-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
