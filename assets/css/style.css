@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/sansation');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap');
 
 :root {
   --bg:        #0b0b0b;
@@ -18,7 +19,7 @@
   --white:     #ffffff;
   --muted:     #888888;
   --border:    rgba(59, 130, 246, 0.2);
-  --display:   'Barlow Condensed', sans-serif;
+  --display:   'Sansation', sans-serif;
   --body:      'Open Sans', sans-serif;
   --mono:      'Montserrat', monospace;
 }
@@ -70,7 +71,7 @@ body {
 
 .logo {
   font-family:    var(--display);
-  font-size:      22px;
+  font-size:      30px;
   font-weight:    700;
   letter-spacing: 2px;
   color:          var(--white);
@@ -334,7 +335,7 @@ body {
   justify-content: space-between;
 }
 
-.cart-title { font-family: var(--display); font-size: 24px; letter-spacing: 2px; }
+.cart-title { font-family: var(--display); font-size: 24px; font-weight: 700; letter-spacing: 2px; }
 
 .cart-close {
   background: none;
@@ -625,7 +626,7 @@ body {
   border-top:  1px solid var(--border);
   flex-wrap:   wrap;
 }
-.stat-num { font-family: var(--display); font-size: 42px; letter-spacing: 2px; color: var(--white); }
+.stat-num { font-family: var(--display); font-size: 42px; font-weight: 700; letter-spacing: 2px; color: var(--white); }
 .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
 
 /* ── INSURANCE BAR ── */
@@ -717,7 +718,7 @@ body {
   flex-wrap:       wrap;
 }
 
-.video-overlay-text { font-family: var(--display); font-size: 22px; letter-spacing: 2px; color: var(--white); }
+.video-overlay-text { font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: 2px; color: var(--white); }
 .video-overlay-sub  { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
 .video-play-btn {
@@ -1070,7 +1071,7 @@ body {
 .modal-brand     { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; }
 .modal-name      { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.2; }
 .modal-price-row { display: flex; align-items: baseline; gap: 8px; }
-.modal-price     { font-family: var(--display); font-size: 30px; color: var(--white); }
+.modal-price     { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--white); }
 .modal-price-orig{ font-size: 14px; color: var(--muted); text-decoration: line-through; }
 .modal-divider   { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
 
@@ -1112,7 +1113,7 @@ body {
   gap:             10px;
 }
 
-.product-price      { font-family: var(--display); font-size: 24px; letter-spacing: 1px; color: var(--white); }
+.product-price      { font-family: var(--display); font-size: 24px; font-weight: 700; letter-spacing: 1px; color: var(--white); }
 .product-price-orig { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
 
 .add-btn {
@@ -1167,7 +1168,7 @@ body {
 }
 
 .ins-shield { font-size: 48px; margin-bottom: 16px; display: block; }
-.ins-coverage-card h3  { font-family: var(--display); font-size: 28px; letter-spacing: 2px; color: var(--white); margin-bottom: 8px; }
+.ins-coverage-card h3  { font-family: var(--display); font-size: 28px; font-weight: 700; letter-spacing: 2px; color: var(--white); margin-bottom: 8px; }
 .ins-coverage-card > p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
 
 .coverage-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
@@ -1269,7 +1270,7 @@ body {
   gap:             40px;
   flex-wrap:       wrap;
 }
-.repair-cta h3 { font-family: var(--display); font-size: 36px; letter-spacing: 2px; margin-bottom: 10px; }
+.repair-cta h3 { font-family: var(--display); font-size: 36px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
 .repair-cta > div > p { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.7; }
 
 .repair-form { display: flex; flex-direction: column; gap: 12px; min-width: 280px; }
@@ -1291,6 +1292,73 @@ body {
 
 /* ── ABOUT ── */
 .about-section { padding: 80px 40px; max-width: 960px; margin: 0 auto; }
+.policy-section { padding: 80px 40px 100px; max-width: 1100px; margin: 0 auto; }
+.policy-hero { max-width: 760px; margin-bottom: 36px; }
+.policy-intro {
+  color:       #9BACC8;
+  font-size:   17px;
+  line-height: 1.8;
+  margin-top:  18px;
+}
+.policy-meta {
+  margin-top:     18px;
+  color:          var(--muted);
+  font-family:    var(--mono);
+  font-size:      12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.policy-grid {
+  display:               grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:                   20px;
+}
+.policy-card {
+  background:    linear-gradient(160deg, rgba(59,130,246,0.06) 0%, var(--bg2) 70%);
+  border:        1px solid var(--border);
+  border-radius: 12px;
+  padding:       28px 28px 24px;
+}
+.policy-card h2,
+.policy-contact h2 {
+  font-family:    var(--display);
+  font-size:      26px;
+  font-weight:    700;
+  letter-spacing: 1px;
+  color:          var(--white);
+  margin-bottom:  12px;
+}
+.policy-card p,
+.policy-contact p {
+  color:       #9BACC8;
+  font-size:   15px;
+  line-height: 1.8;
+}
+.policy-list {
+  margin:         14px 0 0 18px;
+  color:          #9BACC8;
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+}
+.policy-list li { line-height: 1.7; }
+.policy-note {
+  margin-top: 12px;
+  color:      var(--muted);
+  font-size:  13px;
+}
+.policy-contact {
+  margin-top:    24px;
+  background:    var(--bg2);
+  border:        1px solid var(--border);
+  border-radius: 12px;
+  padding:       28px;
+}
+.policy-contact a {
+  color:           var(--blue-glow);
+  text-decoration: none;
+}
+.policy-contact a:hover { text-decoration: underline; }
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 
 .about-visual {
@@ -1301,7 +1369,7 @@ body {
   text-align:    center;
 }
 .about-icon-big { font-size: 80px; margin-bottom: 24px; display: block; }
-.about-tagline  { font-family: var(--display); font-size: 36px; letter-spacing: 2px; color: var(--blue-glow); line-height: 1.1; margin-bottom: 12px; }
+.about-tagline  { font-family: var(--display); font-size: 36px; font-weight: 700; letter-spacing: 2px; color: var(--blue-glow); line-height: 1.1; margin-bottom: 12px; }
 .about-detail   { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
 .about-text .section-title { font-size: 44px; margin-bottom: 20px; }
@@ -1351,9 +1419,9 @@ body {
   white-space:    nowrap;
 }
 
-.plan-name         { font-family: var(--display); font-size: 30px; letter-spacing: 2px; margin-bottom: 6px; }
+.plan-name         { font-family: var(--display); font-size: 30px; font-weight: 700; letter-spacing: 2px; margin-bottom: 6px; }
 .plan-name.featured-name { color: var(--blue-glow); }
-.plan-price        { font-family: var(--display); font-size: 52px; letter-spacing: 1px; color: var(--white); line-height: 1; margin: 20px 0 6px; }
+.plan-price        { font-family: var(--display); font-size: 52px; font-weight: 700; letter-spacing: 1px; color: var(--white); line-height: 1; margin: 20px 0 6px; }
 .plan-price sup    { font-size: 24px; letter-spacing: 0; }
 .plan-period       { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
 
@@ -1461,7 +1529,8 @@ footer {
   .plans-grid { grid-template-columns: 1fr; }
   .claim-steps { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
   .claim-steps::before { display: none; }
-  .shop-section, .ins-section, .about-section, .plans-section { padding-left: 20px; padding-right: 20px; }
+  .shop-section, .ins-section, .about-section, .plans-section, .policy-section { padding-left: 20px; padding-right: 20px; }
+  .policy-grid { grid-template-columns: 1fr; }
   .shop-controls { width: 100%; }
   .shop-search { width: 100%; min-width: 0; }
   .repair-cta { padding: 36px 28px; flex-direction: column; }

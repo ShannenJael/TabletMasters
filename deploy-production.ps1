@@ -2,7 +2,7 @@
 param(
     [string]$RemoteHost = "rzixjmmy@129.121.81.231",
     [string]$RemoteDir = "/home2/rzixjmmy/public_html/website_34e35390",
-    [string]$SshKey = "C:\Users\pascu\Downloads\id_ed25519_antipolo"
+    [string]$SshKey = "C:\Users\JoshuaDixon\.ssh\id_ed25519_antipolo"
 )
 
 $ErrorActionPreference = "Stop"
@@ -18,9 +18,11 @@ $requiredPaths = @(
     "index.php",
     "insurance.php",
     "plans.php",
+    "privacy.php",
     "public",
     "send-repair.php",
     "shop.php",
+    "terms.php",
     "tablet-masters.code-workspace"
 )
 
@@ -53,7 +55,7 @@ for dir in assets includes public; do
   fi
 done
 
-for file in .gitignore about.php index.php insurance.php plans.php send-repair.php shop.php tablet-masters.code-workspace; do
+for file in .gitignore about.php index.php insurance.php plans.php privacy.php send-repair.php shop.php terms.php tablet-masters.code-workspace; do
   if [ -f "$file" ]; then
     chmod 644 "$file"
   fi
@@ -64,6 +66,7 @@ stat -c "%A %n" assets assets/css assets/js assets/images public includes 2>/dev
 '@
 
 Write-Host "Normalizing server permissions..."
+$remoteScript = $remoteScript -replace "`r`n", "`n"
 $remoteScript | & ssh @sshArgs $RemoteHost "bash -s -- '$RemoteDir'"
 if ($LASTEXITCODE -ne 0) {
     throw "ssh permission fix failed with exit code $LASTEXITCODE"

@@ -7,6 +7,8 @@ const PRECACHE = [
   '/insurance.php',
   '/plans.php',
   '/about.php',
+  '/privacy.php',
+  '/terms.php',
   '/assets/css/style.css',
   '/assets/images/tabletmasters-logo.png',
   '/assets/images/favicon-32.png',

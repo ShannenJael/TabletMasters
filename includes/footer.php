@@ -20,6 +20,8 @@
       <h4>Company</h4>
       <a class="footer-link" href="about.php">About Us</a>
       <a class="footer-link" href="plans.php">Plans &amp; Pricing</a>
+      <a class="footer-link" href="privacy.php">Privacy Policy</a>
+      <a class="footer-link" href="terms.php">Terms of Service</a>
       <a class="footer-link" href="#">Reviews</a>
       <a class="footer-link" href="#">Forum</a>
     </div>
