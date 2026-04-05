@@ -22,17 +22,17 @@
 $plans = [
   [
     'name'     => 'BASIC',
-    'price'    => '0',
-    'period'   => 'No monthly fee',
+    'price'    => '8',
+    'period'   => 'per month',
     'featured' => false,
-    'features' => ['Device purchase access','Standard warranty','Email support','Basic cloud setup'],
-    'cta'      => 'Get Started',
+    'features' => ['Screen &amp; battery coverage','Accidental damage included','Email support','Basic cloud setup'],
+    'cta'      => 'Get Basic',
     'cta_href' => 'shop.php',
   ],
   [
     'name'     => 'PROTECTED',
     'price'    => '12',
-    'period'   => 'per month &middot; billed annually',
+    'period'   => 'per month',
     'featured' => true,
     'features' => ['Everything in Basic','Lifetime replacement (1&times;)','Priority phone support','Full cloud configuration','Annual device checkup'],
     'cta'      => 'Choose Protected',
