@@ -63,30 +63,6 @@ $prefill   = [
         </div>
       </div>
     </div>
-
-    <div class="reg-hero-panel">
-      <div class="reg-panel-label">Why this works better</div>
-      <h2>Registration should feel guided, not dense.</h2>
-      <p>
-        This flow keeps the important decisions visible: who owns the device, where it was purchased,
-        and whether a protection plan is being attached today.
-      </p>
-
-      <div class="reg-hero-stats">
-        <div class="reg-stat">
-          <strong>1 form</strong>
-          <span>Everything needed to register</span>
-        </div>
-        <div class="reg-stat">
-          <strong>2 paths</strong>
-          <span>Tablet Masters or another retailer</span>
-        </div>
-        <div class="reg-stat">
-          <strong>0 receipts</strong>
-          <span>Claims tie back to the serial number</span>
-        </div>
-      </div>
-    </div>
   </section>
 
   <div class="reg-layout">

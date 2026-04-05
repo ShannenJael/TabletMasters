@@ -1711,11 +1711,9 @@ footer {
   .reg-sidebar-card,
   .reg-submit-card { padding: 24px 20px; }
   .reg-layout,
-  .reg-hero-card,
   .reg-hero-points,
   .reg-field-grid-2,
-  .reg-option-grid,
-  .reg-hero-stats { grid-template-columns: 1fr; }
+  .reg-option-grid { grid-template-columns: 1fr; }
   .reg-page-title { font-size: clamp(2.2rem, 11vw, 3rem); }
   .reg-group-label,
   .reg-summary-row { flex-direction: column; }
@@ -1733,8 +1731,8 @@ footer {
 .reg-hero-card {
   position:              relative;
   display:               grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
-  gap:                   28px;
+  grid-template-columns: minmax(0, 1fr);
+  gap:                   0;
   padding:               40px;
   margin-bottom:         28px;
   border-radius:         28px;
@@ -1754,8 +1752,7 @@ footer {
   pointer-events: none;
 }
 
-.reg-hero-copy,
-.reg-hero-panel {
+.reg-hero-copy {
   position: relative;
   z-index:  1;
 }
@@ -1823,18 +1820,6 @@ footer {
   line-height: 1.6;
 }
 
-.reg-hero-panel {
-  display:         flex;
-  flex-direction:  column;
-  justify-content: space-between;
-  gap:             24px;
-  padding:         28px;
-  border-radius:   24px;
-  border:          1px solid rgba(96,165,250,0.18);
-  background:      rgba(7,12,22,0.78);
-  min-height:      100%;
-}
-
 .reg-panel-label,
 .reg-sidebar-label {
   font-size:      11px;
@@ -1844,7 +1829,6 @@ footer {
   color:          var(--blue-glow);
 }
 
-.reg-hero-panel h2,
 .reg-sidebar-section h2 {
   font-family:    var(--display);
   color:          var(--white);
@@ -1852,44 +1836,11 @@ footer {
   letter-spacing: 0.5px;
 }
 
-.reg-hero-panel h2 {
-  font-size: 2rem;
-}
-
-.reg-hero-panel p,
 .reg-sidebar-section p,
 .reg-side-note p {
   color:       #9fb0ca;
   font-size:   14px;
   line-height: 1.75;
-}
-
-.reg-hero-stats {
-  display:               grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap:                   12px;
-}
-
-.reg-stat {
-  padding:       16px;
-  border-radius: 18px;
-  border:        1px solid rgba(96,165,250,0.14);
-  background:    rgba(59,130,246,0.08);
-}
-
-.reg-stat strong {
-  display:       block;
-  color:         var(--white);
-  font-family:   var(--display);
-  font-size:     1.05rem;
-  margin-bottom: 6px;
-}
-
-.reg-stat span {
-  display:     block;
-  color:       #9fb0ca;
-  font-size:   12px;
-  line-height: 1.5;
 }
 
 .reg-layout {
@@ -2260,7 +2211,6 @@ footer {
 }
 
 @media (max-width: 1024px) {
-  .reg-hero-card,
   .reg-layout {
     grid-template-columns: 1fr;
   }
