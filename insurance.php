@@ -33,7 +33,7 @@ $repairServices = [
 $claimSteps = [
   ['num'=>'01','title'=>'Report Your Claim',   'desc'=>'Contact us online or by phone with your device serial number and a description of the issue.'],
   ['num'=>'02','title'=>'Approval in 24 hrs',  'desc'=>'Our team reviews your claim and confirms coverage. Most approvals come back within one business day.'],
-  ['num'=>'03','title'=>'Drop Off or Ship',     'desc'=>'Bring your device to any Tablet Masters location, or ship it to us with our prepaid label.'],
+  ['num'=>'03','title'=>'Ship or Arrange Intake', 'desc'=>'After approval, we will confirm the next intake step and provide shipping guidance or a prepaid label when applicable.'],
   ['num'=>'04','title'=>'Get Your Device Back', 'desc'=>'Repaired or replaced device returned within 48 hours of approval. We cover return shipping.'],
 ];
 
@@ -140,16 +140,46 @@ $error   = isset($_GET['err'])  && $_GET['err']  === '1';
       <?php endif; ?>
 
       <form id="repair-form" method="POST" action="send-repair.php">
-        <input class="repair-input" type="text"  name="name"  placeholder="Your name"       required />
-        <input class="repair-input" type="email" name="email" placeholder="Email address"   required />
+        <input class="repair-input" type="text"  name="name"  placeholder="Your full name"   required />
+        <input class="repair-input" type="email" name="email" placeholder="Email address"     required />
         <input class="repair-input" type="tel"   name="phone" placeholder="Phone number" />
+        <select class="repair-input" name="device" required>
+          <option value="" disabled selected>Select your device</option>
+          <optgroup label="Apple">
+            <option>iPad Pro</option>
+            <option>iPad Air</option>
+            <option>iPad Mini</option>
+            <option>iPad (Standard)</option>
+          </optgroup>
+          <optgroup label="Samsung">
+            <option>Galaxy Tab S Series</option>
+            <option>Galaxy Tab A Series</option>
+          </optgroup>
+          <optgroup label="Microsoft">
+            <option>Surface Pro</option>
+            <option>Surface Go</option>
+          </optgroup>
+          <optgroup label="Amazon">
+            <option>Fire HD 10</option>
+            <option>Fire HD 8</option>
+            <option>Fire Max 11</option>
+            <option>Fire 7</option>
+          </optgroup>
+          <option>Other</option>
+        </select>
         <select class="repair-input" name="type" required>
           <option value="" disabled selected>Select repair type</option>
           <?php foreach ($repairTypes as $t): ?>
           <option value="<?= htmlspecialchars($t) ?>"><?= htmlspecialchars($t) ?></option>
           <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn-primary full">Submit Request</button>
+        <textarea class="repair-input" name="notes" placeholder="Describe the issue (optional)" rows="3" style="resize:vertical"></textarea>
+        <select class="repair-input" name="preferred_contact">
+          <option value="email">Preferred contact: Email</option>
+          <option value="phone">Preferred contact: Phone</option>
+          <option value="either">Preferred contact: Either</option>
+        </select>
+        <button type="submit" class="btn-primary full">Submit Repair Request</button>
       </form>
     </div>
   </div>
