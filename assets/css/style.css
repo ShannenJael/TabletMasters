@@ -1715,9 +1715,7 @@ footer {
   .reg-field-grid-2,
   .reg-option-grid { grid-template-columns: 1fr; }
   .reg-page-title { font-size: clamp(2.2rem, 11vw, 3rem); }
-  .reg-group-label,
-  .reg-summary-row { flex-direction: column; }
-  .reg-summary-row strong { max-width: none; text-align: left; }
+  .reg-group-label { flex-direction: column; }
   .reg-choice-copy strong em { display: inline-block; margin: 8px 0 0; }
 }
 
@@ -2145,31 +2143,6 @@ footer {
 
 .reg-sidebar-section h2 {
   font-size: 1.85rem;
-}
-
-.reg-summary-list {
-  display:        flex;
-  flex-direction: column;
-}
-
-.reg-summary-row {
-  display:         flex;
-  justify-content: space-between;
-  align-items:     flex-start;
-  gap:             16px;
-  padding:         15px 0;
-  border-top:      1px solid rgba(96,165,250,0.12);
-  color:           #90a7d1;
-  font-size:       14px;
-}
-
-.reg-summary-row strong {
-  max-width:      170px;
-  color:          var(--white);
-  font-family:    var(--display);
-  font-size:      14px;
-  letter-spacing: 0.3px;
-  text-align:     right;
 }
 
 .reg-check-list {

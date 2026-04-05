@@ -244,27 +244,6 @@ $prefill   = [
     <aside class="reg-sidebar">
       <div class="reg-sidebar-card">
         <div class="reg-sidebar-section">
-          <span class="reg-sidebar-label">Registration Summary</span>
-          <h2>Keep the important decisions visible.</h2>
-          <p>The panel updates as the user switches between a Tablet Masters order and an external purchase flow.</p>
-        </div>
-
-        <div class="reg-summary-list" aria-live="polite">
-          <div class="reg-summary-row">
-            <span>Purchase source</span>
-            <strong id="reg-source-summary">Tablet Masters order</strong>
-          </div>
-          <div class="reg-summary-row">
-            <span>Plan status</span>
-            <strong id="reg-plan-summary">Included or added after registration</strong>
-          </div>
-          <div class="reg-summary-row">
-            <span>Confirmation</span>
-            <strong>Email sent instantly</strong>
-          </div>
-        </div>
-
-        <div class="reg-sidebar-section">
           <span class="reg-sidebar-label">Before You Submit</span>
           <ul class="reg-check-list">
             <li><i class="fa-solid fa-check"></i><span>Have the tablet serial number ready.</span></li>
@@ -301,10 +280,7 @@ $prefill   = [
   var brandOtherWrap = document.getElementById('reg-brand-other-wrap');
   var brandOther = document.getElementById('reg-brand-other');
   var sources = document.querySelectorAll('input[name="purchase_source"]');
-  var plans = document.querySelectorAll('input[name="plan"]');
   var planGroup = document.getElementById('reg-plan-group');
-  var sourceSummary = document.getElementById('reg-source-summary');
-  var planSummary = document.getElementById('reg-plan-summary');
 
   function syncBrand() {
     var isOther = brandSel.value === 'Other';
@@ -312,45 +288,21 @@ $prefill   = [
     brandOther.required = isOther;
   }
 
-  function syncPlanSummary() {
-    var source = document.querySelector('input[name="purchase_source"]:checked');
-    var selectedPlan = document.querySelector('input[name="plan"]:checked');
-    var planMap = {
-      none: 'Add a plan later',
-      basic: 'Basic - $8/month',
-      protected: 'Protected - $12/month'
-    };
-
-    if (!source || source.value !== 'external') {
-      planSummary.textContent = 'Included or added after registration';
-      return;
-    }
-
-    planSummary.textContent = planMap[selectedPlan ? selectedPlan.value : 'none'];
-  }
-
   function syncSource() {
     var selectedSource = document.querySelector('input[name="purchase_source"]:checked');
     var isExternal = selectedSource && selectedSource.value === 'external';
 
     planGroup.hidden = !isExternal;
-    sourceSummary.textContent = isExternal ? 'Purchased elsewhere' : 'Tablet Masters order';
 
     if (!isExternal) {
       document.querySelector('input[name="plan"][value="none"]').checked = true;
     }
-
-    syncPlanSummary();
   }
 
   brandSel.addEventListener('change', syncBrand);
 
   sources.forEach(function(source) {
     source.addEventListener('change', syncSource);
-  });
-
-  plans.forEach(function(plan) {
-    plan.addEventListener('change', syncPlanSummary);
   });
 
   syncBrand();
