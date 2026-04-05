@@ -5,6 +5,12 @@
         <img src="assets/images/tabletmasters-logo.png" alt="Tablet Masters" class="logo-img" />
       </a>
       <p>Tablets sales, service and cloud solutions. Protecting your tech investment since 2019.</p>
+      <p class="footer-address">
+        <strong>Mailing Address:</strong><br />
+        TabletmastersLLC<br />
+        550 Mary Esther Cutoof #18, PMB 376<br />
+        Fort Walton Beach, FL 32548
+      </p>
     </div>
 
     <div class="footer-col">
@@ -59,12 +65,49 @@
       <div>Your cart is empty</div>
     </div>
   </div>
+  <!-- Insurance Upsell -->
+  <div class="cart-upsell" id="cart-upsell" style="display:none">
+    <div class="cart-upsell-header">
+      <span class="cart-upsell-icon">🛡️</span>
+      <div>
+        <div class="cart-upsell-title">Protect Your Device</div>
+        <div class="cart-upsell-sub">Add a protection plan to your order</div>
+      </div>
+    </div>
+    <div class="cart-upsell-plans">
+      <label class="upsell-plan">
+        <input type="radio" name="insurance_plan" value="none" checked>
+        <div class="upsell-plan-info">
+          <span class="upsell-plan-name">No thanks</span>
+          <span class="upsell-plan-price">$0</span>
+        </div>
+      </label>
+      <label class="upsell-plan">
+        <input type="radio" name="insurance_plan" value="basic">
+        <div class="upsell-plan-info">
+          <span class="upsell-plan-name">Basic Protection</span>
+          <span class="upsell-plan-price">$8<small>/mo</small></span>
+        </div>
+        <div class="upsell-plan-features">Screen &amp; battery coverage</div>
+      </label>
+      <label class="upsell-plan featured-plan">
+        <input type="radio" name="insurance_plan" value="protected">
+        <div class="upsell-plan-info">
+          <span class="upsell-plan-name">Protected <span class="upsell-badge">POPULAR</span></span>
+          <span class="upsell-plan-price">$12<small>/mo</small></span>
+        </div>
+        <div class="upsell-plan-features">Lifetime replacement + priority support</div>
+      </label>
+    </div>
+  </div>
+
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-total-row">
       <span class="cart-total-label">Total</span>
       <span class="cart-total-price" id="cart-total">$0.00</span>
     </div>
     <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
+    <a class="cart-insurance-link" href="plans.php">View all coverage plans →</a>
   </div>
 </div>
 

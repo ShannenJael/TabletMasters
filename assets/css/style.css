@@ -419,6 +419,91 @@ body {
 }
 .cart-remove:hover { color: #EF4444; }
 
+/* ── CART INSURANCE UPSELL ── */
+.cart-upsell {
+  padding:     16px 20px;
+  border-top:  1px solid var(--border);
+  background:  rgba(59,130,246,0.05);
+}
+.cart-upsell-header {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  margin-bottom: 12px;
+}
+.cart-upsell-icon { font-size: 24px; }
+.cart-upsell-title {
+  font-family:    var(--display);
+  font-size:      0.85rem;
+  font-weight:    700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color:          var(--white);
+}
+.cart-upsell-sub { font-size: 11px; color: var(--muted); }
+
+.cart-upsell-plans { display: flex; flex-direction: column; gap: 6px; }
+
+.upsell-plan {
+  display:       flex;
+  flex-direction: column;
+  gap:           2px;
+  padding:       10px 12px;
+  border:        1px solid var(--border);
+  cursor:        pointer;
+  transition:    border-color 0.15s, background 0.15s;
+}
+.upsell-plan:hover { border-color: var(--blue); background: rgba(59,130,246,0.05); }
+.upsell-plan input[type="radio"] { display: none; }
+.upsell-plan:has(input:checked) {
+  border-color: var(--blue);
+  background:   rgba(59,130,246,0.1);
+}
+.featured-plan { border-color: rgba(59,130,246,0.4); }
+
+.upsell-plan-info {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+}
+.upsell-plan-name {
+  font-family:    var(--display);
+  font-size:      0.8rem;
+  font-weight:    700;
+  letter-spacing: 0.5px;
+  color:          var(--white);
+  display:        flex;
+  align-items:    center;
+  gap:            6px;
+}
+.upsell-plan-price {
+  font-family: var(--display);
+  font-size:   0.9rem;
+  font-weight: 700;
+  color:       var(--blue);
+}
+.upsell-plan-price small { font-size: 0.65rem; color: var(--muted); }
+.upsell-plan-features { font-size: 11px; color: var(--muted); }
+.upsell-badge {
+  font-size:      9px;
+  background:     var(--blue);
+  color:          #fff;
+  padding:        2px 5px;
+  font-weight:    700;
+  letter-spacing: 0.5px;
+}
+
+.cart-insurance-link {
+  display:    block;
+  text-align: center;
+  font-size:  11px;
+  color:      var(--muted);
+  margin-top: 10px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.cart-insurance-link:hover { color: var(--blue); }
+
 .cart-footer { padding: 20px; border-top: 1px solid var(--border); }
 
 .cart-total-row {
@@ -1446,6 +1531,7 @@ footer {
 }
 
 .footer-brand p { font-size: 13px; color: var(--muted); max-width: 260px; line-height: 1.7; margin-top: 12px; }
+.footer-address strong { color: var(--white); }
 .footer-brand .logo {
   align-items: flex-start;
 }

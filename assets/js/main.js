@@ -95,6 +95,9 @@ function renderCartItems() {
     var totalEl = document.getElementById('cart-total');
     if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
   }
+
+  var upsell = document.getElementById('cart-upsell');
+  if (upsell) upsell.style.display = cart.length > 0 ? '' : 'none';
 }
 
 function escHtml(str) {
@@ -122,6 +125,14 @@ function stripeCheckout() {
   input.name = 'cart';
   input.value = JSON.stringify(cart.map(function(i){ return { id: i.id, qty: i.qty }; }));
   form.appendChild(input);
+
+  // Include selected insurance plan
+  var planInput = document.createElement('input');
+  planInput.type = 'hidden';
+  planInput.name = 'insurance_plan';
+  var selectedPlan = document.querySelector('input[name="insurance_plan"]:checked');
+  planInput.value = selectedPlan ? selectedPlan.value : 'none';
+  form.appendChild(planInput);
 
   document.body.appendChild(form);
   form.submit();
