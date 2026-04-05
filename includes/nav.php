@@ -1,6 +1,6 @@
 <?php
 // $currentPage is set by each page before including this file
-// Possible values: home, shop, insurance, plans, about
+// Possible values: home, shop, insurance, register, plans, about
 if (!isset($currentPage)) $currentPage = 'home';
 
 $nav = [
@@ -20,6 +20,7 @@ $nav = [
   ]],
   ['id' => 'insurance', 'label' => 'Insurance & Repair','href' => 'insurance.php', 'sub' => [
     ['label' => 'Coverage Plans',      'href' => 'insurance.php'],
+    ['label' => 'Register Tablet',     'href' => 'register.php'],
     ['label' => 'Support Center',      'href' => 'support.php'],
     ['label' => 'Screen Repair',       'href' => 'insurance.php'],
     ['label' => 'Battery Replacement', 'href' => 'insurance.php'],
@@ -39,7 +40,7 @@ $nav = [
     <?php foreach ($nav as $item): ?>
     <li class="nav-item">
       <a
-        class="nav-link <?= $currentPage === $item['id'] ? 'active' : '' ?>"
+        class="nav-link <?= ($currentPage === $item['id'] || ($currentPage === 'register' && $item['id'] === 'insurance')) ? 'active' : '' ?>"
         href="<?= htmlspecialchars($item['href']) ?>"
       ><?= htmlspecialchars($item['label']) ?><?= count($item['sub']) ? ' &#9662;' : '' ?></a>
 
@@ -70,6 +71,6 @@ $nav = [
 <!-- Mobile nav -->
 <div class="mobile-nav" id="mobile-nav">
   <?php foreach ($nav as $item): ?>
-  <a class="nav-link <?= $currentPage === $item['id'] ? 'active' : '' ?>" href="<?= htmlspecialchars($item['href']) ?>"><?= htmlspecialchars($item['label']) ?></a>
+  <a class="nav-link <?= ($currentPage === $item['id'] || ($currentPage === 'register' && $item['id'] === 'insurance')) ? 'active' : '' ?>" href="<?= htmlspecialchars($item['href']) ?>"><?= htmlspecialchars($item['label']) ?></a>
   <?php endforeach; ?>
 </div>
