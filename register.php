@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register Your Device — Tablet Masters</title>
+  <title>Register Your Device &mdash; Tablet Masters</title>
   <meta name="description" content="Register your tablet with Tablet Masters to activate insurance coverage. Works for tablets purchased here or anywhere else." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -29,204 +29,362 @@ $prefill   = [
 ];
 ?>
 
-<div class="reg-section">
+<div class="reg-page">
+  <section class="reg-hero-card">
+    <div class="reg-hero-copy">
+      <div class="section-label">Device Registration</div>
+      <h1 class="reg-page-title">Register your tablet with a cleaner, faster coverage flow.</h1>
+      <p class="reg-page-intro">
+        Link your device to Tablet Masters coverage in a few minutes. Whether you bought from us or from another retailer,
+        the experience should feel straightforward, trustworthy, and easy to complete.
+      </p>
 
-  <div class="reg-hero">
-    <div class="section-label">// Device Coverage</div>
-    <div class="section-title">REGISTER YOUR TABLET</div>
-    <p>
-      Link your tablet to an insurance plan to activate coverage. Works for devices purchased
-      from Tablet Masters or any other store &mdash; same protection, same service.
-    </p>
-  </div>
-
-  <?php if ($success): ?>
-  <div class="alert alert-success" style="max-width:640px;margin:0 auto 32px">
-    &#10003; Your device has been registered! Check your email for your coverage confirmation.
-  </div>
-  <?php elseif ($duplicate): ?>
-  <div class="alert alert-error" style="max-width:640px;margin:0 auto 32px">
-    A device with that serial number is already registered. Contact us if this is an error &mdash; <a href="support.php" style="color:inherit;font-weight:700">support</a>.
-  </div>
-  <?php elseif ($error): ?>
-  <div class="alert alert-error" style="max-width:640px;margin:0 auto 32px">
-    Something went wrong. Please try again or <a href="support.php" style="color:inherit;font-weight:700">contact us</a>.
-  </div>
-  <?php endif; ?>
-
-  <form id="reg-form" method="POST" action="/save-device.php" class="reg-form">
-
-    <!-- ── Section 1: Your Info ── -->
-    <div class="reg-group">
-      <div class="reg-group-label">
-        <span class="reg-step">01</span>
-        <h3>Your Information</h3>
-      </div>
-      <div class="reg-fields">
-        <input class="repair-input" type="text"  name="name"  placeholder="Full name" required />
-        <input class="repair-input" type="email" name="email" placeholder="Email address" required value="<?= $prefill['email'] ?>" />
-        <input class="repair-input" type="tel"   name="phone" placeholder="Phone number (optional)" />
-      </div>
-    </div>
-
-    <!-- ── Section 2: Device ── -->
-    <div class="reg-group">
-      <div class="reg-group-label">
-        <span class="reg-step">02</span>
-        <h3>Device Details</h3>
-      </div>
-      <div class="reg-fields">
-        <select class="repair-input" name="brand" id="reg-brand" required>
-          <option value="" disabled selected>Select brand</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Microsoft">Microsoft</option>
-          <option value="Amazon">Amazon</option>
-          <option value="Other">Other brand</option>
-        </select>
-        <input class="repair-input" type="text" name="brand_other" id="reg-brand-other"
-               placeholder="Brand name" style="display:none" />
-
-        <input class="repair-input" type="text" name="model"
-               placeholder="Model (e.g. Galaxy Tab S10 Ultra, iPad Pro M4 11&quot;)"
-               value="<?= $prefill['model'] ?>" required />
-
-        <input class="repair-input" type="text" name="serial_number"
-               placeholder="Serial number" required
-               style="text-transform:uppercase;letter-spacing:1px" />
-        <p class="reg-hint">
-          &#128269; <strong>Where to find it:</strong> Android: Settings &rarr; About device &rarr; Serial number &nbsp;|&nbsp; iOS/iPadOS: Settings &rarr; General &rarr; About
-        </p>
-
-        <input class="repair-input" type="date" name="purchase_date"
-               title="Purchase date (optional)" />
-      </div>
-    </div>
-
-    <!-- ── Section 3: Source ── -->
-    <div class="reg-group">
-      <div class="reg-group-label">
-        <span class="reg-step">03</span>
-        <h3>Where did you purchase it?</h3>
-      </div>
-      <div class="reg-fields">
-        <div class="source-options">
-          <label class="source-option">
-            <input type="radio" name="purchase_source" value="tablet-masters"
-                   <?= $prefill['order'] ? 'checked' : 'checked' ?> />
-            <div class="source-option-body">
-              <strong>Tablet Masters</strong>
-              <span>Purchased on tablet-masters.com</span>
-            </div>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="purchase_source" value="external" />
-            <div class="source-option-body">
-              <strong>Another store</strong>
-              <span>Amazon, Best Buy, carrier store, etc.</span>
-            </div>
-          </label>
+      <div class="reg-hero-points">
+        <div class="reg-hero-point">
+          <span class="reg-hero-icon"><i class="fa-solid fa-bolt"></i></span>
+          <div>
+            <strong>Fast to complete</strong>
+            <span>Clear steps, less guesswork, and fewer missed details.</span>
+          </div>
+        </div>
+        <div class="reg-hero-point">
+          <span class="reg-hero-icon"><i class="fa-solid fa-shield-heart"></i></span>
+          <div>
+            <strong>Coverage clarity</strong>
+            <span>External purchases can add protection now or later.</span>
+          </div>
+        </div>
+        <div class="reg-hero-point">
+          <span class="reg-hero-icon"><i class="fa-solid fa-envelope-open-text"></i></span>
+          <div>
+            <strong>Instant confirmation</strong>
+            <span>Your registration details are sent to your inbox right away.</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ── Section 4: Plan (external only) ── -->
-    <div class="reg-group" id="reg-plan-group" style="display:none">
-      <div class="reg-group-label">
-        <span class="reg-step">04</span>
-        <h3>Choose a Protection Plan</h3>
-      </div>
-      <div class="reg-fields">
-        <p class="reg-hint" style="margin-bottom:16px">
-          Devices from other stores are not automatically covered. Select a plan to activate protection, or register now and add a plan later.
-        </p>
-        <div class="source-options">
-          <label class="source-option">
-            <input type="radio" name="plan" value="none" checked />
-            <div class="source-option-body">
-              <strong>No plan yet</strong>
-              <span>Register device &mdash; add plan later</span>
-            </div>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="plan" value="basic" />
-            <div class="source-option-body">
-              <strong>Basic &mdash; $8/mo</strong>
-              <span>Screen, battery &amp; accidental damage</span>
-            </div>
-          </label>
-          <label class="source-option">
-            <input type="radio" name="plan" value="protected" />
-            <div class="source-option-body">
-              <strong>Protected &mdash; $12/mo</strong>
-              <span>Everything + lifetime replacement</span>
-            </div>
-          </label>
+    <div class="reg-hero-panel">
+      <div class="reg-panel-label">Why this works better</div>
+      <h2>Registration should feel guided, not dense.</h2>
+      <p>
+        This flow keeps the important decisions visible: who owns the device, where it was purchased,
+        and whether a protection plan is being attached today.
+      </p>
+
+      <div class="reg-hero-stats">
+        <div class="reg-stat">
+          <strong>1 form</strong>
+          <span>Everything needed to register</span>
+        </div>
+        <div class="reg-stat">
+          <strong>2 paths</strong>
+          <span>Tablet Masters or another retailer</span>
+        </div>
+        <div class="reg-stat">
+          <strong>0 receipts</strong>
+          <span>Claims tie back to the serial number</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <input type="hidden" name="order_id" value="<?= $prefill['order'] ?>" />
+  <div class="reg-layout">
+    <div class="reg-main">
+      <?php if ($success): ?>
+      <div class="alert alert-success reg-alert" role="status">
+        &#10003; Your device has been registered. Check your email for coverage confirmation and next steps.
+      </div>
+      <?php elseif ($duplicate): ?>
+      <div class="alert alert-error reg-alert" role="alert">
+        A device with that serial number is already registered. Contact <a href="support.php">support</a> if this looks incorrect.
+      </div>
+      <?php elseif ($error): ?>
+      <div class="alert alert-error reg-alert" role="alert">
+        Something went wrong while saving your registration. Please try again or <a href="support.php">contact us</a>.
+      </div>
+      <?php endif; ?>
 
-    <div style="max-width:640px;margin:0 auto">
-      <button type="submit" class="btn-primary full">Register My Device &rarr;</button>
+      <form id="reg-form" method="POST" action="/save-device.php" class="reg-form">
+        <div class="reg-group">
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">01</span>
+              <div>
+                <h3>Your Information</h3>
+                <p>Who should receive the confirmation and coverage updates.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-field-grid reg-field-grid-2">
+            <label class="reg-field reg-field-full">
+              <span class="reg-label">Full name</span>
+              <input class="repair-input" type="text" name="name" placeholder="Jordan Smith" autocomplete="name" required />
+            </label>
+            <label class="reg-field">
+              <span class="reg-label">Email address</span>
+              <input class="repair-input" type="email" name="email" placeholder="you@example.com" autocomplete="email" required value="<?= $prefill['email'] ?>" />
+            </label>
+            <label class="reg-field">
+              <span class="reg-label">Phone number</span>
+              <input class="repair-input" type="tel" name="phone" placeholder="Optional" autocomplete="tel" inputmode="tel" />
+            </label>
+          </div>
+        </div>
+
+        <div class="reg-group">
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">02</span>
+              <div>
+                <h3>Device Details</h3>
+                <p>Tell us exactly which tablet is being linked to coverage.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-field-grid reg-field-grid-2">
+            <label class="reg-field">
+              <span class="reg-label">Brand</span>
+              <select class="repair-input" name="brand" id="reg-brand" required>
+                <option value="" disabled selected>Select brand</option>
+                <option value="Apple">Apple</option>
+                <option value="Samsung">Samsung</option>
+                <option value="Microsoft">Microsoft</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Other">Other brand</option>
+              </select>
+            </label>
+            <label class="reg-field" id="reg-brand-other-wrap" hidden>
+              <span class="reg-label">Other brand</span>
+              <input class="repair-input" type="text" name="brand_other" id="reg-brand-other" placeholder="Enter brand name" />
+            </label>
+            <label class="reg-field reg-field-full">
+              <span class="reg-label">Model</span>
+              <input class="repair-input" type="text" name="model" placeholder='Galaxy Tab S10 Ultra, iPad Pro 11", Surface Pro, etc.' value="<?= $prefill['model'] ?>" required />
+            </label>
+            <label class="reg-field">
+              <span class="reg-label">Serial number</span>
+              <input class="repair-input reg-serial-input" type="text" name="serial_number" placeholder="Enter serial number" required />
+            </label>
+            <label class="reg-field">
+              <span class="reg-label">Purchase date</span>
+              <input class="repair-input" type="date" name="purchase_date" title="Purchase date (optional)" />
+            </label>
+          </div>
+
+          <div class="reg-inline-tip">
+            <span class="reg-inline-tip-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <p><strong>Where to find it:</strong> Android: Settings &rarr; About device &rarr; Serial number. iPadOS: Settings &rarr; General &rarr; About.</p>
+          </div>
+        </div>
+
+        <div class="reg-group">
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">03</span>
+              <div>
+                <h3>Purchase Source</h3>
+                <p>This decides whether coverage is already tied to an existing order or needs a plan selected now.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-option-grid">
+            <label class="reg-choice-card">
+              <input type="radio" name="purchase_source" value="tablet-masters" checked />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Tablet Masters</strong>
+                <span>Purchased on tablet-masters.com or attached to an existing order.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card">
+              <input type="radio" name="purchase_source" value="external" />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Another store</strong>
+                <span>Amazon, Best Buy, a carrier store, or any outside retailer.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="reg-group" id="reg-plan-group" hidden>
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">04</span>
+              <div>
+                <h3>Protection Plan</h3>
+                <p>External purchases need an active plan to start protection immediately.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-plan-intro">
+            Register now and add coverage later, or choose a protection tier before you finish.
+          </div>
+
+          <div class="reg-option-grid reg-plan-grid">
+            <label class="reg-choice-card reg-plan-card">
+              <input type="radio" name="plan" value="none" checked />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>No plan yet</strong>
+                <span>Register the device first and add protection later.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card reg-plan-card">
+              <input type="radio" name="plan" value="basic" />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Basic</strong>
+                <span>Screen, battery, and accidental damage for $8/month.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card reg-plan-card reg-plan-card-featured">
+              <input type="radio" name="plan" value="protected" />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Protected <em>Popular</em></strong>
+                <span>Everything in Basic plus lifetime replacement for $12/month.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <input type="hidden" name="order_id" value="<?= $prefill['order'] ?>" />
+
+        <div class="reg-submit-card">
+          <button type="submit" class="btn-primary full">Register My Device</button>
+          <p class="reg-submit-note">
+            Your device will be linked by serial number and your confirmation email will include coverage details and next steps.
+          </p>
+        </div>
+      </form>
     </div>
 
-  </form>
+    <aside class="reg-sidebar">
+      <div class="reg-sidebar-card">
+        <div class="reg-sidebar-section">
+          <span class="reg-sidebar-label">Registration Summary</span>
+          <h2>Keep the important decisions visible.</h2>
+          <p>The panel updates as the user switches between a Tablet Masters order and an external purchase flow.</p>
+        </div>
 
-  <!-- ── What Happens Next ── -->
-  <div class="reg-next">
-    <div class="section-label" style="text-align:center">// After Registration</div>
-    <div class="reg-next-grid">
-      <div class="reg-next-step">
-        <div class="reg-next-icon">&#9993;</div>
-        <strong>Confirmation Email</strong>
-        <p>You'll receive your registration number and coverage details instantly.</p>
+        <div class="reg-summary-list" aria-live="polite">
+          <div class="reg-summary-row">
+            <span>Purchase source</span>
+            <strong id="reg-source-summary">Tablet Masters order</strong>
+          </div>
+          <div class="reg-summary-row">
+            <span>Plan status</span>
+            <strong id="reg-plan-summary">Included or added after registration</strong>
+          </div>
+          <div class="reg-summary-row">
+            <span>Confirmation</span>
+            <strong>Email sent instantly</strong>
+          </div>
+        </div>
+
+        <div class="reg-sidebar-section">
+          <span class="reg-sidebar-label">Before You Submit</span>
+          <ul class="reg-check-list">
+            <li><i class="fa-solid fa-check"></i><span>Have the tablet serial number ready.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Use the same email you want tied to coverage.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Select a plan only if the tablet came from another store.</span></li>
+          </ul>
+        </div>
+
+        <div class="reg-sidebar-section">
+          <span class="reg-sidebar-label">What Happens Next</span>
+          <div class="reg-side-note">
+            <strong>Confirmation email</strong>
+            <p>Your registration number and any plan details arrive right away.</p>
+          </div>
+          <div class="reg-side-note">
+            <strong>Claim-ready record</strong>
+            <p>The serial number becomes the anchor for future support and repair claims.</p>
+          </div>
+          <div class="reg-side-note">
+            <strong>Need help?</strong>
+            <p>Visit <a href="insurance.php" class="reg-link">insurance &amp; repair</a> or <a href="support.php" class="reg-link">support</a> if something looks off.</p>
+          </div>
+        </div>
       </div>
-      <div class="reg-next-step">
-        <div class="reg-next-icon">&#128274;</div>
-        <strong>Serial Number Linked</strong>
-        <p>Your device is now tied to your account by serial number — no receipt needed to file a claim.</p>
-      </div>
-      <div class="reg-next-step">
-        <div class="reg-next-icon">&#128241;</div>
-        <strong>Coverage Active</strong>
-        <p>Once your plan is confirmed, coverage begins immediately. File a claim any time from <a href="insurance.php" class="reg-link">insurance &amp; repair</a>.</p>
-      </div>
-    </div>
+    </aside>
   </div>
-
 </div>
 
 <?php include 'includes/footer.php'; ?>
 
 <script>
-// Brand "Other" reveal
 (function() {
-  var brandSel   = document.getElementById('reg-brand');
+  var brandSel = document.getElementById('reg-brand');
+  var brandOtherWrap = document.getElementById('reg-brand-other-wrap');
   var brandOther = document.getElementById('reg-brand-other');
-  brandSel.addEventListener('change', function() {
-    var isOther = this.value === 'Other';
-    brandOther.style.display = isOther ? '' : 'none';
-    brandOther.required = isOther;
-  });
-})();
-
-// Source toggle — show/hide plan section
-(function() {
-  var sources   = document.querySelectorAll('input[name="purchase_source"]');
+  var sources = document.querySelectorAll('input[name="purchase_source"]');
+  var plans = document.querySelectorAll('input[name="plan"]');
   var planGroup = document.getElementById('reg-plan-group');
-  sources.forEach(function(r) {
-    r.addEventListener('change', function() {
-      planGroup.style.display = this.value === 'external' ? '' : 'none';
-    });
+  var sourceSummary = document.getElementById('reg-source-summary');
+  var planSummary = document.getElementById('reg-plan-summary');
+
+  function syncBrand() {
+    var isOther = brandSel.value === 'Other';
+    brandOtherWrap.hidden = !isOther;
+    brandOther.required = isOther;
+  }
+
+  function syncPlanSummary() {
+    var source = document.querySelector('input[name="purchase_source"]:checked');
+    var selectedPlan = document.querySelector('input[name="plan"]:checked');
+    var planMap = {
+      none: 'Add a plan later',
+      basic: 'Basic - $8/month',
+      protected: 'Protected - $12/month'
+    };
+
+    if (!source || source.value !== 'external') {
+      planSummary.textContent = 'Included or added after registration';
+      return;
+    }
+
+    planSummary.textContent = planMap[selectedPlan ? selectedPlan.value : 'none'];
+  }
+
+  function syncSource() {
+    var selectedSource = document.querySelector('input[name="purchase_source"]:checked');
+    var isExternal = selectedSource && selectedSource.value === 'external';
+
+    planGroup.hidden = !isExternal;
+    sourceSummary.textContent = isExternal ? 'Purchased elsewhere' : 'Tablet Masters order';
+
+    if (!isExternal) {
+      document.querySelector('input[name="plan"][value="none"]').checked = true;
+    }
+
+    syncPlanSummary();
+  }
+
+  brandSel.addEventListener('change', syncBrand);
+
+  sources.forEach(function(source) {
+    source.addEventListener('change', syncSource);
   });
+
+  plans.forEach(function(plan) {
+    plan.addEventListener('change', syncPlanSummary);
+  });
+
+  syncBrand();
+  syncSource();
 })();
 </script>
 
 <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
 }
 </script>
 </body>
