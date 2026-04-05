@@ -200,6 +200,10 @@
       Questions about these Terms of Service can be sent to
       <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
     </p>
+    <p>
+      Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+      Fort Walton Beach, FL 32548</strong>.
+    </p>
     <p class="policy-note">
       This page is a practical Terms of Service draft tailored to the current site implementation.
       It should be reviewed by qualified legal counsel before being treated as final legal language.

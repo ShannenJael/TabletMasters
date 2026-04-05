@@ -127,6 +127,10 @@ $supportFaq = [
         Start with the repair form if your device needs hands-on service, or email our team for
         coverage, order, and setup questions. We will route you to the right next step.
       </p>
+      <p>
+        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+        Fort Walton Beach, FL 32548</strong>.
+      </p>
     </div>
 
     <div class="repair-form">

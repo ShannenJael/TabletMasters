@@ -50,6 +50,10 @@ $features = [
         We work with individuals, schools, enterprises, and healthcare providers to find
         the right device, configure it for their needs, and back it up with real support.
       </p>
+      <p>
+        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+        Fort Walton Beach, FL 32548</strong>.
+      </p>
 
       <ul class="feature-list">
         <?php foreach ($features as [$title, $desc]): ?>

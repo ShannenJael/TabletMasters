@@ -149,6 +149,10 @@
       For privacy questions or requests, contact Tablet Masters at
       <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
     </p>
+    <p>
+      Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+      Fort Walton Beach, FL 32548</strong>.
+    </p>
     <p class="policy-note">
       This page is a practical website privacy policy based on the current public site
       implementation. It is not a substitute for legal review tailored to your business.
