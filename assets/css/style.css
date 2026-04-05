@@ -66,7 +66,7 @@ body {
   display:         flex;
   align-items:     center;
   justify-content: space-between;
-  min-height:      112px;
+  min-height:      100px;
 }
 
 .logo {
@@ -125,7 +125,7 @@ body {
   border-left:    3px solid transparent;
   border-right:   3px solid transparent;
   font-family:    var(--display);
-  font-size:      22px;
+  font-size:      20px;
   font-weight:    700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -175,7 +175,7 @@ body {
   border:         none;
   border-bottom:  1px solid rgba(59,130,246,0.15);
   font-family:    var(--display);
-  font-size:      22px;
+  font-size:      20px;
   font-weight:    600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -206,9 +206,9 @@ body {
   color:          var(--blue);
   border:         2px solid var(--blue);
   border-radius:  0;
-  padding:        12px 20px;
+  padding:        9px 14px;
   font-family:    var(--display);
-  font-size:      22px;
+  font-size:      20px;
   font-weight:    700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -233,9 +233,9 @@ body {
   color:          #fff;
   border:         2px solid var(--blue);
   border-radius:  0;
-  padding:        12px 20px;
+  padding:        9px 14px;
   font-family:    var(--display);
-  font-size:      22px;
+  font-size:      20px;
   font-weight:    700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
