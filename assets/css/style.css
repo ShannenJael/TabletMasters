@@ -228,20 +228,20 @@ body {
   display:        inline-flex;
   align-items:    center;
   justify-content:center;
-  gap:            6px;
+  gap:            10px;
   background:     var(--blue);
   color:          #fff;
   border:         2px solid var(--blue);
   border-radius:  0;
-  padding:        8px 16px;
+  padding:        10px 18px;
   font-family:    var(--display);
-  font-size:      0.72rem;
+  font-size:      0.78rem;
   font-weight:    700;
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor:         pointer;
   transition:     background 0.15s, color 0.15s, box-shadow 0.15s;
-  box-shadow:     3px 3px 0 rgba(59,130,246,0.4);
+  box-shadow:     4px 4px 0 rgba(59,130,246,0.4);
 }
 .nav-cart:hover {
   background: transparent;
@@ -249,16 +249,23 @@ body {
   box-shadow: none;
 }
 
+.nav-cart-text {
+  white-space: nowrap;
+}
+
 .cart-badge {
-  background:     #EF4444;
-  border-radius:  0;
-  width:          18px;
-  height:         18px;
+  min-width:      22px;
+  height:         22px;
+  padding:        0 6px;
+  background:     #08111f;
+  border:         1px solid rgba(255,255,255,0.18);
+  border-radius:  999px;
   font-size:      11px;
   font-weight:    700;
   display:        inline-flex;
   align-items:    center;
   justify-content:center;
+  color:          #fff;
 }
 
 /* Mobile hamburger */
@@ -523,15 +530,37 @@ body {
   background:     var(--bg3);
   border:         1px solid var(--blue);
   border-radius:  4px;
-  padding:        14px 22px;
+  padding:        14px 18px;
   font-size:      14px;
   color:          var(--white);
   z-index:        9999;
   animation:      toastIn 0.3s ease;
-  pointer-events: none;
+  pointer-events: auto;
   display:        none;
+  align-items:    center;
+  gap:            14px;
+  box-shadow:     0 12px 30px rgba(0,0,0,0.35);
 }
-.toast.visible { display: block; }
+.toast.visible { display: flex; }
+
+.toast-message {
+  display: inline-block;
+}
+
+.toast-action {
+  background: transparent;
+  color: var(--blue-glow);
+  border: 1px solid rgba(96,165,250,0.45);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toast-action:hover {
+  background: rgba(59,130,246,0.12);
+}
 
 /* ── BUTTONS ── */
 .btn-primary {
@@ -832,6 +861,43 @@ body {
 
 /* ── SHOP ── */
 .shop-section { padding: 60px 40px 100px; }
+
+.cart-prompt {
+  position:        fixed;
+  right:           24px;
+  bottom:          24px;
+  z-index:         280;
+  display:         flex;
+  align-items:     center;
+  gap:             18px;
+  min-width:       320px;
+  max-width:       calc(100vw - 32px);
+  padding:         16px 18px;
+  background:      rgba(10, 10, 15, 0.94);
+  border:          1px solid rgba(96,165,250,0.35);
+  border-radius:   14px;
+  box-shadow:      0 20px 40px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+}
+.cart-prompt[hidden] { display: none !important; }
+.cart-prompt-copy { min-width: 0; }
+.cart-prompt-label {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.cart-prompt-summary {
+  margin-top: 3px;
+  font-size: 13px;
+  color: #a9bddc;
+}
+.cart-prompt-btn {
+  flex-shrink: 0;
+  padding: 12px 18px;
+}
 
 .shop-header {
   display:         flex;
@@ -1607,6 +1673,9 @@ footer {
   .nav { padding: 8px 20px; min-height: 84px; }
   .nav-links { display: none; }
   .nav-hamburger { display: block; }
+  .nav-btn-outline { display: none; }
+  .nav-cart { padding: 10px 14px; }
+  .nav-cart-text { display: none; }
   .logo-img { height: 64px; }
   .hero { padding: 60px 20px; }
   .hero-bg-video { object-position: 60% center !important; width: 122%; max-width: none; left: -11%; transform: none; }
@@ -1619,6 +1688,15 @@ footer {
   .policy-grid { grid-template-columns: 1fr; }
   .shop-controls { width: 100%; }
   .shop-search { width: 100%; min-width: 0; }
+  .cart-prompt {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    min-width: 0;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .cart-prompt-btn { padding: 12px 14px; }
   .repair-cta { padding: 36px 28px; flex-direction: column; }
   .footer-inner { flex-direction: column; }
   .footer-brand .logo-img { height: 96px; }

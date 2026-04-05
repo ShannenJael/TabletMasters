@@ -1,9 +1,8 @@
-/* ── TABLET MASTERS — main.js ── */
+/* Tablet Masters - main.js */
 
-// ── CART (localStorage) ──────────────────────────────────────────
 function getCart() {
   try { return JSON.parse(localStorage.getItem('tm_cart') || '[]'); }
-  catch(e) { return []; }
+  catch (e) { return []; }
 }
 
 function saveCart(cart) {
@@ -12,50 +11,82 @@ function saveCart(cart) {
 
 function addToCart(product) {
   var cart = getCart();
-  var existing = cart.find(function(i){ return i.id === product.id; });
+  var existing = cart.find(function(item) { return item.id === product.id; });
+
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ id: product.id, name: product.name, brand: product.brand, price: product.price, emoji: product.emoji, qty: 1 });
+    cart.push({
+      id: product.id,
+      name: product.name,
+      brand: product.brand,
+      price: product.price,
+      emoji: product.emoji,
+      qty: 1
+    });
   }
+
   saveCart(cart);
   updateCartBadge();
   renderCartItems();
-  showToast('✓ ' + product.name + ' added to cart');
+  showToast(product.name + ' added to cart.', 'View Cart', openCart);
+
+  if (!sessionStorage.getItem('tm_cart_guided_opened')) {
+    sessionStorage.setItem('tm_cart_guided_opened', '1');
+    openCart();
+  }
 }
 
 function adjustQty(id, delta) {
   var cart = getCart();
-  cart = cart.map(function(i){
-    if (i.id === id) return Object.assign({}, i, { qty: i.qty + delta });
-    return i;
-  }).filter(function(i){ return i.qty > 0; });
+  cart = cart.map(function(item) {
+    if (item.id === id) return Object.assign({}, item, { qty: item.qty + delta });
+    return item;
+  }).filter(function(item) {
+    return item.qty > 0;
+  });
+
   saveCart(cart);
   updateCartBadge();
   renderCartItems();
 }
 
 function removeItem(id) {
-  var cart = getCart().filter(function(i){ return i.id !== id; });
+  var cart = getCart().filter(function(item) { return item.id !== id; });
   saveCart(cart);
   updateCartBadge();
   renderCartItems();
 }
 
 function updateCartBadge() {
-  var cart  = getCart();
-  var count = cart.reduce(function(s, i){ return s + i.qty; }, 0);
+  var cart = getCart();
+  var count = cart.reduce(function(sum, item) { return sum + item.qty; }, 0);
+  var total = cart.reduce(function(sum, item) { return sum + item.price * item.qty; }, 0);
+
   var badge = document.getElementById('cart-badge');
   if (badge) badge.textContent = count;
+
+  var buttonLabel = document.getElementById('cart-button-label');
+  if (buttonLabel) buttonLabel.textContent = 'View Cart (' + count + ')';
+
+  var prompt = document.getElementById('cart-prompt');
+  if (prompt) prompt.hidden = count === 0;
+
+  var promptSummary = document.getElementById('cart-prompt-summary');
+  if (promptSummary) {
+    promptSummary.textContent = count === 1
+      ? '1 item | ' + fmtPrice(total)
+      : count + ' items | ' + fmtPrice(total);
+  }
 }
 
-function fmtPrice(p) {
-  return '$' + parseFloat(p).toFixed(2);
+function fmtPrice(price) {
+  return '$' + parseFloat(price).toFixed(2);
 }
 
 function renderCartItems() {
   var container = document.getElementById('cart-items');
-  var footer    = document.getElementById('cart-footer');
+  var footer = document.getElementById('cart-footer');
   if (!container) return;
 
   var cart = getCart();
@@ -63,10 +94,14 @@ function renderCartItems() {
   if (cart.length === 0) {
     container.innerHTML =
       '<div class="cart-empty">' +
-        '<div class="cart-empty-icon">🛒</div>' +
+        '<div class="cart-empty-icon">Cart</div>' +
         '<div>Your cart is empty</div>' +
       '</div>';
+
     if (footer) footer.style.display = 'none';
+
+    var emptyUpsell = document.getElementById('cart-upsell');
+    if (emptyUpsell) emptyUpsell.style.display = 'none';
     return;
   }
 
@@ -79,42 +114,43 @@ function renderCartItems() {
           '<div class="cart-item-name">' + escHtml(item.name) + '</div>' +
           '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
           '<div class="cart-item-qty">' +
-            '<button class="qty-btn" onclick="adjustQty(' + item.id + ', -1)">−</button>' +
+            '<button class="qty-btn" onclick="adjustQty(' + item.id + ', -1)">-</button>' +
             '<span class="qty-num">' + item.qty + '</span>' +
             '<button class="qty-btn" onclick="adjustQty(' + item.id + ', 1)">+</button>' +
           '</div>' +
         '</div>' +
-        '<button class="cart-remove" onclick="removeItem(' + item.id + ')">✕</button>' +
+        '<button class="cart-remove" onclick="removeItem(' + item.id + ')">x</button>' +
       '</div>';
   });
   container.innerHTML = html;
 
   if (footer) {
-    var total = cart.reduce(function(s, i){ return s + i.price * i.qty; }, 0);
+    var total = cart.reduce(function(sum, item) { return sum + item.price * item.qty; }, 0);
     footer.style.display = '';
     var totalEl = document.getElementById('cart-total');
-    if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
+    if (totalEl) totalEl.textContent = fmtPrice(total);
   }
 
   var upsell = document.getElementById('cart-upsell');
-  if (upsell) upsell.style.display = cart.length > 0 ? '' : 'none';
+  if (upsell) upsell.style.display = '';
 }
 
 function escHtml(str) {
-  var d = document.createElement('div');
-  d.appendChild(document.createTextNode(str));
-  return d.innerHTML;
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
 }
 
-// ── STRIPE CHECKOUT ──────────────────────────────────────────────
 function stripeCheckout() {
   var cart = getCart();
   if (cart.length === 0) return;
 
   var btn = document.getElementById('checkout-btn');
-  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting...'; }
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Redirecting...';
+  }
 
-  // Submit as a standard form POST to avoid ModSecurity JSON blocking
   var form = document.createElement('form');
   form.method = 'POST';
   form.action = '/checkout.php';
@@ -123,10 +159,11 @@ function stripeCheckout() {
   var input = document.createElement('input');
   input.type = 'hidden';
   input.name = 'cart';
-  input.value = JSON.stringify(cart.map(function(i){ return { id: i.id, qty: i.qty }; }));
+  input.value = JSON.stringify(cart.map(function(item) {
+    return { id: item.id, qty: item.qty };
+  }));
   form.appendChild(input);
 
-  // Include selected insurance plan
   var planInput = document.createElement('input');
   planInput.type = 'hidden';
   planInput.name = 'insurance_plan';
@@ -138,7 +175,6 @@ function stripeCheckout() {
   form.submit();
 }
 
-// ── CART DRAWER ──────────────────────────────────────────────────
 function openCart() {
   renderCartItems();
   document.getElementById('cart-drawer').classList.add('open');
@@ -152,27 +188,43 @@ function closeCart() {
   document.body.style.overflow = '';
 }
 
-// ── TOAST ────────────────────────────────────────────────────────
 var toastTimer = null;
-function showToast(msg) {
+function showToast(message, actionLabel, actionHandler) {
   var toast = document.getElementById('toast');
   if (!toast) return;
-  toast.textContent = msg;
+
+  toast.innerHTML = '';
+
+  var text = document.createElement('span');
+  text.className = 'toast-message';
+  text.textContent = message;
+  toast.appendChild(text);
+
+  if (actionLabel && typeof actionHandler === 'function') {
+    var action = document.createElement('button');
+    action.type = 'button';
+    action.className = 'toast-action';
+    action.textContent = actionLabel;
+    action.addEventListener('click', function() {
+      actionHandler();
+      toast.classList.remove('visible');
+    });
+    toast.appendChild(action);
+  }
+
   toast.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){
+  toastTimer = setTimeout(function() {
     toast.classList.remove('visible');
   }, 2800);
 }
 
-// ── BRAND FILTER (shop page) ─────────────────────────────────────
 function filterBrand(brand) {
   if (typeof window.TM_ACTIVE_BRAND !== 'undefined') {
     window.TM_ACTIVE_BRAND = brand;
   }
 
-  // Update active tab
-  document.querySelectorAll('.brand-tab').forEach(function(btn){
+  document.querySelectorAll('.brand-tab').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.brand === brand);
   });
 
@@ -181,8 +233,7 @@ function filterBrand(brand) {
     return;
   }
 
-  // Fallback for pages that only use brand filtering
-  document.querySelectorAll('.product-card[data-brand]').forEach(function(card){
+  document.querySelectorAll('.product-card[data-brand]').forEach(function(card) {
     var show = brand === 'All' || card.dataset.brand === brand;
     card.style.display = show ? '' : 'none';
   });
@@ -193,21 +244,20 @@ function getInitialShopBrand() {
   var brand = params.get('brand');
   if (!brand) return 'All';
 
-  var isValid = Array.from(document.querySelectorAll('.brand-tab')).some(function(btn){
+  var isValid = Array.from(document.querySelectorAll('.brand-tab')).some(function(btn) {
     return btn.dataset.brand === brand;
   });
 
   return isValid ? brand : 'All';
 }
 
-// ── VIDEO PLAY/PAUSE ──────────────────────────────────────────────
 function initVideo() {
-  var video   = document.getElementById('hero-video');
+  var video = document.getElementById('hero-video');
   var playBtn = document.getElementById('video-play-btn');
   if (!video || !playBtn) return;
 
   function updateBtn() {
-    playBtn.textContent = video.paused ? '▶' : '⏸';
+    playBtn.textContent = video.paused ? 'Play' : 'Pause';
     if (!video.paused) {
       playBtn.classList.add('hidden');
     }
@@ -215,56 +265,53 @@ function initVideo() {
 
   var wrapper = video.closest('.video-wrapper');
   if (wrapper) {
-    wrapper.addEventListener('mouseenter', function(){
+    wrapper.addEventListener('mouseenter', function() {
       playBtn.classList.remove('hidden');
     });
-    wrapper.addEventListener('mouseleave', function(){
+    wrapper.addEventListener('mouseleave', function() {
       if (!video.paused) playBtn.classList.add('hidden');
     });
   }
 
-  playBtn.addEventListener('click', function(){
-    if (video.paused) { video.play(); }
-    else              { video.pause(); }
+  playBtn.addEventListener('click', function() {
+    if (video.paused) video.play();
+    else video.pause();
   });
 
-  video.addEventListener('play',  updateBtn);
+  video.addEventListener('play', updateBtn);
   video.addEventListener('pause', updateBtn);
-  video.addEventListener('ended', function(){ playBtn.classList.remove('hidden'); playBtn.textContent = '▶'; });
+  video.addEventListener('ended', function() {
+    playBtn.classList.remove('hidden');
+    playBtn.textContent = 'Play';
+  });
 }
 
-// ── MOBILE NAV ───────────────────────────────────────────────────
 function toggleMobileNav() {
   var nav = document.getElementById('mobile-nav');
   if (nav) nav.classList.toggle('open');
 }
 
-// ── REPAIR FORM (insurance page) ─────────────────────────────────
 function initRepairForm() {
   var form = document.getElementById('repair-form');
   if (!form) return;
 
-  // Smooth scroll to form when "Book a Repair" is clicked
   var bookBtn = document.getElementById('book-btn');
   if (bookBtn) {
-    bookBtn.addEventListener('click', function(e){
+    bookBtn.addEventListener('click', function(e) {
       e.preventDefault();
       document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
     });
   }
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function() {
   updateCartBadge();
   initVideo();
   initRepairForm();
 
-  // Close cart on overlay click
   var overlay = document.getElementById('cart-overlay');
   if (overlay) overlay.addEventListener('click', closeCart);
 
-  // Default brand filter to the requested URL brand when present
   if (document.querySelector('.brand-tab')) {
     filterBrand(getInitialShopBrand());
   }

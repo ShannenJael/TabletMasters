@@ -213,6 +213,14 @@ function conditionClass($condition) {
   <div class="shop-empty-state" id="shop-empty-state" hidden>No products match your search.</div>
 </div>
 
+<div class="cart-prompt" id="cart-prompt" hidden>
+  <div class="cart-prompt-copy">
+    <div class="cart-prompt-label">Your Cart Is Ready</div>
+    <div class="cart-prompt-summary" id="cart-prompt-summary">0 items in cart</div>
+  </div>
+  <button class="btn-primary cart-prompt-btn" type="button" onclick="openCart()">View Cart</button>
+</div>
+
 <!-- Quick View Modal -->
 <div class="modal-overlay" id="qv-overlay" onclick="if(event.target===this)closeQuickView()">
   <div class="quick-view-modal" id="qv-modal">

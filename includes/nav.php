@@ -56,8 +56,10 @@ $nav = [
 
   <div class="nav-right">
     <a class="nav-btn-outline" href="shop.php">Shop Tablets</a>
-    <button class="nav-cart" onclick="openCart()">
-      <i class="fas fa-shopping-cart"></i> <span class="cart-badge" id="cart-badge">0</span>
+    <button class="nav-cart" onclick="openCart()" aria-label="View cart">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="nav-cart-text" id="cart-button-label">View Cart (0)</span>
+      <span class="cart-badge" id="cart-badge">0</span>
     </button>
     <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <i class="fas fa-bars"></i>
