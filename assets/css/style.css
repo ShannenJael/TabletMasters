@@ -202,6 +202,7 @@ body {
   display:        inline-flex;
   align-items:    center;
   justify-content:center;
+  height:         45px;
   background:     transparent;
   color:          var(--blue);
   border:         2px solid var(--blue);
