@@ -27,8 +27,8 @@ $plans = [
     'featured' => false,
     'plan_key' => 'basic',
     'features' => ['Screen &amp; battery coverage','Accidental damage included','Email support','Basic cloud setup'],
-    'cta'      => 'Get Basic',
-    'cta_href' => null,
+    'cta'      => 'Register for Basic',
+    'cta_href' => 'register.php?source=external&plan=basic',
   ],
   [
     'name'     => 'PROTECTED',
@@ -37,8 +37,8 @@ $plans = [
     'featured' => true,
     'plan_key' => 'protected',
     'features' => ['Everything in Basic','Lifetime replacement (1&times;)','Priority phone support','Full cloud configuration','Annual device checkup'],
-    'cta'      => 'Choose Protected',
-    'cta_href' => null,
+    'cta'      => 'Register for Protected',
+    'cta_href' => 'register.php?source=external&plan=protected',
   ],
   [
     'name'     => 'ENTERPRISE',
@@ -57,6 +57,10 @@ $plans = [
   <div class="plans-header">
     <div class="section-label">// Choose Your Coverage</div>
     <div class="section-title">PLANS &amp; PRICING</div>
+    <p class="policy-intro" style="max-width:680px;margin:18px auto 0;">
+      Every protection plan must be linked to a specific tablet before activation. Choose a plan below, then complete
+      device registration on the next page.
+    </p>
   </div>
 
   <div class="plans-grid">
@@ -77,16 +81,9 @@ $plans = [
         <?php endforeach; ?>
       </ul>
 
-      <?php if ($plan['plan_key']): ?>
-      <form method="POST" action="/subscribe.php" class="plan-form">
-        <input type="hidden" name="plan" value="<?= htmlspecialchars($plan['plan_key']) ?>">
-        <button type="submit"
-          class="<?= $plan['featured'] ? 'btn-primary full' : 'btn-outline full' ?> plan-cta-btn"
-        ><?= htmlspecialchars($plan['cta']) ?></button>
-      </form>
-      <?php else: ?>
+      <?php if ($plan['cta_href']): ?>
       <a
-        class="<?= $plan['featured'] ? 'btn-primary full' : 'btn-outline full' ?>"
+        class="<?= $plan['featured'] ? 'btn-primary full' : 'btn-outline full' ?><?= $plan['plan_key'] ? ' plan-cta-link' : '' ?>"
         href="<?= htmlspecialchars($plan['cta_href']) ?>"
       ><?= htmlspecialchars($plan['cta']) ?></a>
       <?php endif; ?>
@@ -100,25 +97,6 @@ $plans = [
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/sw.js");
 }
-
-document.querySelectorAll('.plan-form').forEach(function(form) {
-  form.addEventListener('submit', function() {
-    var btn = form.querySelector('.plan-cta-btn');
-    var originalText = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Setting up your plan\u2026';
-
-    var toast = document.createElement('div');
-    toast.textContent = '\u2713 ' + originalText + ' selected \u2014 redirecting to checkout\u2026';
-    toast.style.cssText = [
-      'position:fixed','bottom:24px','left:50%','transform:translateX(-50%)',
-      'background:#1d4ed8','color:#fff','padding:14px 24px','border-radius:8px',
-      'font-weight:600','font-size:15px','z-index:9999',
-      'box-shadow:4px 4px 0 #1e3a8a','white-space:nowrap'
-    ].join(';');
-    document.body.appendChild(toast);
-  });
-});
 </script>
 </body>
 </html>

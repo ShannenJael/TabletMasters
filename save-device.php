@@ -13,6 +13,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 function clean($v) { return trim(strip_tags($v ?? '')); }
+function buildRegisterRedirect(array $params = []): string {
+    $base = [
+        'email' => clean($_POST['email'] ?? ''),
+        'order' => clean($_POST['order_id'] ?? ''),
+        'model' => clean($_POST['model'] ?? ''),
+        'plan'  => clean($_POST['plan'] ?? 'none'),
+        'source'=> clean($_POST['purchase_source'] ?? 'tablet-masters'),
+    ];
+
+    $query = array_merge($base, $params);
+    $query = array_filter($query, static function ($value) {
+        return $value !== '' && $value !== null;
+    });
+
+    return '/register.php' . ($query ? '?' . http_build_query($query) : '');
+}
 
 $name          = clean($_POST['name']          ?? '');
 $email         = filter_var(clean($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
@@ -29,7 +45,7 @@ $order_id      = clean($_POST['order_id']      ?? '');
 
 // Validate required fields
 if (!$name || !$email || !$brand || !$model || !$serial) {
-    header('Location: /register.php?error=1');
+    header('Location: ' . buildRegisterRedirect(['error' => 1]));
     exit;
 }
 
@@ -59,7 +75,7 @@ try {
     $dup = $db->prepare("SELECT id FROM devices WHERE serial_number = ?");
     $dup->execute([$serial]);
     if ($dup->fetch()) {
-        header('Location: /register.php?duplicate=1');
+        header('Location: ' . buildRegisterRedirect(['duplicate' => 1]));
         exit;
     }
 
@@ -106,10 +122,10 @@ try {
 
 } catch (Exception $e) {
     if (strpos($e->getMessage(), 'UNIQUE') !== false) {
-        header('Location: /register.php?duplicate=1');
+        header('Location: ' . buildRegisterRedirect(['duplicate' => 1]));
     } else {
         error_log('save-device.php error: ' . $e->getMessage());
-        header('Location: /register.php?error=1');
+        header('Location: ' . buildRegisterRedirect(['error' => 1]));
     }
     exit;
 }

@@ -22,6 +22,13 @@
 $success   = isset($_GET['success']);
 $duplicate = isset($_GET['duplicate']);
 $error     = isset($_GET['error']);
+$allowedPlans = ['none', 'basic', 'protected'];
+$requestedPlan = $_GET['plan'] ?? 'none';
+$selectedPlan = in_array($requestedPlan, $allowedPlans, true) ? $requestedPlan : 'none';
+$requestedSource = $_GET['source'] ?? '';
+$selectedSource = in_array($requestedSource, ['tablet-masters', 'external'], true)
+  ? $requestedSource
+  : ($selectedPlan !== 'none' ? 'external' : 'tablet-masters');
 $prefill   = [
   'email' => htmlspecialchars($_GET['email'] ?? ''),
   'order' => htmlspecialchars($_GET['order'] ?? ''),
@@ -38,6 +45,13 @@ $prefill   = [
         Link your device to Tablet Masters coverage in a few minutes. Whether you bought from us or from another retailer,
         the experience should feel straightforward, trustworthy, and easy to complete.
       </p>
+
+      <?php if ($selectedPlan !== 'none'): ?>
+      <div class="reg-plan-banner">
+        <strong><?= htmlspecialchars(ucfirst($selectedPlan)) ?> selected.</strong>
+        Complete registration to link this plan to your tablet before activation.
+      </div>
+      <?php endif; ?>
 
       <div class="reg-hero-points">
         <div class="reg-hero-point">
@@ -169,7 +183,7 @@ $prefill   = [
 
           <div class="reg-option-grid">
             <label class="reg-choice-card">
-              <input type="radio" name="purchase_source" value="tablet-masters" checked />
+              <input type="radio" name="purchase_source" value="tablet-masters" <?= $selectedSource === 'tablet-masters' ? 'checked' : '' ?> />
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Tablet Masters</strong>
@@ -177,7 +191,7 @@ $prefill   = [
               </span>
             </label>
             <label class="reg-choice-card">
-              <input type="radio" name="purchase_source" value="external" />
+              <input type="radio" name="purchase_source" value="external" <?= $selectedSource === 'external' ? 'checked' : '' ?> />
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Another store</strong>
@@ -187,7 +201,7 @@ $prefill   = [
           </div>
         </div>
 
-        <div class="reg-group" id="reg-plan-group" hidden>
+        <div class="reg-group" id="reg-plan-group" <?= $selectedSource === 'external' ? '' : 'hidden' ?>>
           <div class="reg-group-header">
             <div class="reg-group-label">
               <span class="reg-step">04</span>
@@ -204,7 +218,7 @@ $prefill   = [
 
           <div class="reg-option-grid reg-plan-grid">
             <label class="reg-choice-card reg-plan-card">
-              <input type="radio" name="plan" value="none" checked />
+              <input type="radio" name="plan" value="none" <?= $selectedPlan === 'none' ? 'checked' : '' ?> />
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>No plan yet</strong>
@@ -212,7 +226,7 @@ $prefill   = [
               </span>
             </label>
             <label class="reg-choice-card reg-plan-card">
-              <input type="radio" name="plan" value="basic" />
+              <input type="radio" name="plan" value="basic" <?= $selectedPlan === 'basic' ? 'checked' : '' ?> />
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Basic</strong>
@@ -220,7 +234,7 @@ $prefill   = [
               </span>
             </label>
             <label class="reg-choice-card reg-plan-card reg-plan-card-featured">
-              <input type="radio" name="plan" value="protected" />
+              <input type="radio" name="plan" value="protected" <?= $selectedPlan === 'protected' ? 'checked' : '' ?> />
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Protected <em>Popular</em></strong>
@@ -233,7 +247,7 @@ $prefill   = [
         <input type="hidden" name="order_id" value="<?= $prefill['order'] ?>" />
 
         <div class="reg-submit-card">
-          <button type="submit" class="btn-primary full">Register My Device</button>
+          <button type="submit" class="btn-primary full"><?= $selectedPlan !== 'none' ? 'Register Tablet and Continue' : 'Register My Device' ?></button>
           <p class="reg-submit-note">
             Your device will be linked by serial number and your confirmation email will include coverage details and next steps.
           </p>
