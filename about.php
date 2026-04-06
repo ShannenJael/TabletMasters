@@ -21,7 +21,7 @@
 <?php
 $features = [
   ['Lifetime Insurance',    'one free replacement, no questions asked'],
-  ['Cloud Solutions',       'setup, sync, and management included'],
+  ['Cloud Solutions',       'Clouddogg is our development company', 'https://clouddogg.com'],
   ['Education Specialists', 'bulk pricing and MDM support'],
   ['Business Conferences',  'tablet fleet rental and configuration'],
   ['Certified Service',     'authorized repair for Apple, Samsung, and more'],
@@ -56,10 +56,16 @@ $features = [
       </p>
 
       <ul class="feature-list">
-        <?php foreach ($features as [$title, $desc]): ?>
+        <?php foreach ($features as $feature): ?>
+        <?php [$title, $desc] = $feature; ?>
         <li>
           <span class="feature-arrow">&#9658;</span>
-          <span><strong><?= htmlspecialchars($title) ?></strong> &mdash; <?= htmlspecialchars($desc) ?></span>
+          <span>
+            <strong><?= htmlspecialchars($title) ?></strong> &mdash; <?= htmlspecialchars($desc) ?>
+            <?php if (isset($feature[2])): ?>
+              <a href="<?= htmlspecialchars($feature[2]) ?>" target="_blank" rel="noreferrer">Clouddogg.com</a>
+            <?php endif; ?>
+          </span>
         </li>
         <?php endforeach; ?>
       </ul>
