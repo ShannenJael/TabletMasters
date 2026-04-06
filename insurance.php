@@ -165,14 +165,60 @@ $error   = isset($_GET['err'])  && $_GET['err']  === '1';
             <option>Fire Max 11</option>
             <option>Fire 7</option>
           </optgroup>
-          <option>Other</option>
+          <option value="Other">Other</option>
         </select>
-        <select class="repair-input" name="type" required>
-          <option value="" disabled selected>Select repair type</option>
-          <?php foreach ($repairTypes as $t): ?>
-          <option value="<?= htmlspecialchars($t) ?>"><?= htmlspecialchars($t) ?></option>
-          <?php endforeach; ?>
-        </select>
+        <input class="repair-input" type="text" name="device_other" id="device-other-input"
+               placeholder="Please describe your device (brand &amp; model)"
+               style="display:none" />
+
+        <!-- Damage type cards (multi-select) -->
+        <input type="hidden" name="type" id="repair-type-hidden" />
+        <div class="damage-type-label">
+          What needs fixing? <span style="color:#f87171">*</span>
+          <small style="font-weight:400;color:#666">&nbsp;Select all that apply</small>
+        </div>
+        <div class="damage-cards" id="damage-cards">
+          <button type="button" class="damage-card" data-value="Screen Repair">
+            <span class="damage-icon">📱</span><span class="damage-name">Screen Repair</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Battery Replacement">
+            <span class="damage-icon">🔋</span><span class="damage-name">Battery</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Charging Port">
+            <span class="damage-icon">🔌</span><span class="damage-name">Charging Port</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Water Damage">
+            <span class="damage-icon">💧</span><span class="damage-name">Water Damage</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Camera Repair">
+            <span class="damage-icon">📷</span><span class="damage-name">Camera</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Speaker / Mic">
+            <span class="damage-icon">🔊</span><span class="damage-name">Speaker / Mic</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Won't Turn On">
+            <span class="damage-icon">⚡</span><span class="damage-name">Won't Turn On</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Data Recovery">
+            <span class="damage-icon">💾</span><span class="damage-name">Data Recovery</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Insurance Claim">
+            <span class="damage-icon">🛡️</span><span class="damage-name">Insurance Claim</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Full Diagnostic">
+            <span class="damage-icon">⚙️</span><span class="damage-name">Full Diagnostic</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Software Issue">
+            <span class="damage-icon">🖥️</span><span class="damage-name">Software Issue</span>
+          </button>
+          <button type="button" class="damage-card" data-value="Other">
+            <span class="damage-icon">🔧</span><span class="damage-name">Other</span>
+          </button>
+        </div>
+        <div class="damage-selection-hint" id="damage-hint" style="display:none">
+          &#10003; <span id="damage-selected-label"></span>
+        </div>
+
         <textarea class="repair-input" name="notes" placeholder="Describe the issue (optional)" rows="3" style="resize:vertical"></textarea>
         <select class="repair-input" name="preferred_contact">
           <option value="email">Preferred contact: Email</option>
@@ -189,11 +235,68 @@ $error   = isset($_GET['err'])  && $_GET['err']  === '1';
 <?php include 'includes/footer.php'; ?>
 
 <script>
-// Smooth scroll for "Book a Repair" anchor link
 document.getElementById('book-btn').addEventListener('click', function(e){
   e.preventDefault();
   document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
 });
+
+// Device "Other" reveal
+(function() {
+  var sel = document.querySelector('select[name="device"]');
+  var inp = document.getElementById('device-other-input');
+  if (!sel || !inp) return;
+  sel.addEventListener('change', function() {
+    var isOther = this.value === 'Other';
+    inp.style.display = isOther ? '' : 'none';
+    inp.required = isOther;
+  });
+})();
+
+// Damage type multi-select cards
+(function() {
+  var cards     = document.querySelectorAll('.damage-card');
+  var hidden    = document.getElementById('repair-type-hidden');
+  var hint      = document.getElementById('damage-hint');
+  var hintLabel = document.getElementById('damage-selected-label');
+
+  function updateHint() {
+    var selected = [];
+    cards.forEach(function(c) {
+      if (c.classList.contains('selected')) selected.push(c.getAttribute('data-value'));
+    });
+    hidden.value = selected.join(', ');
+    if (selected.length > 0) {
+      if (hint) hint.style.display = '';
+      if (hintLabel) hintLabel.textContent = selected.length === 1
+        ? selected[0] + ' selected'
+        : selected.length + ' issues selected';
+    } else {
+      if (hint) hint.style.display = 'none';
+    }
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      card.classList.toggle('selected');
+      updateHint();
+    });
+  });
+
+  // Validate at least one card chosen before submit
+  var form = document.getElementById('repair-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (!hidden.value) {
+        e.preventDefault();
+        var grid = document.getElementById('damage-cards');
+        grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        grid.style.outline = '2px solid #f87171';
+        grid.style.borderRadius = '12px';
+        setTimeout(function() { grid.style.outline = ''; }, 2000);
+      }
+    });
+  }
+})();
 </script>
 <script>
 if ("serviceWorker" in navigator) {
