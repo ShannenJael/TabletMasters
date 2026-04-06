@@ -128,6 +128,80 @@ $prefill   = [
             <div class="reg-group-label">
               <span class="reg-step">02</span>
               <div>
+                <h3>Purchase Source</h3>
+                <p>This decides whether coverage is already tied to an existing order or needs a plan selected now.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-option-grid">
+            <label class="reg-choice-card">
+              <input type="radio" name="purchase_source" value="tablet-masters" <?= $selectedSource === 'tablet-masters' ? 'checked' : '' ?> />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Tablet Masters</strong>
+                <span>Purchased on tablet-masters.com or attached to an existing order.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card">
+              <input type="radio" name="purchase_source" value="external" <?= $selectedSource === 'external' ? 'checked' : '' ?> />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Another store</strong>
+                <span>Amazon, Best Buy, a carrier store, or any outside retailer.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="reg-group" id="reg-plan-group" <?= $selectedSource === 'external' ? '' : 'hidden' ?>>
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">03</span>
+              <div>
+                <h3>Protection Plan</h3>
+                <p>External purchases need an active plan to start protection immediately.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reg-plan-intro">
+            Register now and add coverage later, or choose a protection tier before you finish.
+          </div>
+
+          <div class="reg-option-grid reg-plan-grid">
+            <label class="reg-choice-card reg-plan-card">
+              <input type="radio" name="plan" value="none" <?= $selectedPlan === 'none' ? 'checked' : '' ?> />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>No plan yet</strong>
+                <span>Register the device first and add protection later.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card reg-plan-card">
+              <input type="radio" name="plan" value="basic" <?= $selectedPlan === 'basic' ? 'checked' : '' ?> />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Basic</strong>
+                <span>Screen, battery, and accidental damage for $8/month.</span>
+              </span>
+            </label>
+            <label class="reg-choice-card reg-plan-card reg-plan-card-featured">
+              <input type="radio" name="plan" value="protected" <?= $selectedPlan === 'protected' ? 'checked' : '' ?> />
+              <span class="reg-choice-indicator" aria-hidden="true"></span>
+              <span class="reg-choice-copy">
+                <strong>Protected <em>Popular</em></strong>
+                <span>Everything in Basic plus lifetime replacement for $12/month.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="reg-group">
+          <div class="reg-group-header">
+            <div class="reg-group-label">
+              <span class="reg-step">04</span>
+              <div>
                 <h3>Device Details</h3>
                 <p>Tell us exactly which tablet is being linked to coverage.</p>
               </div>
@@ -167,80 +241,6 @@ $prefill   = [
           <div class="reg-inline-tip">
             <span class="reg-inline-tip-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
             <p><strong>Where to find it:</strong> Android: Settings &rarr; About device &rarr; Serial number. iPadOS: Settings &rarr; General &rarr; About.</p>
-          </div>
-        </div>
-
-        <div class="reg-group">
-          <div class="reg-group-header">
-            <div class="reg-group-label">
-              <span class="reg-step">03</span>
-              <div>
-                <h3>Purchase Source</h3>
-                <p>This decides whether coverage is already tied to an existing order or needs a plan selected now.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="reg-option-grid">
-            <label class="reg-choice-card">
-              <input type="radio" name="purchase_source" value="tablet-masters" <?= $selectedSource === 'tablet-masters' ? 'checked' : '' ?> />
-              <span class="reg-choice-indicator" aria-hidden="true"></span>
-              <span class="reg-choice-copy">
-                <strong>Tablet Masters</strong>
-                <span>Purchased on tablet-masters.com or attached to an existing order.</span>
-              </span>
-            </label>
-            <label class="reg-choice-card">
-              <input type="radio" name="purchase_source" value="external" <?= $selectedSource === 'external' ? 'checked' : '' ?> />
-              <span class="reg-choice-indicator" aria-hidden="true"></span>
-              <span class="reg-choice-copy">
-                <strong>Another store</strong>
-                <span>Amazon, Best Buy, a carrier store, or any outside retailer.</span>
-              </span>
-            </label>
-          </div>
-        </div>
-
-        <div class="reg-group" id="reg-plan-group" <?= $selectedSource === 'external' ? '' : 'hidden' ?>>
-          <div class="reg-group-header">
-            <div class="reg-group-label">
-              <span class="reg-step">04</span>
-              <div>
-                <h3>Protection Plan</h3>
-                <p>External purchases need an active plan to start protection immediately.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="reg-plan-intro">
-            Register now and add coverage later, or choose a protection tier before you finish.
-          </div>
-
-          <div class="reg-option-grid reg-plan-grid">
-            <label class="reg-choice-card reg-plan-card">
-              <input type="radio" name="plan" value="none" <?= $selectedPlan === 'none' ? 'checked' : '' ?> />
-              <span class="reg-choice-indicator" aria-hidden="true"></span>
-              <span class="reg-choice-copy">
-                <strong>No plan yet</strong>
-                <span>Register the device first and add protection later.</span>
-              </span>
-            </label>
-            <label class="reg-choice-card reg-plan-card">
-              <input type="radio" name="plan" value="basic" <?= $selectedPlan === 'basic' ? 'checked' : '' ?> />
-              <span class="reg-choice-indicator" aria-hidden="true"></span>
-              <span class="reg-choice-copy">
-                <strong>Basic</strong>
-                <span>Screen, battery, and accidental damage for $8/month.</span>
-              </span>
-            </label>
-            <label class="reg-choice-card reg-plan-card reg-plan-card-featured">
-              <input type="radio" name="plan" value="protected" <?= $selectedPlan === 'protected' ? 'checked' : '' ?> />
-              <span class="reg-choice-indicator" aria-hidden="true"></span>
-              <span class="reg-choice-copy">
-                <strong>Protected <em>Popular</em></strong>
-                <span>Everything in Basic plus lifetime replacement for $12/month.</span>
-              </span>
-            </label>
           </div>
         </div>
 
