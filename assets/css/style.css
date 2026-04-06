@@ -2226,8 +2226,8 @@ footer {
   justify-content: center;
   gap:             8px;
   padding:         18px 10px;
-  background:      rgba(255,255,255,0.03);
-  border:          2px solid var(--border);
+  background:      rgba(255,255,255,0.06);
+  border:          2px solid rgba(255,255,255,0.12);
   border-radius:   12px;
   cursor:          pointer;
   transition:      border-color 0.15s, background 0.15s, transform 0.1s;
@@ -2246,14 +2246,19 @@ footer {
 }
 
 .damage-icon {
-  font-size:   26px;
+  font-size:   30px;
   line-height: 1;
+  filter:      drop-shadow(0 0 4px rgba(255,255,255,0.15));
 }
 .damage-name {
   font-size:   12px;
   font-weight: 600;
-  color:       var(--text);
+  color:       #e0e0e0;
   line-height: 1.3;
+}
+.damage-card:hover .damage-name,
+.damage-card.selected .damage-name {
+  color: #fff;
 }
 
 .damage-selection-hint {
