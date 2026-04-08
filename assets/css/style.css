@@ -3300,3 +3300,277 @@ footer {
     gap: 8px;
   }
 }
+
+.tablet-games-hero,
+.tablet-games-page {
+  padding: 72px 40px 96px;
+}
+
+.tablet-games-hero {
+  background:
+    radial-gradient(circle at top right, rgba(59,130,246,0.18), transparent 36%),
+    linear-gradient(180deg, rgba(59,130,246,0.04) 0%, rgba(255,255,255,0.01) 100%);
+}
+
+.tablet-games-hero-inner,
+.tablet-games-grid,
+.tablet-games-mini-grid,
+.tablet-games-match-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.tablet-games-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 24px;
+}
+
+.tablet-games-hero-copy,
+.tablet-games-hero-panel,
+.tablet-game-card,
+.tablet-games-mini-card,
+.tablet-games-match-card,
+.tablet-games-source-card {
+  border: 1px solid rgba(59,130,246,0.18);
+  background: linear-gradient(160deg, rgba(59,130,246,0.06) 0%, var(--bg2) 72%);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+}
+
+.tablet-games-hero-copy,
+.tablet-games-hero-panel,
+.tablet-game-card,
+.tablet-games-mini-card,
+.tablet-games-match-card {
+  padding: 28px;
+}
+
+.tablet-games-title {
+  margin-bottom: 16px;
+  font-family: var(--display);
+  font-size: clamp(42px, 6vw, 74px);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.tablet-games-intro,
+.tablet-game-card p,
+.tablet-games-mini-card p,
+.tablet-games-match-card p,
+.tablet-games-source-note {
+  color: #d7e2f2;
+  line-height: 1.75;
+}
+
+.tablet-games-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tablet-games-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(59,130,246,0.25);
+  background: rgba(255,255,255,0.03);
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.tablet-games-chip.accent,
+.tablet-game-badge {
+  border-color: rgba(96,165,250,0.45);
+  background: rgba(59,130,246,0.16);
+  color: #fff;
+}
+
+.tablet-games-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.tablet-games-actions-tight {
+  margin-top: auto;
+}
+
+.tablet-games-panel-label,
+.tablet-game-badge,
+.tablet-games-mini-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.tablet-games-panel-label {
+  margin-bottom: 14px;
+  border: 1px solid rgba(59,130,246,0.22);
+  color: var(--blue-glow);
+}
+
+.tablet-games-hero-panel h2,
+.tablet-game-card h3,
+.tablet-games-mini-card h4,
+.tablet-games-match-card h4 {
+  margin: 12px 0 12px;
+  font-family: var(--display);
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.tablet-games-hero-panel h2 {
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.04;
+}
+
+.tablet-games-feature-list,
+.tablet-games-source-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.tablet-games-feature-list {
+  margin-top: 20px;
+}
+
+.tablet-games-feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #dbe7fb;
+}
+
+.tablet-games-page {
+  display: grid;
+  gap: 0;
+}
+
+.tablet-games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.tablet-game-card {
+  display: grid;
+  gap: 16px;
+}
+
+.tablet-game-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+}
+
+.tablet-game-card h3 {
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.tablet-game-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.tablet-game-meta strong,
+.tablet-games-match-games {
+  color: #fff;
+  font-family: var(--display);
+  letter-spacing: 1px;
+}
+
+.tablet-games-mini-grid,
+.tablet-games-match-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tablet-games-mini-title {
+  margin-bottom: 12px;
+  color: var(--blue-glow);
+  border: 1px solid rgba(59,130,246,0.2);
+}
+
+.tablet-games-mini-card h4,
+.tablet-games-match-card h4 {
+  font-size: 28px;
+  line-height: 1.08;
+}
+
+.tablet-games-match-games {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.tablet-games-cta {
+  max-width: 1280px;
+  margin: 72px auto 0;
+}
+
+.tablet-games-source-card {
+  padding: 24px;
+}
+
+.tablet-games-source-list a {
+  color: #dbeafe;
+  text-decoration: none;
+}
+
+.tablet-games-source-list a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@media (max-width: 1120px) {
+  .tablet-games-hero-inner,
+  .tablet-games-grid,
+  .tablet-games-mini-grid,
+  .tablet-games-match-grid,
+  .tablet-games-cta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .tablet-games-hero,
+  .tablet-games-page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .tablet-games-hero-copy,
+  .tablet-games-hero-panel,
+  .tablet-game-card,
+  .tablet-games-mini-card,
+  .tablet-games-match-card,
+  .tablet-games-source-card {
+    padding: 18px;
+  }
+
+  .tablet-game-card-top {
+    display: grid;
+  }
+
+  .tablet-game-card h3,
+  .tablet-games-mini-card h4,
+  .tablet-games-match-card h4 {
+    font-size: 24px;
+  }
+}

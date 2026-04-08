@@ -31,6 +31,7 @@ $requiredPaths = @(
     "schools.php",
     "success.php",
     "support.php",
+    "tablet-games.php",
     "terms.php",
     "webhook.php",
     "tablet-masters.code-workspace"
@@ -65,7 +66,7 @@ for dir in assets includes public; do
   fi
 done
 
-for file in .gitignore about.php business-conferences.php healthcare-hospitals.php index.php insurance.php plans.php privacy.php register.php send-conference-quote.php send-healthcare-quote.php send-school-quote.php send-repair.php shop.php schools.php success.php support.php terms.php webhook.php tablet-masters.code-workspace; do
+for file in .gitignore about.php business-conferences.php healthcare-hospitals.php index.php insurance.php plans.php privacy.php register.php send-conference-quote.php send-healthcare-quote.php send-school-quote.php send-repair.php shop.php schools.php success.php support.php tablet-games.php terms.php webhook.php tablet-masters.code-workspace; do
   if [ -f "$file" ]; then
     chmod 644 "$file"
   fi

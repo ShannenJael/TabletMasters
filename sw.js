@@ -1,4 +1,4 @@
-const CACHE = 'tm-v2';
+const CACHE = 'tm-v3';
 
 const PRECACHE = [
   '/',
@@ -7,6 +7,7 @@ const PRECACHE = [
   '/insurance.php',
   '/support.php',
   '/plans.php',
+  '/tablet-games.php',
   '/about.php',
   '/business-conferences.php',
   '/healthcare-hospitals.php',
