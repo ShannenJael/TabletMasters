@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Insurance &amp; Repair — Tablet Masters</title>
-  <meta name="description" content="Tablet Masters lifetime device protection and certified repair services. Screen repair, battery replacement, water damage, and more." />
+  <meta name="description" content="Tablet Masters protection plans and certified repair services. Screen repair, battery replacement, water damage, and more." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
@@ -38,11 +38,12 @@ $claimSteps = [
 ];
 
 $coverageItems = [
-  'One free replacement — any circumstance',
-  'Accidental damage included',
-  'No expiration date on coverage',
-  'Deductible only applies on 2nd claim',
-  'Same-brand replacement guaranteed',
+  'Basic plan starts at $8/month with a deductible based on damage type',
+  'Protected plan includes full replacement coverage for up to 4 years',
+  'No deductible on covered Protected replacement claims',
+  'Accidental damage support included',
+  'Same-brand replacement when available',
+  'Coverage remains active while plan payments stay current',
   '48-hour processing on approved claims',
 ];
 
@@ -64,9 +65,9 @@ $error   = isset($_GET['err'])  && $_GET['err']  === '1';
       <div class="section-label">// Protection &amp; Service</div>
       <div class="section-title">INSURANCE<br />&amp; REPAIR</div>
       <p>
-        Every Tablet Masters device comes with our signature lifetime protection &mdash; and when
-        your tablet needs hands-on care, our certified technicians have you covered. Fast
-        turnarounds, genuine parts, and transparent pricing on every repair.
+        Tablet Masters protection is built around practical repair and replacement support. Choose
+        the plan that fits your device, and when your tablet needs hands-on care, our certified
+        technicians have you covered. Fast turnarounds, genuine parts, and transparent pricing on every repair.
       </p>
       <div class="ins-actions">
         <a class="btn-primary" href="#book-form" id="book-btn">Book a Repair</a>
@@ -76,8 +77,8 @@ $error   = isset($_GET['err'])  && $_GET['err']  === '1';
 
     <div class="ins-coverage-card">
       <span class="ins-shield">🛡️</span>
-      <h3>LIFETIME COVERAGE</h3>
-      <p>Our guarantee that sets us apart from every other tablet retailer on the market.</p>
+      <h3>PLAN COVERAGE</h3>
+      <p>Clear protection terms for repairs, replacement support, and active-plan customers.</p>
       <ul class="coverage-checklist">
         <?php foreach ($coverageItems as $item): ?>
         <li>

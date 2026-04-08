@@ -21,7 +21,7 @@
 <?php
 $supportAreas = [
   ['icon' => '🛠️', 'title' => 'Repair Support',      'desc' => 'Screen, battery, charging, camera, speaker, and diagnostic help for the major tablet brands.', 'price' => 'Fast intake',      'gold' => false],
-  ['icon' => '🛡️', 'title' => 'Coverage Questions', 'desc' => 'Need help understanding lifetime protection, replacement eligibility, or deductible rules?',      'price' => 'Plan guidance',    'gold' => true],
+  ['icon' => '🛡️', 'title' => 'Coverage Questions', 'desc' => 'Need help understanding four-year replacement eligibility, deductibles, or active-plan status?',   'price' => 'Plan guidance',    'gold' => true],
   ['icon' => '📦', 'title' => 'Order Support',      'desc' => 'Questions about your order, fulfillment, shipping status, or device condition before delivery?',    'price' => 'Purchase help',    'gold' => false],
   ['icon' => '☁️', 'title' => 'Cloud Setup',        'desc' => 'Assistance with syncing, configuration, account setup, backups, and device onboarding.',          'price' => 'Setup assistance', 'gold' => false],
   ['icon' => '🏫', 'title' => 'Business & Education','desc' => 'Support for school fleets, conference deployments, enterprise rollouts, and managed tablet needs.', 'price' => 'Team support',     'gold' => true],
@@ -128,7 +128,7 @@ $supportFaq = [
         coverage, order, and setup questions. We will route you to the right next step.
       </p>
       <p>
-        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoff #18, PMB 376,
         Fort Walton Beach, FL 32548</strong>.
       </p>
     </div>

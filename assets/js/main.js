@@ -9,6 +9,74 @@ function saveCart(cart) {
   localStorage.setItem('tm_cart', JSON.stringify(cart));
 }
 
+var TM_INSURANCE_PLANS = {
+  none: { key: 'none', name: 'No thanks', monthly: 0 },
+  basic: { key: 'basic', name: 'Basic Protection', monthly: 8 },
+  protected: { key: 'protected', name: 'Protected', monthly: 12 }
+};
+
+function getCartSubtotal(cart) {
+  return (cart || getCart()).reduce(function(sum, item) {
+    return sum + item.price * item.qty;
+  }, 0);
+}
+
+function getSelectedInsurancePlan() {
+  var selectedPlan = document.querySelector('input[name="insurance_plan"]:checked');
+  var planKey = selectedPlan ? selectedPlan.value : 'none';
+  return TM_INSURANCE_PLANS[planKey] || TM_INSURANCE_PLANS.none;
+}
+
+function fmtMonthly(price) {
+  return fmtPrice(price) + '/mo';
+}
+
+function updateCartPricing(cart) {
+  var activeCart = cart || getCart();
+  var count = activeCart.reduce(function(sum, item) { return sum + item.qty; }, 0);
+  var subtotal = getCartSubtotal(activeCart);
+  var plan = getSelectedInsurancePlan();
+
+  var promptSummary = document.getElementById('cart-prompt-summary');
+  if (promptSummary) {
+    var summary = count === 1
+      ? '1 item | ' + fmtPrice(subtotal)
+      : count + ' items | ' + fmtPrice(subtotal);
+
+    if (plan.monthly > 0) {
+      summary += ' + ' + fmtMonthly(plan.monthly);
+    }
+
+    promptSummary.textContent = summary;
+  }
+
+  var totalEl = document.getElementById('cart-total');
+  if (totalEl) totalEl.textContent = fmtPrice(subtotal);
+
+  var planRow = document.getElementById('cart-plan-row');
+  var planLabel = document.getElementById('cart-plan-label');
+  var planPrice = document.getElementById('cart-plan-price');
+  if (planRow && planLabel && planPrice) {
+    var hasPlan = plan.monthly > 0 && activeCart.length > 0;
+    planRow.hidden = !hasPlan;
+
+    if (hasPlan) {
+      planLabel.textContent = plan.name;
+      planPrice.textContent = fmtMonthly(plan.monthly);
+    }
+  }
+
+  var totalNote = document.getElementById('cart-total-note');
+  if (totalNote) {
+    var showNote = plan.monthly > 0 && activeCart.length > 0;
+    totalNote.hidden = !showNote;
+
+    if (showNote) {
+      totalNote.innerHTML = 'Protection is added as a monthly plan at checkout. Please go to the <a href="register.php">registration page</a> to register your device.';
+    }
+  }
+}
+
 function addToCart(product) {
   var cart = getCart();
   var existing = cart.find(function(item) { return item.id === product.id; });
@@ -61,7 +129,6 @@ function removeItem(id) {
 function updateCartBadge() {
   var cart = getCart();
   var count = cart.reduce(function(sum, item) { return sum + item.qty; }, 0);
-  var total = cart.reduce(function(sum, item) { return sum + item.price * item.qty; }, 0);
 
   var badge = document.getElementById('cart-badge');
   if (badge) badge.textContent = count;
@@ -73,11 +140,7 @@ function updateCartBadge() {
   if (prompt) prompt.hidden = count === 0;
 
   var promptSummary = document.getElementById('cart-prompt-summary');
-  if (promptSummary) {
-    promptSummary.textContent = count === 1
-      ? '1 item | ' + fmtPrice(total)
-      : count + ' items | ' + fmtPrice(total);
-  }
+  if (promptSummary) updateCartPricing(cart);
 }
 
 function fmtPrice(price) {
@@ -125,10 +188,8 @@ function renderCartItems() {
   container.innerHTML = html;
 
   if (footer) {
-    var total = cart.reduce(function(sum, item) { return sum + item.price * item.qty; }, 0);
     footer.style.display = '';
-    var totalEl = document.getElementById('cart-total');
-    if (totalEl) totalEl.textContent = fmtPrice(total);
+    updateCartPricing(cart);
   }
 
   var upsell = document.getElementById('cart-upsell');
@@ -306,11 +367,18 @@ function initRepairForm() {
 
 document.addEventListener('DOMContentLoaded', function() {
   updateCartBadge();
+  updateCartPricing();
   initVideo();
   initRepairForm();
 
   var overlay = document.getElementById('cart-overlay');
   if (overlay) overlay.addEventListener('click', closeCart);
+
+  document.querySelectorAll('input[name="insurance_plan"]').forEach(function(input) {
+    input.addEventListener('change', function() {
+      updateCartPricing();
+    });
+  });
 
   if (document.querySelector('.brand-tab')) {
     filterBrand(getInitialShopBrand());

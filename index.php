@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tablet Masters — Sales · Service · Cloud Solutions</title>
-  <meta name="description" content="Tablet Masters provides everything tablet — Apple iPad, Samsung Galaxy, Microsoft Surface, Amazon Fire. Expert service, cloud integration, and a lifetime replacement guarantee." />
+  <meta name="description" content="Tablet Masters provides everything tablet — Apple iPad, Samsung Galaxy, Microsoft Surface, Amazon Fire. Expert service, cloud integration, and flexible protection plans." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css?v=20260402-mobile-hero-person-2" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
@@ -37,7 +37,7 @@
   <div class="hero-content">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      Lifetime Device Protection Included
+      Flexible Tablet Protection Plans
     </div>
 
     <h1 class="hero-title">
@@ -48,8 +48,8 @@
 
     <p class="hero-desc">
       We provide <strong>everything tablet</strong> &mdash; from Apple iPad to Samsung Galaxy,
-      Microsoft Surface to Amazon Fire. Expert service, cloud integration, and a
-      <strong>lifetime replacement guarantee</strong> on every device.
+      Microsoft Surface to Amazon Fire. Expert service, cloud integration, and
+      <strong>tablet protection plans built around real repair and replacement needs</strong>.
     </p>
 
     <div class="hero-actions">
@@ -68,7 +68,7 @@
       </div>
       <div>
         <div class="stat-num">1&times;</div>
-        <div class="stat-label">Free Replacement</div>
+        <div class="stat-label">4-Year Plan</div>
       </div>
       <div>
         <div class="stat-num">&infin;</div>
@@ -82,8 +82,8 @@
 <div class="insurance-bar">
   <div class="ins-icon-circle">🛡</div>
   <div>
-    <strong>Lifetime Insurance Guarantee</strong> &mdash; Every Tablet Masters device includes one
-    free replacement regardless of the circumstance. A deductible applies for a second device.
+    <strong>Protection That Fits the Plan</strong> &mdash; Basic starts at $8/month with a deductible based on damage type.
+    Protected is $12/month with full replacement coverage for up to 4 years and no deductible while payments remain current.
   </div>
 </div>
 

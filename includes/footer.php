@@ -8,7 +8,7 @@
       <p class="footer-address">
         <strong>Mailing Address:</strong><br />
         TabletmastersLLC<br />
-        550 Mary Esther Cutoof #18, PMB 376<br />
+        550 Mary Esther Cutoff #18, PMB 376<br />
         Fort Walton Beach, FL 32548
       </p>
     </div>
@@ -36,8 +36,9 @@
       <h4>Solutions</h4>
       <a class="footer-link" href="support.php">Support Center</a>
       <a class="footer-link" href="insurance.php">Insurance &amp; Repair</a>
-      <a class="footer-link" href="about.php">Education</a>
-      <a class="footer-link" href="about.php">Business</a>
+      <a class="footer-link" href="schools.php">Education</a>
+      <a class="footer-link" href="healthcare-hospitals.php">Healthcare</a>
+      <a class="footer-link" href="business-conferences.php">Business</a>
       <a class="footer-link" href="about.php">Cloud Setup</a>
     </div>
   </div>
@@ -88,7 +89,7 @@
           <span class="upsell-plan-name">Basic Protection</span>
           <span class="upsell-plan-price">$8<small>/mo</small></span>
         </div>
-        <div class="upsell-plan-features">Screen &amp; battery coverage</div>
+        <div class="upsell-plan-features">Screen &amp; battery coverage with a deductible based on damage</div>
       </label>
       <label class="upsell-plan featured-plan">
         <input type="radio" name="insurance_plan" value="protected">
@@ -96,16 +97,21 @@
           <span class="upsell-plan-name">Protected <span class="upsell-badge">POPULAR</span></span>
           <span class="upsell-plan-price">$12<small>/mo</small></span>
         </div>
-        <div class="upsell-plan-features">Lifetime replacement + priority support</div>
+        <div class="upsell-plan-features">4-year full replacement with no deductible</div>
       </label>
     </div>
   </div>
 
   <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-summary-row" id="cart-plan-row" hidden>
+      <span class="cart-summary-label" id="cart-plan-label">Protection</span>
+      <span class="cart-summary-price" id="cart-plan-price">$0.00/mo</span>
+    </div>
     <div class="cart-total-row">
-      <span class="cart-total-label">Total</span>
+      <span class="cart-total-label">Device total</span>
       <span class="cart-total-price" id="cart-total">$0.00</span>
     </div>
+    <div class="cart-total-note" id="cart-total-note" hidden></div>
     <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
     <a class="cart-insurance-link" href="plans.php">View all coverage plans →</a>
   </div>

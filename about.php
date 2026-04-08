@@ -20,10 +20,11 @@
 
 <?php
 $features = [
-  ['Lifetime Insurance',    'one free replacement, no questions asked'],
+  ['Protected Plan',        'full replacement coverage for up to 4 years with no deductible while payments remain current'],
   ['Cloud Solutions',       'Clouddogg is our development company', 'https://clouddogg.com'],
-  ['Education Specialists', 'bulk pricing and MDM support'],
-  ['Business Conferences',  'tablet fleet rental and configuration'],
+  ['Education Specialists', 'bulk pricing and MDM support', 'schools.php'],
+  ['Healthcare & Hospitals','tablet support for care operations and patient-facing workflows', 'healthcare-hospitals.php'],
+  ['Business Conferences',  'tablet fleet rental and configuration', 'business-conferences.php'],
   ['Certified Service',     'authorized repair for Apple, Samsung, and more'],
 ];
 ?>
@@ -33,8 +34,8 @@ $features = [
 
     <div class="about-visual">
       <span class="about-icon-big">🛡️</span>
-      <div class="about-tagline">LIFETIME PROTECTION</div>
-      <p class="about-detail">One free replacement. Any circumstance. No questions asked.</p>
+      <div class="about-tagline">4-YEAR PROTECTED PLAN</div>
+      <p class="about-detail">Full replacement coverage with no deductible while plan payments stay current.</p>
     </div>
 
     <div class="about-text">
@@ -51,7 +52,7 @@ $features = [
         the right device, configure it for their needs, and back it up with real support.
       </p>
       <p>
-        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+        Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoff #18, PMB 376,
         Fort Walton Beach, FL 32548</strong>.
       </p>
 
@@ -63,7 +64,9 @@ $features = [
           <span>
             <strong><?= htmlspecialchars($title) ?></strong> &mdash; <?= htmlspecialchars($desc) ?>
             <?php if (isset($feature[2])): ?>
-              <a href="<?= htmlspecialchars($feature[2]) ?>" target="_blank" rel="noreferrer">Clouddogg.com</a>
+              <a href="<?= htmlspecialchars($feature[2]) ?>" <?= $feature[2] === 'https://clouddogg.com' ? 'target="_blank" rel="noreferrer"' : '' ?>>
+                <?= $feature[2] === 'https://clouddogg.com' ? 'Clouddogg.com' : 'Learn more' ?>
+              </a>
             <?php endif; ?>
           </span>
         </li>

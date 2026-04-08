@@ -26,7 +26,7 @@ $plans = [
     'period'   => 'per month',
     'featured' => false,
     'plan_key' => 'basic',
-    'features' => ['Screen &amp; battery coverage','Accidental damage included','Email support','Basic cloud setup'],
+    'features' => ['Screen &amp; battery coverage','Accidental damage with deductible based on damage type','Email support','Basic cloud setup'],
     'cta'      => 'Register for Basic',
     'cta_href' => 'register.php?source=external&plan=basic',
   ],
@@ -36,7 +36,7 @@ $plans = [
     'period'   => 'per month',
     'featured' => true,
     'plan_key' => 'protected',
-    'features' => ['Everything in Basic','Lifetime replacement (1&times;)','Priority phone support','Full cloud configuration','Annual device checkup'],
+    'features' => ['Everything in Basic','Full replacement coverage for up to 4 years','No deductible on covered replacement claims','Priority phone support','Full cloud configuration','Annual device checkup'],
     'cta'      => 'Register for Protected',
     'cta_href' => 'register.php?source=external&plan=protected',
   ],
@@ -60,6 +60,9 @@ $plans = [
     <p class="policy-intro" style="max-width:680px;margin:18px auto 0;">
       Every protection plan must be linked to a specific tablet before activation. Choose a plan below, then complete
       device registration on the next page.
+    </p>
+    <p class="policy-intro" style="max-width:680px;margin:12px auto 0;">
+      Coverage stays active while plan payments remain current. Tablet Masters may suspend or remove coverage for nonpayment.
     </p>
   </div>
 

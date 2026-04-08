@@ -93,16 +93,17 @@
     </section>
 
     <section class="policy-card">
-      <h2>Lifetime Protection and Replacement Terms</h2>
+      <h2>Protection Plan and Replacement Terms</h2>
       <p>
-        Any lifetime protection, free replacement, deductible, or plan language displayed on the
-        site is subject to the specific plan, product, claim history, eligibility rules, and any
-        additional written program terms provided at the time of sale or claim review. Coverage is
-        not transferable unless we expressly state otherwise.
+        Any protection plan, replacement coverage, deductible, or plan language displayed on the
+        site is subject to the specific plan, product, claim history, eligibility rules, payment
+        status, and any additional written program terms provided at the time of sale or claim
+        review. Coverage is not transferable unless we expressly state otherwise.
       </p>
       <p class="policy-note">
         Marketing summaries on the site are informational. Final eligibility and claim outcomes
-        may depend on verification, prior claims, inventory, and misuse review.
+        may depend on verification, prior claims, inventory, misuse review, and whether required
+        plan payments remain current. Tablet Masters may suspend or remove coverage for nonpayment.
       </p>
     </section>
 
@@ -201,7 +202,7 @@
       <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
     </p>
     <p>
-      Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoof #18, PMB 376,
+      Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoff #18, PMB 376,
       Fort Walton Beach, FL 32548</strong>.
     </p>
     <p class="policy-note">

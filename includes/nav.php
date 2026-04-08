@@ -6,9 +6,10 @@ if (!isset($currentPage)) $currentPage = 'home';
 $nav = [
   ['id' => 'home',      'label' => 'Home',             'href' => 'index.php',     'sub' => [
     ['label' => 'Creating Tablet Applications', 'href' => 'https://clouddogg.com', 'external' => true],
-    ['label' => 'Education',                    'href' => 'about.php'],
+    ['label' => 'Education',                    'href' => 'schools.php'],
+    ['label' => 'Healthcare & Hospitals',       'href' => 'healthcare-hospitals.php'],
     ['label' => 'Insurance',                    'href' => 'insurance.php'],
-    ['label' => 'Business & Conferences',       'href' => 'about.php'],
+    ['label' => 'Business & Conferences',       'href' => 'business-conferences.php'],
   ]],
   ['id' => 'shop',      'label' => 'Shopping',         'href' => 'shop.php',      'sub' => [
     ['label' => 'All',       'href' => 'shop.php'],

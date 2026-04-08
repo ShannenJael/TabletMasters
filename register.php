@@ -183,7 +183,7 @@ $prefill   = [
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Basic</strong>
-                <span>Screen, battery, and accidental damage for $8/month.</span>
+                <span>Screen, battery, and accidental damage for $8/month with a deductible based on the damage.</span>
               </span>
             </label>
             <label class="reg-choice-card reg-plan-card reg-plan-card-featured">
@@ -191,7 +191,7 @@ $prefill   = [
               <span class="reg-choice-indicator" aria-hidden="true"></span>
               <span class="reg-choice-copy">
                 <strong>Protected <em>Popular</em></strong>
-                <span>Everything in Basic plus lifetime replacement for $12/month.</span>
+                <span>Everything in Basic plus full replacement coverage for up to 4 years with no deductible for $12/month.</span>
               </span>
             </label>
           </div>
@@ -263,6 +263,7 @@ $prefill   = [
             <li><i class="fa-solid fa-check"></i><span>Have the tablet serial number ready.</span></li>
             <li><i class="fa-solid fa-check"></i><span>Use the same email you want tied to coverage.</span></li>
             <li><i class="fa-solid fa-check"></i><span>Select a plan only if the tablet came from another store.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Coverage remains active only while plan payments stay current.</span></li>
           </ul>
         </div>
 
