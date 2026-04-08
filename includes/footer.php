@@ -28,8 +28,8 @@
       <a class="footer-link" href="plans.php">Plans &amp; Pricing</a>
       <a class="footer-link" href="privacy.php">Privacy Policy</a>
       <a class="footer-link" href="terms.php">Terms of Service</a>
-      <a class="footer-link" href="#">Reviews</a>
-      <a class="footer-link" href="#">Forum</a>
+      <a class="footer-link" href="reviews.php">Reviews</a>
+      <a class="footer-link" href="forum.php">Forum</a>
     </div>
 
     <div class="footer-col">

@@ -22,6 +22,7 @@
 $success   = isset($_GET['success']);
 $duplicate = isset($_GET['duplicate']);
 $error     = isset($_GET['error']);
+$invalidPurchaseDate = isset($_GET['invalid_purchase_date']);
 $allowedPlans = ['none', 'basic', 'protected'];
 $requestedPlan = $_GET['plan'] ?? 'none';
 $selectedPlan = in_array($requestedPlan, $allowedPlans, true) ? $requestedPlan : 'none';
@@ -92,6 +93,10 @@ $prefill   = [
       <?php elseif ($error): ?>
       <div class="alert alert-error reg-alert" role="alert">
         Something went wrong while saving your registration. Please try again or <a href="support.php">contact us</a>.
+      </div>
+      <?php elseif ($invalidPurchaseDate): ?>
+      <div class="alert alert-error reg-alert" role="alert">
+        Purchase date must be today or earlier.
       </div>
       <?php endif; ?>
 
@@ -234,7 +239,7 @@ $prefill   = [
             </label>
             <label class="reg-field">
               <span class="reg-label">Purchase date</span>
-              <input class="repair-input" type="date" name="purchase_date" title="Purchase date (optional)" />
+              <input class="repair-input" type="date" name="purchase_date" id="reg-purchase-date" title="Purchase date (optional)" max="<?= htmlspecialchars(date('Y-m-d')) ?>" />
             </label>
           </div>
 
@@ -296,6 +301,7 @@ $prefill   = [
   var brandOther = document.getElementById('reg-brand-other');
   var sources = document.querySelectorAll('input[name="purchase_source"]');
   var planGroup = document.getElementById('reg-plan-group');
+  var purchaseDate = document.getElementById('reg-purchase-date');
 
   function syncBrand() {
     var isOther = brandSel.value === 'Other';
@@ -314,14 +320,39 @@ $prefill   = [
     }
   }
 
+  function syncPurchaseDate() {
+    if (!purchaseDate) {
+      return;
+    }
+
+    var today = new Date();
+    var month = String(today.getMonth() + 1).padStart(2, '0');
+    var day = String(today.getDate()).padStart(2, '0');
+    var maxDate = today.getFullYear() + '-' + month + '-' + day;
+
+    purchaseDate.max = maxDate;
+
+    if (purchaseDate.value && purchaseDate.value > maxDate) {
+      purchaseDate.setCustomValidity('Purchase date must be today or earlier.');
+    } else {
+      purchaseDate.setCustomValidity('');
+    }
+  }
+
   brandSel.addEventListener('change', syncBrand);
 
   sources.forEach(function(source) {
     source.addEventListener('change', syncSource);
   });
 
+  if (purchaseDate) {
+    purchaseDate.addEventListener('input', syncPurchaseDate);
+    purchaseDate.addEventListener('change', syncPurchaseDate);
+  }
+
   syncBrand();
   syncSource();
+  syncPurchaseDate();
 })();
 </script>
 

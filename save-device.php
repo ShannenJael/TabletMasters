@@ -49,6 +49,26 @@ if (!$name || !$email || !$brand || !$model || !$serial) {
     exit;
 }
 
+if ($purchase_date !== '') {
+    $purchaseDateValue = DateTime::createFromFormat('Y-m-d', $purchase_date);
+    $purchaseDateErrors = DateTime::getLastErrors();
+    if ($purchaseDateErrors === false) {
+        $purchaseDateErrors = ['warning_count' => 0, 'error_count' => 0];
+    }
+    $today = new DateTime('today');
+
+    $isValidPurchaseDate = $purchaseDateValue instanceof DateTime
+        && $purchaseDateErrors['warning_count'] === 0
+        && $purchaseDateErrors['error_count'] === 0
+        && $purchaseDateValue->format('Y-m-d') === $purchase_date
+        && $purchaseDateValue <= $today;
+
+    if (!$isValidPurchaseDate) {
+        header('Location: ' . buildRegisterRedirect(['invalid_purchase_date' => 1]));
+        exit;
+    }
+}
+
 // Source must be known
 if (!in_array($source, ['tablet-masters', 'external'])) {
     $source = 'tablet-masters';

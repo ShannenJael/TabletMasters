@@ -2476,3 +2476,827 @@ footer {
 @media (max-width: 400px) {
   .damage-cards { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Forum */
+.forum-hero {
+  padding: 56px 40px 24px;
+  background:
+    radial-gradient(circle at top right, rgba(59,130,246,0.18), transparent 34%),
+    linear-gradient(180deg, #0d1118 0%, #0b0b0b 100%);
+}
+
+.forum-hero-inner,
+.forum-page {
+  width: min(1220px, 100%);
+  margin: 0 auto;
+}
+
+.forum-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.9fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.forum-hero-copy,
+.forum-hero-panel,
+.forum-block,
+.forum-card,
+.forum-list-card,
+.forum-role-card,
+.forum-seed-card {
+  border: 2px solid rgba(59,130,246,0.2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  box-shadow: 6px 6px 0 rgba(59,130,246,0.14);
+}
+
+.forum-hero-copy {
+  padding: 34px;
+}
+
+.forum-title,
+.forum-block-title {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.forum-title {
+  font-size: clamp(34px, 4.6vw, 58px);
+  line-height: 1.04;
+  margin: 10px 0 16px;
+}
+
+.forum-intro,
+.forum-block-copy,
+.forum-card p,
+.forum-role-card p,
+.forum-seed-card p,
+.forum-wireframe-row p {
+  color: #c7d2e3;
+}
+
+.forum-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.forum-hero-panel {
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.forum-stat {
+  padding: 16px;
+  border: 1px solid rgba(59,130,246,0.2);
+  background: rgba(59,130,246,0.08);
+}
+
+.forum-stat strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 28px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.forum-stat span {
+  display: block;
+  margin-top: 6px;
+  color: #d8e4fb;
+}
+
+.forum-page {
+  padding: 24px 40px 72px;
+}
+
+.forum-block {
+  padding: 28px;
+  margin-bottom: 26px;
+}
+
+.forum-block-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.forum-block-title {
+  font-size: clamp(24px, 3vw, 38px);
+}
+
+.forum-category-grid,
+.forum-seed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.forum-card {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 16px;
+  padding: 22px;
+}
+
+.forum-card-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgba(59,130,246,0.18), rgba(59,130,246,0.06));
+  border: 1px solid rgba(59,130,246,0.3);
+  color: #fff;
+  font-size: 28px;
+}
+
+.forum-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 8px;
+}
+
+.forum-card h3 {
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.forum-topic-count,
+.forum-chip {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.forum-topic-count {
+  color: #93c5fd;
+}
+
+.forum-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.forum-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+  color: #dbeafe;
+}
+
+.forum-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.forum-list-card {
+  padding: 22px;
+}
+
+.forum-guideline-list,
+.forum-launch-list {
+  display: grid;
+  gap: 14px;
+}
+
+.forum-guideline-list {
+  list-style: none;
+}
+
+.forum-guideline-list li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  color: #e5eefc;
+}
+
+.forum-guideline-list i {
+  color: #60a5fa;
+  margin-top: 4px;
+}
+
+.forum-role-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.forum-role-card,
+.forum-seed-card {
+  padding: 18px 20px;
+}
+
+.forum-role-card strong,
+.forum-seed-card strong,
+.forum-wireframe-row span {
+  font-family: var(--display);
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.forum-wireframe {
+  display: grid;
+  gap: 12px;
+}
+
+.forum-wireframe-row {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(59,130,246,0.18);
+  background: rgba(255,255,255,0.02);
+}
+
+.forum-launch-list {
+  padding-left: 20px;
+  color: #e5eefc;
+}
+
+.forum-seed-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.forum-columns-top {
+  align-items: start;
+}
+
+.forum-alert {
+  margin-bottom: 22px;
+}
+
+.forum-form {
+  display: grid;
+  gap: 16px;
+}
+
+.forum-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.forum-field {
+  display: grid;
+  gap: 8px;
+}
+
+.forum-field span {
+  font-family: var(--display);
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.forum-textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.forum-form-note {
+  color: #9fb3cf;
+  font-size: 14px;
+}
+
+.forum-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.forum-card-active {
+  border-color: rgba(59,130,246,0.65);
+  background: linear-gradient(180deg, rgba(59,130,246,0.14), rgba(59,130,246,0.05));
+}
+
+.forum-thread-list {
+  display: grid;
+  gap: 16px;
+}
+
+.forum-thread-card {
+  padding: 20px 22px;
+  border: 1px solid rgba(59,130,246,0.22);
+  background: rgba(255,255,255,0.02);
+}
+
+.forum-thread-card h3 {
+  margin: 10px 0 8px;
+  font-family: var(--display);
+  font-size: 28px;
+  line-height: 1.08;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.forum-thread-card p {
+  color: #d4ddec;
+}
+
+.forum-thread-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  color: #98abc8;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.forum-thread-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.22);
+  color: #dbeafe;
+}
+
+.forum-empty {
+  padding: 22px;
+  border: 1px dashed rgba(59,130,246,0.24);
+  background: rgba(255,255,255,0.02);
+  color: #d4ddec;
+}
+
+.forum-empty strong {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--display);
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+@media (max-width: 1100px) {
+  .forum-hero-inner,
+  .forum-columns,
+  .forum-seed-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forum-category-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .forum-hero,
+  .forum-page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .forum-hero-copy,
+  .forum-block,
+  .forum-list-card,
+  .forum-role-card,
+  .forum-seed-card {
+    padding: 18px;
+  }
+
+  .forum-card {
+    grid-template-columns: 1fr;
+  }
+
+  .forum-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forum-card-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+
+  .forum-card-head,
+  .forum-block-head,
+  .forum-wireframe-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
+
+/* Reviews */
+.reviews-hero {
+  padding: 58px 40px 28px;
+  background:
+    radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 30%),
+    linear-gradient(180deg, #11161f 0%, #0b0b0b 100%);
+}
+
+.reviews-hero-inner,
+.reviews-page {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+.reviews-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.8fr);
+  gap: 24px;
+}
+
+.reviews-hero-copy,
+.reviews-hero-panel,
+.reviews-featured,
+.reviews-toolbar,
+.review-card,
+.reviews-system-block {
+  border: 2px solid rgba(59,130,246,0.2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  box-shadow: 6px 6px 0 rgba(59,130,246,0.14);
+}
+
+.reviews-hero-copy,
+.reviews-hero-panel,
+.reviews-featured,
+.reviews-toolbar,
+.review-card,
+.reviews-system-block {
+  padding: 28px;
+}
+
+.reviews-title {
+  margin: 10px 0 16px;
+  font-family: var(--display);
+  font-size: clamp(34px, 4.4vw, 58px);
+  line-height: 1.04;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reviews-intro,
+.reviews-summary,
+.review-card p,
+.reviews-toolbar p,
+.reviews-note-card p,
+.reviews-mini-card p,
+.reviews-system-card p {
+  color: #cad4e4;
+}
+
+.reviews-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.reviews-hero-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.reviews-hero-stat {
+  padding: 16px;
+  border: 1px solid rgba(59,130,246,0.18);
+  background: rgba(59,130,246,0.08);
+}
+
+.reviews-hero-stat strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 30px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.reviews-hero-stat span {
+  display: block;
+  margin-top: 6px;
+  color: #dce7f9;
+}
+
+.reviews-page {
+  padding: 26px 40px 74px;
+}
+
+.reviews-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.reviews-featured-media {
+  display: grid;
+  gap: 18px;
+}
+
+.reviews-featured-image,
+.reviews-video-frame,
+.reviews-mini-card,
+.reviews-system-card {
+  border: 1px solid rgba(59,130,246,0.2);
+  background: rgba(255,255,255,0.02);
+}
+
+.reviews-featured-image {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.reviews-featured-image img,
+.review-card-top img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.reviews-video-label,
+.reviews-note-card span,
+.reviews-mini-card span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.18);
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.reviews-video-shell {
+  display: grid;
+  gap: 12px;
+}
+
+.reviews-video-frame {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.reviews-video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.reviews-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reviews-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.reviews-featured-copy h2,
+.review-card h3 {
+  margin: 14px 0 10px;
+  font-family: var(--display);
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.06;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.review-card h3 {
+  font-size: 30px;
+}
+
+.reviews-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+}
+
+.reviews-stars {
+  display: inline-flex;
+  gap: 4px;
+  color: #fbbf24;
+  font-size: 18px;
+}
+
+.reviews-feature-panels,
+.reviews-mini-grid,
+.reviews-system-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.reviews-note-card,
+.reviews-mini-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.reviews-procon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.reviews-procon-card {
+  padding: 18px;
+  border: 1px solid rgba(59,130,246,0.18);
+  background: rgba(59,130,246,0.05);
+}
+
+.reviews-procon-card-cons {
+  background: rgba(255,255,255,0.02);
+}
+
+.reviews-procon-card strong,
+.reviews-system-card strong {
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--display);
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.reviews-procon-card ul {
+  padding-left: 18px;
+  color: #dce7f9;
+}
+
+.reviews-toolbar,
+.reviews-system-block {
+  margin-bottom: 26px;
+}
+
+.reviews-toolbar-inline {
+  margin-top: 26px;
+  margin-bottom: 0;
+  padding: 20px;
+  box-shadow: none;
+}
+
+.reviews-toolbar-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.reviews-filter-row,
+.reviews-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.reviews-filter {
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid rgba(59,130,246,0.25);
+  background: rgba(255,255,255,0.02);
+  color: #cfe0fb;
+  font-family: var(--display);
+  font-size: 18px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.reviews-filter.active,
+.reviews-filter:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.reviews-empty-state {
+  grid-column: 1 / -1;
+  padding: 22px;
+  border: 1px dashed rgba(59,130,246,0.24);
+  background: rgba(255,255,255,0.02);
+  color: #d4ddec;
+  font-family: var(--display);
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.reviews-price-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(59,130,246,0.25);
+  background: rgba(59,130,246,0.08);
+  color: #dbeafe;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.review-card {
+  display: grid;
+  gap: 18px;
+}
+
+.review-card-top {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.review-card-top img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  padding: 12px;
+  border: 1px solid rgba(59,130,246,0.18);
+  background: rgba(255,255,255,0.02);
+}
+
+.review-card-body {
+  display: grid;
+  gap: 16px;
+}
+
+.reviews-video-frame-card {
+  aspect-ratio: 16 / 9;
+}
+
+.reviews-system-card {
+  padding: 18px;
+}
+
+@media (max-width: 1120px) {
+  .reviews-hero-inner,
+  .reviews-featured,
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .reviews-hero,
+  .reviews-page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .reviews-hero-copy,
+  .reviews-hero-panel,
+  .reviews-featured,
+  .reviews-toolbar,
+  .review-card,
+  .reviews-system-block {
+    padding: 18px;
+  }
+
+  .review-card-top,
+  .reviews-feature-panels,
+  .reviews-mini-grid,
+  .reviews-procon-grid,
+  .reviews-system-grid,
+  .reviews-toolbar-head {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .reviews-filter-row,
+  .reviews-filter-group {
+    gap: 8px;
+  }
+}

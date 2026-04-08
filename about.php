@@ -22,6 +22,7 @@
 $features = [
   ['Protected Plan',        'full replacement coverage for up to 4 years with no deductible while payments remain current'],
   ['Cloud Solutions',       'Clouddogg is our development company', 'https://clouddogg.com'],
+  ['Create Tablet Applications', 'we build applications optimized for tablets'],
   ['Education Specialists', 'bulk pricing and MDM support', 'schools.php'],
   ['Healthcare & Hospitals','tablet support for care operations and patient-facing workflows', 'healthcare-hospitals.php'],
   ['Business Conferences',  'tablet fleet rental and configuration', 'business-conferences.php'],

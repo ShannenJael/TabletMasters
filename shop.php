@@ -203,7 +203,7 @@ function conditionClass($condition) {
           <button class="add-btn" onclick="<?= htmlspecialchars($addCall) ?>" title="Add to cart">+</button>
         </div>
         <div class="warranty-badge">
-          <i class="fas fa-shield-alt"></i> Lifetime Insurance Included
+          <i class="fas fa-shield-alt"></i> 4 year coverage available
         </div>
         <div class="stock-tag <?= $stockClass ?>"><?= $stockText ?></div>
       </div>
@@ -284,7 +284,7 @@ function openQuickView(id) {
       '<span class="modal-price">$' + parseFloat(p.price).toFixed(2) + '</span>' + origHtml +
     '</div>' +
     '<div class="stock-tag ' + stockClass + '" style="margin-top:4px">' + stockText + '</div>' +
-    '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; Lifetime Insurance - Free Replacement Included</div>' +
+    '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; 4 year coverage available</div>' +
     '<button class="modal-add-btn" id="qv-add-btn">Add to Cart</button>';
 
   document.getElementById('qv-add-btn').addEventListener('click', function() {
