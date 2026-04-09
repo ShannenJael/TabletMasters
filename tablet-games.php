@@ -50,7 +50,17 @@ $faqSchema = [
 
 <?php include 'includes/nav.php'; ?>
 
-<section class="tablet-games-hero">
+<section class="tablet-games-hero tablet-games-hero--video">
+  <div class="tablet-games-hero-video-bg" aria-hidden="true">
+    <iframe
+      src="https://www.youtube.com/embed/8v1l97dY4KQ?autoplay=1&mute=1&loop=1&playlist=8v1l97dY4KQ&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title=""
+    ></iframe>
+  </div>
+  <div class="tablet-games-hero-video-overlay" aria-hidden="true"></div>
   <div class="tablet-games-hero-inner">
     <div class="tablet-games-hero-copy">
       <div class="section-label">Tablet Masters Editorial</div>

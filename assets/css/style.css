@@ -3312,6 +3312,48 @@ footer {
     linear-gradient(180deg, rgba(59,130,246,0.04) 0%, rgba(255,255,255,0.01) 100%);
 }
 
+.tablet-games-hero--video {
+  position: relative;
+  overflow: hidden;
+}
+
+.tablet-games-hero-video-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tablet-games-hero-video-bg iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.78vh;
+  height: 56.25vw;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  border: none;
+}
+
+.tablet-games-hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(7,10,16,0.82) 0%,
+    rgba(7,10,16,0.65) 50%,
+    rgba(7,10,16,0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.tablet-games-hero--video .tablet-games-hero-inner {
+  position: relative;
+  z-index: 2;
+}
+
 .tablet-games-hero-inner,
 .tablet-games-grid,
 .tablet-games-mini-grid,
