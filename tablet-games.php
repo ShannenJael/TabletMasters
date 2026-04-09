@@ -188,8 +188,7 @@ $faqSchema = [
       <div class="section-label">// Mid-Page CTA</div>
       <h3>BUY FOR THE WAY PEOPLE ACTUALLY PLAY</h3>
       <p>
-        Readers who made it this far are already comparing use cases. Push them into the right device lane before they bounce:
-        premium iPads for polished single-player games, Galaxy Tabs for flexibility and Android value, and Surface for work-and-play overlap.
+        Premium iPads for polished single-player games, Galaxy Tabs for flexibility and Android value, and Surface for work-and-play overlap.
       </p>
     </div>
     <div class="tablet-games-actions">
