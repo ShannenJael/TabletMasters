@@ -12,6 +12,7 @@ Set-Location $repoRoot
 
 $requiredPaths = @(
     ".gitignore",
+    "admin",
     "about.php",
     "assets",
     "business-conferences.php",
@@ -59,7 +60,7 @@ set -e
 cd "$1"
 
 # Keep web assets publicly readable after deploy.
-for dir in assets includes public; do
+for dir in admin assets includes public; do
   if [ -d "$dir" ]; then
     find "$dir" -type d -exec chmod 755 {} +
     find "$dir" -type f -exec chmod 644 {} +
@@ -73,7 +74,7 @@ for file in .gitignore about.php business-conferences.php healthcare-hospitals.p
 done
 
 echo "Verified permissions:"
-stat -c "%A %n" assets assets/css assets/js assets/images public includes 2>/dev/null || true
+stat -c "%A %n" admin assets assets/css assets/js assets/images public includes 2>/dev/null || true
 '@
 
 Write-Host "Normalizing server permissions..."
