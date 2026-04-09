@@ -102,7 +102,7 @@ $faqSchema = [
 
 <section class="tablet-games-page">
   <div class="tablet-games-storyline">
-    <div class="tablet-games-story-card" id="new-this-month">
+    <div class="tablet-games-story-card" id="new-this-month" style="grid-column: 1 / -1;">
       <div class="section-label">// Monthly Refresh</div>
       <div class="section-title" style="font-size:44px">NEW THIS MONTH</div>
       <p><?= htmlspecialchars($editorNote) ?></p>
@@ -114,22 +114,6 @@ $faqSchema = [
           <p><?= htmlspecialchars($item['desc']) ?></p>
         </div>
         <?php endforeach; ?>
-      </div>
-    </div>
-
-    <div class="tablet-games-story-card">
-      <div class="section-label">// Commerce Path</div>
-      <div class="section-title" style="font-size:44px">SHOP THE RIGHT CATEGORY</div>
-      <p>
-        The goal is not just to list good games. Each recommendation should push readers toward the right device tier, then
-        into <a href="shop.php" data-track="games_internal_link" data-track-label="hero_shop">shopping</a>,
-        <a href="reviews.php" data-track="games_internal_link" data-track-label="hero_reviews">reviews</a>, or
-        <a href="plans.php" data-track="games_internal_link" data-track-label="hero_plans">protection plans</a> once purchase intent shows up.
-      </p>
-      <div class="tablet-games-actions">
-        <a class="btn-primary" href="shop.php" data-track="games_internal_shop" data-track-label="all_tablets">Shop Tablets</a>
-        <a class="btn-outline" href="reviews.php" data-track="games_internal_reviews" data-track-label="read_reviews">Read Reviews</a>
-        <a class="btn-outline" href="plans.php" data-track="games_internal_plans" data-track-label="view_plans">View Plans</a>
       </div>
     </div>
   </div>
