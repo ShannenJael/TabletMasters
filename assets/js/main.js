@@ -365,11 +365,47 @@ function initRepairForm() {
   }
 }
 
+function trackPromoClick(eventName, label, href) {
+  var payload = {
+    event: eventName || 'tm_click',
+    label: label || '',
+    href: href || '',
+    path: window.location.pathname,
+    timestamp: new Date().toISOString()
+  };
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(payload);
+
+  try {
+    var key = 'tm_click_log';
+    var existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(payload);
+    localStorage.setItem(key, JSON.stringify(existing.slice(-100)));
+  } catch (e) {}
+}
+
+function initTrackedLinks(selector) {
+  document.querySelectorAll(selector || '[data-track]').forEach(function(link) {
+    if (link.dataset.trackBound === '1') return;
+    link.dataset.trackBound = '1';
+
+    link.addEventListener('click', function() {
+      trackPromoClick(
+        link.dataset.track,
+        link.dataset.trackLabel || link.textContent.trim(),
+        link.href || ''
+      );
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   updateCartBadge();
   updateCartPricing();
   initVideo();
   initRepairForm();
+  initTrackedLinks('[data-track]');
 
   var overlay = document.getElementById('cart-overlay');
   if (overlay) overlay.addEventListener('click', closeCart);
