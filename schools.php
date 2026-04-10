@@ -1,10 +1,10 @@
-<?php $currentPage = 'about'; ?>
+<?php $currentPage = 'home'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Schools - Tablet Masters</title>
+  <title>Schools &mdash; Tablet Masters</title>
   <meta name="description" content="Tablet fleets, setup, MDM support, repairs, and replacement planning for schools, classrooms, and student programs." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -37,12 +37,42 @@ $prefill = [
 ];
 
 $schoolUseCases = [
-  ['icon' => '🏫', 'title' => '1:1 Student Programs', 'desc' => 'Tablet planning, setup, and deployment support for student take-home or classroom-assigned fleets.'],
-  ['icon' => '🛒', 'title' => 'Cart and Shared Devices', 'desc' => 'Prepared tablets for grade-level carts, library circulation, testing windows, and rotating classroom use.'],
-  ['icon' => '👩‍🏫', 'title' => 'Teacher and Admin Devices', 'desc' => 'Configured tablets for staff communications, classroom control, note-taking, attendance, and instructional workflows.'],
-  ['icon' => '🔐', 'title' => 'MDM and Restrictions', 'desc' => 'Enrollment, app control, account setup, web filtering support, and device restrictions aligned to school use.'],
-  ['icon' => '🧰', 'title' => 'Repair and Replacement', 'desc' => 'Break-fix handling, spare-device planning, and structured replacement options to reduce downtime.'],
-  ['icon' => '📦', 'title' => 'Rollout and Refresh', 'desc' => 'Summer prep, label assignment, annual refresh planning, and repeatable lifecycle support for school programs.'],
+  [
+    'icon' => 'fa-solid fa-school',
+    'title' => '1:1 Student Programs',
+    'desc' => 'Planning, staging, and assignment support for take-home and classroom-assigned student fleets.',
+    'tag' => 'Student deployment'
+  ],
+  [
+    'icon' => 'fa-solid fa-cart-flatbed',
+    'title' => 'Cart and Shared Devices',
+    'desc' => 'Prepared tablets for media carts, testing windows, library circulation, and rotating classroom use.',
+    'tag' => 'Shared access'
+  ],
+  [
+    'icon' => 'fa-solid fa-chalkboard-user',
+    'title' => 'Teacher and Admin Devices',
+    'desc' => 'Configured tablets for staff communications, classroom control, attendance, and instructional workflows.',
+    'tag' => 'Staff workflows'
+  ],
+  [
+    'icon' => 'fa-solid fa-lock',
+    'title' => 'MDM and Restrictions',
+    'desc' => 'Enrollment, app control, account setup, web filtering support, and restrictions aligned to school use.',
+    'tag' => 'Policy support'
+  ],
+  [
+    'icon' => 'fa-solid fa-screwdriver-wrench',
+    'title' => 'Repair and Replacement',
+    'desc' => 'Break-fix intake, spare-device planning, and replacement structure to keep instruction moving.',
+    'tag' => 'Continuity'
+  ],
+  [
+    'icon' => 'fa-solid fa-box-open',
+    'title' => 'Rollout and Refresh',
+    'desc' => 'Summer prep, labeling, annual refresh planning, and repeatable lifecycle support for school programs.',
+    'tag' => 'Program lifecycle'
+  ],
 ];
 
 $programs = [
@@ -53,6 +83,7 @@ $programs = [
     'summary' => 'A practical starting point for smaller schools, pilots, tutoring teams, and early 1:1 rollouts.',
     'points' => ['Bulk sourcing guidance', 'Device setup and labeling', 'App install and account prep', 'Initial rollout support'],
     'cta' => 'Request Launch Plan',
+    'featured' => false
   ],
   [
     'key' => 'managed',
@@ -61,7 +92,7 @@ $programs = [
     'summary' => 'Built for schools that need a repeatable device program with setup, repairs, and ongoing support.',
     'points' => ['50 to 300 devices', 'MDM and policy support', 'Repair and replacement workflow', 'Staff onboarding and deployment planning'],
     'cta' => 'Request Managed Plan',
-    'featured' => true,
+    'featured' => true
   ],
   [
     'key' => 'district',
@@ -70,6 +101,7 @@ $programs = [
     'summary' => 'For larger school systems that need procurement structure, lifecycle planning, and long-term fleet management.',
     'points' => ['High-volume planning', 'Refresh and replacement forecasting', 'Program documentation and logistics', 'Multi-site deployment support'],
     'cta' => 'Talk to Tablet Masters',
+    'featured' => false
   ],
 ];
 
@@ -81,191 +113,236 @@ $workflow = [
 ];
 
 $advantages = [
-  ['title' => 'Lower Teacher Burden', 'desc' => 'The goal is to reduce setup chaos and avoid asking classroom staff to become ad hoc device administrators.'],
-  ['title' => 'Faster Student Readiness', 'desc' => 'Devices arrive closer to classroom-ready with the right apps, labels, and assignment structure already in place.'],
+  ['title' => 'Lower Teacher Burden', 'desc' => 'Reduce setup chaos and avoid asking classroom staff to become ad hoc device administrators.'],
+  ['title' => 'Faster Student Readiness', 'desc' => 'Devices arrive closer to classroom-ready with apps, labels, and assignment structure already in place.'],
   ['title' => 'Repair Continuity', 'desc' => 'Schools need a plan for damaged devices, missing chargers, and battery issues without pausing instruction for weeks.'],
   ['title' => 'One Vendor View', 'desc' => 'Tablet Masters can support sourcing, setup, protection, and service as a tighter operational package instead of a fragmented process.'],
 ];
+
+$schoolFacts = [
+  ['value' => '1:1', 'label' => 'student programs and classroom fleets supported'],
+  ['value' => '3', 'label' => 'school service lanes based on size and complexity'],
+  ['value' => '4', 'label' => 'operational phases from planning to refresh'],
+];
+
+$coverageItems = [
+  'Bulk tablet sourcing and model planning',
+  'App install, enrollment, labeling, and account prep',
+  'MDM, restrictions, and school-use setup support',
+  'Protective accessories and replacement planning',
+  'Repair intake and spare-device continuity strategy',
+  'Rollout guidance for students, teachers, and staff teams',
+];
 ?>
 
-<div class="conference-section">
-  <div class="ins-hero conference-hero">
-    <div class="ins-hero-text">
-      <div class="section-label">// Schools</div>
-      <div class="section-title">TABLET SUPPORT<br />FOR SCHOOLS</div>
-      <p>
+<section class="school-hero">
+  <div class="school-hero-inner">
+    <div class="school-hero-copy">
+      <div class="section-label">Education Programs</div>
+      <h1 class="school-hero-title">TABLET SUPPORT FOR SCHOOLS SHOULD FEEL STRUCTURED BEFORE THE FIRST DEVICE GOES OUT.</h1>
+      <p class="school-hero-intro">
         Tablet Masters helps schools build tablet programs that are easier to deploy, easier to support,
         and less disruptive to classrooms. We source, configure, label, repair, and help manage tablets for
         student, teacher, and administrative use.
       </p>
-      <p>
-        The focus is operational clarity: fewer last-minute setup problems, cleaner assignment workflows,
-        and a better plan for repairs, replacements, and annual refresh cycles.
-      </p>
-      <div class="ins-actions">
+      <div class="school-hero-actions">
         <a class="btn-primary" href="#school-quote">Request a School Plan</a>
-        <a class="btn-outline" href="support.php">Talk to Support</a>
+        <a class="btn-outline" href="shop.php">Review Tablet Inventory</a>
       </div>
-
-      <div class="conference-metrics">
-        <div class="conference-metric">
-          <span class="conference-metric-value">3</span>
-          <span class="conference-metric-label">program tiers for school size and rollout complexity</span>
+      <div class="school-hero-facts">
+        <?php foreach ($schoolFacts as $fact): ?>
+        <div class="school-hero-fact">
+          <strong><?= htmlspecialchars($fact['value']) ?></strong>
+          <span><?= htmlspecialchars($fact['label']) ?></span>
         </div>
-        <div class="conference-metric">
-          <span class="conference-metric-value">1:1</span>
-          <span class="conference-metric-label">student deployments and classroom fleet programs supported</span>
-        </div>
-        <div class="conference-metric">
-          <span class="conference-metric-value">4</span>
-          <span class="conference-metric-label">stages from planning to repair continuity</span>
-        </div>
+        <?php endforeach; ?>
       </div>
     </div>
 
-    <div class="ins-coverage-card conference-coverage-card">
-      <span class="ins-shield">🎓</span>
-      <h3>WHAT TABLET MASTERS HANDLES</h3>
-      <p>Built for classrooms, student fleets, carts, staff devices, and longer-term school device programs.</p>
-      <ul class="coverage-checklist">
-        <li><span class="check-dot">&#10003;</span> Bulk tablet sourcing and model planning</li>
-        <li><span class="check-dot">&#10003;</span> App install, enrollment, labeling, and account prep</li>
-        <li><span class="check-dot">&#10003;</span> MDM, restriction, and school-use setup support</li>
-        <li><span class="check-dot">&#10003;</span> Protective accessories and replacement planning</li>
-        <li><span class="check-dot">&#10003;</span> Repair intake and spare-device continuity strategy</li>
-        <li><span class="check-dot">&#10003;</span> Rollout guidance for students, teachers, and staff teams</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="repair-section-title">
-    <div class="section-label">// Where It Fits</div>
-    <div class="section-title" style="font-size:44px">SCHOOL USE CASES</div>
-  </div>
-
-  <div class="repair-grid">
-    <?php foreach ($schoolUseCases as $case): ?>
-    <div class="repair-card conference-card">
-      <span class="repair-icon"><?= $case['icon'] ?></span>
-      <h4><?= htmlspecialchars($case['title']) ?></h4>
-      <p><?= htmlspecialchars($case['desc']) ?></p>
-      <span class="repair-price-tag">School operations</span>
-    </div>
-    <?php endforeach; ?>
-  </div>
-
-  <div class="repair-section-title" style="margin-bottom:32px">
-    <div class="section-label">// Program Structure</div>
-    <div class="section-title" style="font-size:44px">SERVICE TIERS</div>
-  </div>
-
-  <div class="conference-package-grid">
-    <?php foreach ($programs as $program): ?>
-    <div class="conference-package-card<?= !empty($program['featured']) ? ' featured' : '' ?>">
-      <div class="conference-package-eyebrow"><?= htmlspecialchars($program['eyebrow']) ?></div>
-      <div class="conference-package-name"><?= htmlspecialchars($program['name']) ?></div>
-      <p class="conference-package-summary"><?= htmlspecialchars($program['summary']) ?></p>
-      <ul class="conference-package-list">
-        <?php foreach ($program['points'] as $point): ?>
-        <li><span class="plan-dot"></span><?= htmlspecialchars($point) ?></li>
+    <aside class="school-hero-panel">
+      <div class="school-panel-eyebrow">What Tablet Masters Handles</div>
+      <h2>Operational clarity for school tablet programs.</h2>
+      <div class="school-hero-visual">
+        <img src="assets/images/iPad 10th Gen.png" alt="Apple iPad for schools" class="school-device-primary" />
+        <img src="assets/images/Galaxy Tab S9 FE.png" alt="Samsung Galaxy Tab for schools" class="school-device-secondary" />
+      </div>
+      <ul class="school-coverage-list">
+        <?php foreach ($coverageItems as $item): ?>
+        <li><i class="fa-solid fa-check"></i><span><?= htmlspecialchars($item) ?></span></li>
         <?php endforeach; ?>
       </ul>
-      <a class="<?= !empty($program['featured']) ? 'btn-primary' : 'btn-outline' ?> full" href="schools.php?program=<?= htmlspecialchars($program['key']) ?>#school-quote"><?= htmlspecialchars($program['cta']) ?></a>
-    </div>
-    <?php endforeach; ?>
+    </aside>
   </div>
+</section>
 
-  <div class="repair-section-title" style="margin-bottom:48px">
-    <div class="section-label">// Delivery Model</div>
-    <div class="section-title" style="font-size:44px">HOW SCHOOL SUPPORT WORKS</div>
-  </div>
+<section class="school-page">
+  <div class="school-shell">
+    <section class="school-use-section">
+      <div class="section-label">Where It Fits</div>
+      <h2 class="school-section-title">School use cases should be obvious before the rollout gets complicated.</h2>
+      <div class="school-use-grid">
+        <?php foreach ($schoolUseCases as $case): ?>
+        <article class="school-use-card">
+          <div class="school-use-icon"><i class="<?= htmlspecialchars($case['icon']) ?>"></i></div>
+          <div class="school-use-tag"><?= htmlspecialchars($case['tag']) ?></div>
+          <h3><?= htmlspecialchars($case['title']) ?></h3>
+          <p><?= htmlspecialchars($case['desc']) ?></p>
+        </article>
+        <?php endforeach; ?>
+      </div>
+    </section>
 
-  <div class="claim-steps">
-    <?php foreach ($workflow as $step): ?>
-    <div class="claim-step">
-      <div class="claim-step-num"><?= htmlspecialchars($step['num']) ?></div>
-      <h5><?= htmlspecialchars($step['title']) ?></h5>
-      <p><?= htmlspecialchars($step['desc']) ?></p>
-    </div>
-    <?php endforeach; ?>
-  </div>
+    <section class="school-program-section">
+      <div class="section-label">Program Structure</div>
+      <h2 class="school-section-title">Three school support lanes based on rollout size and operational weight.</h2>
+      <div class="school-program-grid">
+        <?php foreach ($programs as $program): ?>
+        <article class="school-program-card<?= !empty($program['featured']) ? ' featured' : '' ?>">
+          <div class="school-program-top">
+            <div>
+              <div class="school-program-eyebrow"><?= htmlspecialchars($program['eyebrow']) ?></div>
+              <h3><?= htmlspecialchars($program['name']) ?></h3>
+            </div>
+            <?php if (!empty($program['featured'])): ?>
+            <div class="school-program-pill">Recommended</div>
+            <?php endif; ?>
+          </div>
+          <p><?= htmlspecialchars($program['summary']) ?></p>
+          <ul class="school-program-list">
+            <?php foreach ($program['points'] as $point): ?>
+            <li><i class="fa-solid fa-arrow-right"></i><span><?= htmlspecialchars($point) ?></span></li>
+            <?php endforeach; ?>
+          </ul>
+          <a class="<?= !empty($program['featured']) ? 'btn-primary' : 'btn-outline' ?> full" href="schools.php?program=<?= htmlspecialchars($program['key']) ?>#school-quote"><?= htmlspecialchars($program['cta']) ?></a>
+        </article>
+        <?php endforeach; ?>
+      </div>
+    </section>
 
-  <div class="repair-section-title" style="margin-bottom:32px">
-    <div class="section-label">// Why Schools Use This</div>
-    <div class="section-title" style="font-size:44px">PROGRAM ADVANTAGES</div>
-  </div>
+    <section class="school-workflow-section">
+      <div class="section-label">Delivery Model</div>
+      <h2 class="school-section-title">A school fleet works better when planning, deployment, and refresh are treated as one system.</h2>
+      <div class="school-workflow-grid">
+        <?php foreach ($workflow as $step): ?>
+        <article class="school-workflow-card">
+          <div class="school-workflow-number"><?= htmlspecialchars($step['num']) ?></div>
+          <h3><?= htmlspecialchars($step['title']) ?></h3>
+          <p><?= htmlspecialchars($step['desc']) ?></p>
+        </article>
+        <?php endforeach; ?>
+      </div>
+    </section>
 
-  <div class="conference-detail-grid">
-    <?php foreach ($advantages as $item): ?>
-    <div class="conference-detail-card">
-      <h4><?= htmlspecialchars($item['title']) ?></h4>
-      <p><?= htmlspecialchars($item['desc']) ?></p>
-    </div>
-    <?php endforeach; ?>
-  </div>
+    <section class="school-advantage-section">
+      <div class="section-label">Program Advantages</div>
+      <h2 class="school-section-title">The right support model lowers classroom friction instead of adding another layer of it.</h2>
+      <div class="school-advantage-grid">
+        <?php foreach ($advantages as $item): ?>
+        <article class="school-advantage-card">
+          <h3><?= htmlspecialchars($item['title']) ?></h3>
+          <p><?= htmlspecialchars($item['desc']) ?></p>
+        </article>
+        <?php endforeach; ?>
+      </div>
+    </section>
 
-  <div class="repair-cta" id="school-quote">
-    <div>
-      <h3>BUILD A SCHOOL TABLET PROGRAM WITH LESS FRICTION</h3>
-      <p>
-        If your school is planning a new rollout, replacing aging devices, or trying to improve support after a difficult deployment,
-        Tablet Masters can help define a cleaner operating model.
-      </p>
-      <p>
-        Start with student count, device count, and the type of classroom or staff workflow you are trying to support.
-        We can help turn that into a practical program plan.
-      </p>
-      <p class="conference-form-note">
-        Share the basics and Tablet Masters will follow up with a recommended approach, device strategy, and next steps.
-      </p>
-    </div>
-
-    <div class="repair-form">
-      <?php if ($quoteSuccess): ?>
-      <div class="alert alert-success">&#10003; School inquiry submitted. Tablet Masters will follow up shortly.</div>
-      <?php elseif ($quoteError): ?>
-      <div class="alert alert-error">Something went wrong. Please review the form and try again.</div>
-      <?php endif; ?>
-
-      <form method="POST" action="send-school-quote.php">
-        <div class="conference-form-grid conference-form-grid-2">
-          <input class="repair-input" type="text" name="school_name" placeholder="School, district, or organization" required value="<?= $prefill['school'] ?>" />
-          <input class="repair-input" type="text" name="contact_name" placeholder="Primary contact name" required value="<?= $prefill['contact'] ?>" />
+    <section class="school-quote-shell" id="school-quote">
+      <aside class="school-quote-copy">
+        <div class="section-label">Request a School Plan</div>
+        <h2 class="school-section-title">Build a school tablet program with less friction.</h2>
+        <p class="school-intro-copy">
+          If your school is planning a new rollout, replacing aging devices, or trying to improve support after a difficult deployment,
+          Tablet Masters can help define a cleaner operating model.
+        </p>
+        <div class="school-quote-note">
+          <strong>What to share</strong>
+          <span>Student count, device count, use case, support preference, and any MDM or restrictions requirements you already know about.</span>
         </div>
-        <div class="conference-form-grid conference-form-grid-2">
-          <input class="repair-input" type="email" name="email" placeholder="Email address" required value="<?= $prefill['email'] ?>" />
-          <input class="repair-input" type="tel" name="phone" placeholder="Phone number" value="<?= $prefill['phone'] ?>" />
+        <div class="school-quote-note">
+          <strong>What happens next</strong>
+          <span>Tablet Masters follows up with a recommended approach, device strategy, and next-step conversation.</span>
         </div>
-        <div class="conference-form-grid conference-form-grid-2">
-          <input class="repair-input" type="text" name="city_state" placeholder="City and state" required value="<?= $prefill['city'] ?>" />
-          <input class="repair-input" type="number" min="1" name="student_count" placeholder="Approximate student or user count" required value="<?= $prefill['students'] ?>" />
-        </div>
-        <div class="conference-form-grid conference-form-grid-2">
-          <input class="repair-input" type="number" min="1" name="device_count" placeholder="Estimated tablet count" required value="<?= $prefill['devices'] ?>" />
-          <select class="repair-input" name="program" required>
-            <option value="launch" <?= $selectedProgram === 'launch' ? 'selected' : '' ?>>Launch program</option>
-            <option value="managed" <?= $selectedProgram === 'managed' ? 'selected' : '' ?>>Managed School Fleet</option>
-            <option value="district" <?= $selectedProgram === 'district' ? 'selected' : '' ?>>District Support</option>
-          </select>
-        </div>
-        <div class="conference-form-grid conference-form-grid-2">
-          <input class="repair-input" type="text" name="use_case" placeholder="Primary use case: 1:1, carts, teachers, testing, etc." required value="<?= $prefill['use_case'] ?>" />
-          <select class="repair-input" name="support_level">
-            <option value="managed" <?= $prefill['support_level'] === 'managed' ? 'selected' : '' ?>>Support preference: Ongoing managed support</option>
-            <option value="rollout" <?= $prefill['support_level'] === 'rollout' ? 'selected' : '' ?>>Support preference: Rollout help only</option>
-            <option value="not-sure" <?= $prefill['support_level'] === 'not-sure' ? 'selected' : '' ?>>Support preference: Not sure yet</option>
-          </select>
-        </div>
-        <textarea class="repair-input conference-textarea" name="requirements" placeholder="Tell us about apps, account setup, MDM, restrictions, cases, repairs, or rollout timing"></textarea>
-        <textarea class="repair-input conference-textarea" name="notes" placeholder="Anything else we should know about grade levels, budgets, deployment timing, or support pain points?"></textarea>
-        <button type="submit" class="btn-primary full">Submit School Inquiry</button>
-      </form>
+      </aside>
 
-      <a class="btn-outline full" href="shop.php">Review Tablet Inventory</a>
-      <a class="btn-outline full" href="support.php">Talk Through Requirements</a>
-    </div>
+      <div class="school-form-panel">
+        <?php if ($quoteSuccess): ?>
+        <div class="alert alert-success">&#10003; School inquiry submitted. Tablet Masters will follow up shortly.</div>
+        <?php elseif ($quoteError): ?>
+        <div class="alert alert-error">Something went wrong. Please review the form and try again.</div>
+        <?php endif; ?>
+
+        <form method="POST" action="send-school-quote.php" class="school-form-grid">
+          <label class="reg-field">
+            <span class="reg-label">School or district</span>
+            <input class="repair-input" type="text" name="school_name" placeholder="School, district, or organization" required value="<?= $prefill['school'] ?>" />
+          </label>
+          <label class="reg-field">
+            <span class="reg-label">Primary contact</span>
+            <input class="repair-input" type="text" name="contact_name" placeholder="Primary contact name" required value="<?= $prefill['contact'] ?>" />
+          </label>
+
+          <label class="reg-field">
+            <span class="reg-label">Email address</span>
+            <input class="repair-input" type="email" name="email" placeholder="Email address" required value="<?= $prefill['email'] ?>" />
+          </label>
+          <label class="reg-field">
+            <span class="reg-label">Phone number</span>
+            <input class="repair-input" type="tel" name="phone" placeholder="Phone number" value="<?= $prefill['phone'] ?>" />
+          </label>
+
+          <label class="reg-field">
+            <span class="reg-label">City and state</span>
+            <input class="repair-input" type="text" name="city_state" placeholder="City and state" required value="<?= $prefill['city'] ?>" />
+          </label>
+          <label class="reg-field">
+            <span class="reg-label">Student or user count</span>
+            <input class="repair-input" type="number" min="1" name="student_count" placeholder="Approximate student or user count" required value="<?= $prefill['students'] ?>" />
+          </label>
+
+          <label class="reg-field">
+            <span class="reg-label">Estimated tablet count</span>
+            <input class="repair-input" type="number" min="1" name="device_count" placeholder="Estimated tablet count" required value="<?= $prefill['devices'] ?>" />
+          </label>
+          <label class="reg-field">
+            <span class="reg-label">Program lane</span>
+            <select class="repair-input" name="program" required>
+              <option value="launch" <?= $selectedProgram === 'launch' ? 'selected' : '' ?>>Launch program</option>
+              <option value="managed" <?= $selectedProgram === 'managed' ? 'selected' : '' ?>>Managed School Fleet</option>
+              <option value="district" <?= $selectedProgram === 'district' ? 'selected' : '' ?>>District Support</option>
+            </select>
+          </label>
+
+          <label class="reg-field">
+            <span class="reg-label">Primary use case</span>
+            <input class="repair-input" type="text" name="use_case" placeholder="1:1, carts, teachers, testing, etc." required value="<?= $prefill['use_case'] ?>" />
+          </label>
+          <label class="reg-field">
+            <span class="reg-label">Support preference</span>
+            <select class="repair-input" name="support_level">
+              <option value="managed" <?= $prefill['support_level'] === 'managed' ? 'selected' : '' ?>>Ongoing managed support</option>
+              <option value="rollout" <?= $prefill['support_level'] === 'rollout' ? 'selected' : '' ?>>Rollout help only</option>
+              <option value="not-sure" <?= $prefill['support_level'] === 'not-sure' ? 'selected' : '' ?>>Not sure yet</option>
+            </select>
+          </label>
+
+          <label class="reg-field reg-field-full">
+            <span class="reg-label">Requirements</span>
+            <textarea class="repair-input school-textarea" name="requirements" placeholder="Tell us about apps, account setup, MDM, restrictions, cases, repairs, or rollout timing"></textarea>
+          </label>
+          <label class="reg-field reg-field-full">
+            <span class="reg-label">Additional notes</span>
+            <textarea class="repair-input school-textarea" name="notes" placeholder="Anything else we should know about grade levels, budgets, deployment timing, or support pain points?"></textarea>
+          </label>
+
+          <div class="school-form-actions reg-field-full">
+            <button type="submit" class="btn-primary full">Submit School Inquiry</button>
+            <a class="btn-outline full" href="support.php">Talk Through Requirements</a>
+          </div>
+        </form>
+      </div>
+    </section>
   </div>
-</div>
+</section>
 
 <?php include 'includes/footer.php'; ?>
 <script>

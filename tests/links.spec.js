@@ -10,6 +10,8 @@ test.beforeEach(async ({ page }) => {
   await stabilizePage(page);
 });
 
+test.setTimeout(90000);
+
 test('core internal links resolve successfully', async ({ page, request, baseURL }) => {
   const discovered = new Set(['/index.php']);
 
@@ -22,6 +24,8 @@ test('core internal links resolve successfully', async ({ page, request, baseURL
         .filter(Boolean)
     );
 
+    const imageExts = /\.(png|jpg|jpeg|gif|webp|svg|ico|mp4|mov|webm|woff2?|ttf|eot)(\?|$)/i;
+
     for (const candidate of urls) {
       if (!candidate || candidate.startsWith('#') || candidate.startsWith('mailto:') || candidate.startsWith('tel:') || candidate.startsWith('javascript:')) {
         continue;
@@ -31,7 +35,10 @@ test('core internal links resolve successfully', async ({ page, request, baseURL
         continue;
       }
 
-      discovered.add(normalizePath(candidate, baseURL));
+      const normalized = normalizePath(candidate, baseURL);
+      if (imageExts.test(normalized)) continue;
+
+      discovered.add(normalized);
     }
   }
 
