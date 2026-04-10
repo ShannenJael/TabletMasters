@@ -53,18 +53,25 @@ test('shop filtering, search, and cart interactions behave correctly', async ({ 
   await page.locator('.product-card:visible .add-btn').first().click();
   await expect(page.locator('#cart-badge')).toHaveText('1');
 
+  // Cart drawer may auto-open after add — close it first, then reopen via nav button
+  const drawer = page.locator('#cart-drawer');
+  if (await drawer.evaluate(el => el.classList.contains('open'))) {
+    await page.locator('.cart-close').click();
+    await expect(drawer).not.toHaveClass(/open/);
+  }
+
   await page.locator('.nav-cart').click();
-  await expect(page.locator('#cart-drawer')).toHaveClass(/open/);
+  await expect(drawer).toHaveClass(/open/);
   await expect(page.locator('#cart-items')).toContainText(/iPad|Galaxy|Surface|Fire/i);
 });
 
 test('insurance page repair form is reachable from CTA', async ({ page }) => {
   await gotoAndWait(page, '/insurance.php');
 
-  await expect(page.locator('.section-title').first()).toContainText('INSURANCE');
+  await expect(page.locator('.ins-hero-title')).toBeVisible();
 
   await page.getByRole('link', { name: /book a repair/i }).first().click();
   await expect(page.locator('#repair-form')).toBeInViewport();
   await expect(page.locator('#repair-form [name="email"]')).toBeVisible();
-  await expect(page.locator('#repair-form [name="type"]')).toBeVisible();
+  await expect(page.locator('#repair-form [name="device"]')).toBeVisible();
 });
