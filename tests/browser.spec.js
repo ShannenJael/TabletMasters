@@ -68,7 +68,7 @@ test('shop filtering, search, and cart interactions behave correctly', async ({ 
 test('insurance page repair form is reachable from CTA', async ({ page }) => {
   await gotoAndWait(page, '/insurance.php');
 
-  await expect(page.locator('.ins-hero-title')).toBeVisible();
+  await expect(page.locator('.insurance-hero .section-title')).toContainText(/INSURANCE\s*& REPAIR/i);
 
   await page.getByRole('link', { name: /book a repair/i }).first().click();
   await expect(page.locator('#repair-form')).toBeInViewport();

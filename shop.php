@@ -30,6 +30,9 @@ foreach ($products as $index => &$product) {
   if (empty($product['imgClass'])) $product['imgClass'] = '';
   if (!isset($product['orig']))    $product['orig'] = null;
   if (empty($product['badge']))    $product['badge'] = null;
+  if (empty($product['connectivity'])) {
+    $product['connectivity'] = stripos($product['name'], 'cellular') !== false ? 'Wi-Fi + Cellular' : 'Wi-Fi';
+  }
 }
 unset($product);
 
@@ -59,7 +62,7 @@ function conditionClass($condition) {
         <input
           id="shop-search"
           type="search"
-          placeholder="Search tablets, brands, condition"
+          placeholder="Search tablets, brands, condition, connectivity"
           aria-label="Search tablets"
           oninput="setSearchQuery(this.value)"
         />
@@ -102,6 +105,7 @@ function conditionClass($condition) {
       data-name="<?= htmlspecialchars($p['name']) ?>"
       data-condition="<?= htmlspecialchars($p['condition']) ?>"
       data-badge="<?= htmlspecialchars((string)($p['badge'] ?? '')) ?>"
+      data-connectivity="<?= htmlspecialchars($p['connectivity']) ?>"
     >
       <div class="product-img">
         <?php
@@ -131,6 +135,7 @@ function conditionClass($condition) {
           <span class="product-brand"><?= htmlspecialchars($p['brand']) ?></span>
           <span class="condition-badge <?= conditionClass($p['condition']) ?>"><?= htmlspecialchars($p['condition']) ?></span>
         </div>
+        <div class="product-connectivity"><?= htmlspecialchars($p['connectivity']) ?></div>
         <div class="product-price-row">
           <div>
             <span class="product-price">$<?= number_format($p['price'], 2) ?></span>
@@ -180,6 +185,7 @@ foreach ($products as $p) {
     'emoji'     => $p['emoji'],
     'badge'     => $p['badge'],
     'condition' => $p['condition'],
+    'connectivity' => $p['connectivity'],
     'stock'     => $p['stock'],
     'img'       => $p['img'],
     'imgClass'  => isset($p['imgClass']) ? $p['imgClass'] : '',
@@ -216,7 +222,10 @@ function openQuickView(id) {
   infoEl.innerHTML =
     '<div class="modal-brand">' + escHtml(p.brand) + '</div>' +
     '<div class="modal-name">' + escHtml(p.name) + '</div>' +
-    '<span class="condition-badge ' + _condClass(p.condition) + '">' + escHtml(p.condition) + '</span>' +
+    '<div class="modal-chip-row">' +
+      '<span class="condition-badge ' + _condClass(p.condition) + '">' + escHtml(p.condition) + '</span>' +
+      '<span class="condition-badge">' + escHtml(p.connectivity) + '</span>' +
+    '</div>' +
     '<hr class="modal-divider">' +
     '<div class="modal-price-row">' +
       '<span class="modal-price">$' + parseFloat(p.price).toFixed(2) + '</span>' + origHtml +
@@ -267,7 +276,8 @@ function applyProductFilters() {
       card.dataset.name,
       card.dataset.brand,
       card.dataset.condition,
-      card.dataset.badge
+      card.dataset.badge,
+      card.dataset.connectivity
     ].join(' ').toLowerCase();
     var matchesSearch = TM_SEARCH_QUERY === '' || haystack.indexOf(TM_SEARCH_QUERY) !== -1;
     var show = matchesBrand && matchesSearch;

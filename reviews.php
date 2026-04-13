@@ -2,12 +2,12 @@
 $currentPage = 'reviews';
 
 $products = [
-  ['name' => 'iPad Pro M4 11"', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 750, 'img' => 'assets/images/iPad Pro M4 11.png'],
-  ['name' => 'iPad Pro M4 13"', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 950, 'img' => 'assets/images/iPad Pro M4 13.png'],
-  ['name' => 'iPad Air M2 11"', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 420, 'img' => 'assets/images/iPad Air M2 11.png'],
-  ['name' => 'iPad Air M2 13"', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 510, 'img' => 'assets/images/iPad Air M2 13.png'],
-  ['name' => 'iPad Mini 7', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 380, 'img' => 'assets/images/iPad Mini 7.png'],
-  ['name' => 'iPad 10th Gen', 'brand' => 'Apple', 'condition' => 'Grade A', 'badge' => '', 'price' => 220, 'img' => 'assets/images/iPad 10th Gen.png'],
+  ['name' => 'iPad Pro (11-inch, M4, 2024)', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Previous Gen', 'price' => 750, 'img' => 'assets/images/iPad Pro M4 11.png'],
+  ['name' => 'iPad Pro (13-inch, M4, 2024)', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Previous Gen', 'price' => 950, 'img' => 'assets/images/iPad Pro M4 13.png'],
+  ['name' => 'iPad Air (11-inch, M2, 2024)', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Previous Gen', 'price' => 420, 'img' => 'assets/images/iPad Air M2 11.png'],
+  ['name' => 'iPad Air (13-inch, M2, 2024)', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Previous Gen', 'price' => 510, 'img' => 'assets/images/iPad Air M2 13.png'],
+  ['name' => 'iPad Mini (7th Gen, A17 Pro, 2024)', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => 'Latest', 'price' => 380, 'img' => 'assets/images/iPad Mini 7.png'],
+  ['name' => 'iPad (10th Gen, A14, 2022)', 'brand' => 'Apple', 'condition' => 'Grade A', 'badge' => '', 'price' => 220, 'img' => 'assets/images/iPad 10th Gen.png'],
   ['name' => 'iPad Air (5th Gen)', 'brand' => 'Apple', 'condition' => 'Grade A', 'badge' => 'Sale', 'price' => 179, 'img' => 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=470&hei=556&fmt=png-alpha'],
   ['name' => 'iPad Pro 12.9"', 'brand' => 'Apple', 'condition' => 'Like New', 'badge' => '', 'price' => 450, 'img' => 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=470&hei=556&fmt=png-alpha'],
   ['name' => 'iPad Mini 6', 'brand' => 'Apple', 'condition' => 'Grade B', 'badge' => 'Best Seller', 'price' => 160, 'img' => 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-purple-202109?wid=470&hei=556&fmt=png-alpha'],
@@ -44,7 +44,7 @@ $products = [
 ];
 
 $videoReviews = [
-  'iPad Pro M4 11"' => [
+  'iPad Pro (11-inch, M4, 2024)' => [
     'youtube_embed' => 'https://www.youtube-nocookie.com/embed/4nzW7RKBGfc',
     'youtube_label' => 'Third-Party YouTube Review',
     'best_for' => 'Creative professionals, executives, and power users who want the strongest tablet-first app ecosystem.',
@@ -52,19 +52,19 @@ $videoReviews = [
     'cons' => ['Premium pricing', 'Accessories raise total cost'],
     'verdict' => 'If you want the best all-around premium tablet experience, this is the benchmark.',
   ],
-  'iPad Pro M4 13"' => [
+  'iPad Pro (13-inch, M4, 2024)' => [
     'youtube_embed' => 'https://www.youtube-nocookie.com/embed/Eib5gMwcT3o',
     'youtube_label' => 'Third-Party YouTube Review',
   ],
-  'iPad Air M2 11"' => [
+  'iPad Air (11-inch, M2, 2024)' => [
     'youtube_embed' => 'https://www.youtube-nocookie.com/embed/G58y3ua-wRw',
     'youtube_label' => 'Third-Party YouTube Review',
   ],
-  'iPad Mini 7' => [
+  'iPad Mini (7th Gen, A17 Pro, 2024)' => [
     'youtube_embed' => 'https://www.youtube-nocookie.com/embed/RzM6gzAB-vM',
     'youtube_label' => 'Third-Party YouTube Review',
   ],
-  'iPad 10th Gen' => [
+  'iPad (10th Gen, A14, 2022)' => [
     'youtube_embed' => 'https://www.youtube-nocookie.com/embed/1GYc_dzCFbU',
     'youtube_label' => 'Third-Party YouTube Review',
   ],
