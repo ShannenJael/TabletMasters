@@ -253,7 +253,6 @@ foreach ($products as $product) {
   ];
 }
 
-$featured = $reviews[0];
 $brandFilters = ['Apple', 'Samsung', 'Microsoft', 'Amazon'];
 $typeFilters = ['Written', 'YouTube + Written'];
 $requestedBrand = trim((string)($_GET['brand'] ?? 'all'));
@@ -265,6 +264,7 @@ $filteredReviews = array_values(array_filter($reviews, function ($review) use ($
   $typeMatch = $activeType === 'all' || $review['type'] === $activeType;
   return $brandMatch && $typeMatch;
 }));
+$featured = $filteredReviews[0] ?? $reviews[0];
 
 function buildReviewFilterUrl($brand, $type) {
   $params = [];

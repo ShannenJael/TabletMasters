@@ -13,10 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $cartRaw = $_POST['cart'] ?? '';
 $cart    = json_decode($cartRaw, true);
+$insurancePlan = trim((string)($_POST['insurance_plan'] ?? 'none'));
 
 if (!is_array($cart) || count($cart) === 0) {
     header('Location: /shop.php?error=empty_cart');
     exit;
+}
+
+$insurancePriceMap = [
+    'basic' => defined('STRIPE_PRICE_BASIC') ? STRIPE_PRICE_BASIC : '',
+    'protected' => defined('STRIPE_PRICE_PROTECTED') ? STRIPE_PRICE_PROTECTED : '',
+];
+
+if (!isset($insurancePriceMap[$insurancePlan]) && $insurancePlan !== 'none') {
+    $insurancePlan = 'none';
 }
 
 // Load inventory to get product names and prices
@@ -60,13 +70,27 @@ if (count($lineItems) === 0) {
 }
 
 // Build Stripe API payload
+$mode = 'payment';
 $payload = [
-    'mode'                => 'payment',
+    'mode'                => $mode,
     'line_items'          => $lineItems,
     'success_url'         => SITE_URL . '/success.php?session_id={CHECKOUT_SESSION_ID}&type=purchase',
     'cancel_url'          => SITE_URL . '/shop.php?cancelled=1',
     'billing_address_collection' => 'required',
+    'metadata' => [
+        'checkout_type' => 'purchase',
+        'insurance_plan' => $insurancePlan,
+    ],
 ];
+
+if ($insurancePlan !== 'none' && !empty($insurancePriceMap[$insurancePlan])) {
+    $payload['mode'] = 'subscription';
+    $payload['line_items'][] = [
+        'price' => $insurancePriceMap[$insurancePlan],
+        'quantity' => 1,
+    ];
+    $payload['metadata']['plan'] = $insurancePlan;
+}
 
 $response = stripePost('checkout/sessions', $payload);
 

@@ -28,7 +28,7 @@ test('insurance hero and booking section remain visually stable', async ({ page 
   await gotoAndWait(page, '/insurance.php');
   await page.waitForTimeout(1500);
 
-  await expect(page.locator('.ins-hero-redesign')).toHaveScreenshot('insurance-section.png', {
+  await expect(page.locator('.insurance-page-shell')).toHaveScreenshot('insurance-section.png', {
     timeout: 15000,
     maxDiffPixelRatio: 0.02,
   });

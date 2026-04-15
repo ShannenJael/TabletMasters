@@ -10,25 +10,13 @@ $type       = $_GET['type'] ?? '';
 $plan       = $_GET['plan'] ?? '';
 $subscribed = ($type === 'subscription');
 $order      = null;
+$insurancePlan = $plan;
 
 if ($sessionId && !$subscribed) {
     $session = stripeGet('checkout/sessions/' . urlencode($sessionId) . '?expand[]=line_items');
     if ($session && isset($session['id'])) {
         $order = $session;
-
-        // If customer selected an insurance plan, redirect them to subscribe
-        $insurancePlan = $session['metadata']['insurance_plan'] ?? '';
-        if (!empty($insurancePlan) && $insurancePlan !== 'none') {
-            $email = $session['customer_details']['email'] ?? '';
-            echo '<form id="sub-form" method="POST" action="/subscribe.php">';
-            echo '<input type="hidden" name="plan" value="' . htmlspecialchars($insurancePlan) . '">';
-            echo '<input type="hidden" name="email" value="' . htmlspecialchars($email) . '">';
-            echo '</form>';
-            echo '<script>
-localStorage.removeItem("tm_cart");
-setTimeout(function(){ document.getElementById("sub-form").submit(); }, 1500);
-</script>';
-        }
+        $insurancePlan = $session['metadata']['insurance_plan'] ?? ($session['metadata']['plan'] ?? $insurancePlan);
     }
 }
 
@@ -92,11 +80,11 @@ $planLabels = [
           </div>
         </div>
         <?php
-        $insurancePlan = $order['metadata']['insurance_plan'] ?? '';
+        $insurancePlan = $order['metadata']['insurance_plan'] ?? ($order['metadata']['plan'] ?? $insurancePlan);
         if (!empty($insurancePlan) && $insurancePlan !== 'none'):
         ?>
         <p class="success-note" style="color:var(--blue)">
-          <i class="fas fa-shield-alt"></i> Setting up your protection plan — please wait...
+          <i class="fas fa-shield-alt"></i> Your <?= htmlspecialchars($planLabels[$insurancePlan] ?? 'protection plan') ?> is included with this checkout and will continue monthly through Stripe.
         </p>
         <?php else: ?>
         <p class="success-note">

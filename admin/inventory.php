@@ -1,28 +1,14 @@
 <?php
-session_start();
+require_once __DIR__ . '/bootstrap.php';
 
 // ── CHANGE THIS PASSWORD ──────────────────────────────────────────────────────
-define('ADMIN_PASSWORD', 'tm-admin-2026');
 // ─────────────────────────────────────────────────────────────────────────────
 
 define('INVENTORY_FILE', __DIR__ . '/../data/inventory.json');
 
-// Handle login / logout
-if (isset($_POST['logout'])) {
-  session_destroy();
-  header('Location: inventory.php');
-  exit;
-}
-
-if (isset($_POST['password'])) {
-  if ($_POST['password'] === ADMIN_PASSWORD) {
-    $_SESSION['tm_admin'] = true;
-  } else {
-    $loginError = 'Incorrect password.';
-  }
-}
-
-$loggedIn = !empty($_SESSION['tm_admin']);
+$auth = tmAdminHandleAuth('inventory.php');
+$loggedIn = $auth['loggedIn'];
+$loginError = $auth['loginError'];
 
 // Handle flash message from save
 $flash = '';
@@ -669,6 +655,7 @@ $brandCounts = [
 <header class="admin-header">
   <div class="admin-header-brand">TABLET <span>MASTERS</span> &mdash; INVENTORY</div>
   <div class="admin-header-actions">
+    <a href="orders.php" class="btn btn-ghost btn-sm"><i class="fas fa-chart-line"></i> Financials</a>
     <a href="../shop.php" target="_blank" class="btn btn-ghost btn-sm"><i class="fas fa-external-link-alt"></i> View Shop</a>
     <form method="POST" style="display:inline">
       <button type="submit" name="logout" class="btn btn-ghost btn-sm">Sign Out</button>

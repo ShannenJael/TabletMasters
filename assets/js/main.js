@@ -51,7 +51,10 @@ function updateCartPricing(cart) {
   }
 
   var totalEl = document.getElementById('cart-total');
-  if (totalEl) totalEl.textContent = fmtPrice(subtotal);
+  if (totalEl) {
+    var dueToday = subtotal + ((plan.monthly > 0 && activeCart.length > 0) ? plan.monthly : 0);
+    totalEl.textContent = fmtPrice(dueToday);
+  }
 
   var planRow = document.getElementById('cart-plan-row');
   var planLabel = document.getElementById('cart-plan-label');
@@ -72,7 +75,7 @@ function updateCartPricing(cart) {
     totalNote.hidden = !showNote;
 
     if (showNote) {
-      totalNote.innerHTML = 'Protection is added as a monthly plan at checkout. Please go to the <a href="register.php">registration page</a> to register your device.';
+      totalNote.innerHTML = 'Your total includes the first month of protection. Future monthly protection payments continue in Stripe. Please go to the <a href="register.php">registration page</a> to register your device.';
     }
   }
 }

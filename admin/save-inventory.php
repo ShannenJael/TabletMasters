@@ -1,10 +1,6 @@
 <?php
-session_start();
-
-if (empty($_SESSION['tm_admin'])) {
-  header('Location: inventory.php');
-  exit;
-}
+require_once __DIR__ . '/bootstrap.php';
+tmAdminRequireLogin('inventory.php');
 
 define('INVENTORY_FILE', __DIR__ . '/../data/inventory.json');
 

@@ -50,6 +50,12 @@ if ($eventType === 'checkout.session.completed') {
     $customerName    = $session['customer_details']['name']  ?? null;
     $totalAmount     = $session['amount_total']              ?? 0;
     $currency        = $session['currency']                  ?? 'usd';
+    $paymentStatus   = $session['payment_status']            ?? 'completed';
+    $mode            = $session['mode']                      ?? '';
+    $metadata        = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
+    $checkoutType    = $metadata['checkout_type']            ?? ($mode === 'subscription' ? 'subscription' : 'purchase');
+    $plan            = $metadata['plan']                     ?? ($metadata['insurance_plan'] ?? '');
+    $stripeCreated   = (int)($session['created']             ?? time());
 
     // Fetch line items via direct API call
     $lineItems = [];
@@ -97,7 +103,12 @@ if ($eventType === 'checkout.session.completed') {
             'name'          => $customerName,
             'total'         => $totalAmount,
             'currency'      => $currency,
+            'payment_status'=> $paymentStatus,
+            'mode'          => $mode,
+            'checkout_type' => $checkoutType,
+            'plan'          => $plan,
             'items'         => $lineItems,
+            'stripe_created'=> $stripeCreated,
             'created_at'    => date('Y-m-d H:i:s'),
         ];
         file_put_contents($orderFile, json_encode($orders, JSON_PRETTY_PRINT));
