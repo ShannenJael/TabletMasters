@@ -1,13 +1,24 @@
 <?php
 require_once __DIR__ . '/bootstrap.php';
 
-$auth = tmAdminHandleAuth('orders.php');
+$auth = tmAdminHandleAuth('orders.php', true);
 $loggedIn = $auth['loggedIn'];
-$loginError = $auth['loginError'];
+$adminAuthenticated = $auth['isAuthenticated'];
 
 $configFile = __DIR__ . '/../includes/config.php';
 if (file_exists($configFile)) {
     require_once $configFile;
+}
+
+$stripeMode = 'missing';
+if (defined('STRIPE_SECRET_KEY') && STRIPE_SECRET_KEY !== '') {
+    if (strpos(STRIPE_SECRET_KEY, 'sk_live_') === 0) {
+        $stripeMode = 'live';
+    } elseif (strpos(STRIPE_SECRET_KEY, 'sk_test_') === 0) {
+        $stripeMode = 'test';
+    } else {
+        $stripeMode = 'unknown';
+    }
 }
 
 $logDir = __DIR__ . '/../data/logs';
@@ -23,7 +34,7 @@ if (!is_array($orders)) {
 }
 
 $stripeOrders = [];
-if (defined('STRIPE_SECRET_KEY') && STRIPE_SECRET_KEY !== '') {
+if ($stripeMode === 'live') {
     $stripeOrders = tmFetchStripeOrders(25);
 }
 
@@ -150,6 +161,30 @@ $purchaseCount = count(array_filter($normalizedOrders, function ($order) {
 $subscriptionCount = count(array_filter($normalizedOrders, function ($order) {
     return $order['checkout_type'] === 'subscription';
 }));
+
+$insuranceOrders = array_values(array_filter($normalizedOrders, function ($order) {
+    return ($order['plan'] ?? '') !== '' && ($order['plan'] ?? '') !== 'none';
+}));
+
+$paidInsuranceOrders = array_values(array_filter($insuranceOrders, function ($order) {
+    return $order['payment_status'] === 'paid' || $order['payment_status'] === 'completed' || $order['payment_status'] === '';
+}));
+
+$insuranceRevenueCents = array_sum(array_map(function ($order) {
+    return (int)$order['total_cents'];
+}, $paidInsuranceOrders));
+
+$visibleInsuranceOrders = array_values(array_filter($visibleOrders, function ($order) {
+    return ($order['plan'] ?? '') !== '' && ($order['plan'] ?? '') !== 'none';
+}));
+
+$visiblePaidInsuranceOrders = array_values(array_filter($visibleInsuranceOrders, function ($order) {
+    return $order['payment_status'] === 'paid' || $order['payment_status'] === 'completed' || $order['payment_status'] === '';
+}));
+
+$visibleInsuranceRevenueCents = array_sum(array_map(function ($order) {
+    return (int)$order['total_cents'];
+}, $visiblePaidInsuranceOrders));
 
 $averageOrderCents = count($paidOrders) > 0 ? (int)round($totalRevenueCents / count($paidOrders)) : 0;
 $latestOrder = $normalizedOrders[0] ?? null;
@@ -451,7 +486,7 @@ function h(string $value): string
     }
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -605,34 +640,20 @@ function h(string $value): string
 </head>
 <body>
 
-<?php if (!$loggedIn): ?>
-<div class="login-wrap">
-  <div class="login-card">
-    <h1>TABLET <span style="color:#3b82f6">MASTERS</span></h1>
-    <p>Financials Admin - enter password to continue</p>
-    <?php if ($loginError !== ''): ?>
-    <div class="login-error"><i class="fas fa-exclamation-circle"></i> <?= h($loginError) ?></div>
-    <?php endif; ?>
-    <form method="POST">
-      <label for="pw">Password</label>
-      <input type="password" id="pw" name="password" autofocus autocomplete="current-password" />
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Sign In</button>
-    </form>
-  </div>
-</div>
-<?php else: ?>
-
 <header class="admin-header">
   <div class="admin-brand">TABLET <span>MASTERS</span> ADMIN</div>
   <nav class="admin-nav">
+    <a class="nav-link" href="index.php">Management Console</a>
     <a class="nav-link" href="inventory.php">Inventory</a>
     <a class="nav-link active" href="orders.php">Financials</a>
   </nav>
   <div class="admin-actions">
     <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noreferrer" class="btn btn-ghost"><i class="fas fa-arrow-up-right-from-square"></i> Stripe</a>
+    <?php if ($adminAuthenticated): ?>
     <form method="POST" style="display:inline">
       <button type="submit" name="logout" class="btn btn-ghost">Sign Out</button>
     </form>
+    <?php endif; ?>
   </div>
 </header>
 
@@ -650,6 +671,8 @@ function h(string $value): string
         <span class="chip"><?= moneyFormat($totalRevenueCents) ?> total revenue</span>
         <span class="chip"><?= $purchaseCount ?> purchases</span>
         <span class="chip"><?= $subscriptionCount ?> subscriptions</span>
+        <span class="chip"><?= count($insuranceOrders) ?> insured orders</span>
+        <span class="chip">Stripe <?= h(strtoupper($stripeMode)) ?></span>
       </div>
     </div>
     <aside class="hero-card">
@@ -685,12 +708,26 @@ function h(string $value): string
       <div class="stat-value"><?= count($visibleOrders) ?></div>
       <div class="stat-copy">Orders matching the current search and type filter.</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Insurance Orders</div>
+      <div class="stat-value"><?= count($insuranceOrders) ?></div>
+      <div class="stat-copy">Completed purchases or subscriptions that include a protection plan.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Insurance Revenue</div>
+      <div class="stat-value"><?= moneyFormat($insuranceRevenueCents) ?></div>
+      <div class="stat-copy">Total paid revenue from orders that include a Basic or Protected insurance plan.</div>
+    </div>
   </section>
 
   <?php if (!is_dir($logDir) || !file_exists($orderFile)): ?>
   <div class="notice">
     <i class="fas fa-info-circle"></i>
-    <?php if (count($stripeOrders) > 0): ?>
+    <?php if ($stripeMode === 'test'): ?>
+    This production server is still using Stripe test keys, so test transactions are hidden here. Switch `includes/config.php` to live Stripe keys and webhook secrets before taking real customer payments.
+    <?php elseif ($stripeMode !== 'live'): ?>
+    Stripe is not configured for live production orders yet. Add your live Stripe keys in `includes/config.php` so real customer transactions can appear here.
+    <?php elseif (count($stripeOrders) > 0): ?>
     This server has no local `orders.json` ledger yet, so this page is currently showing live transactions pulled directly from Stripe.
     <?php else: ?>
     This server has no `orders.json` file yet. The table below is ready, and transactions will start appearing here once Stripe webhook completions are received by `webhook.php`.
@@ -725,6 +762,8 @@ function h(string $value): string
       </div>
       <div class="chip-row" style="margin-top:0;">
         <span class="chip"><?= count($visibleOrders) ?> shown</span>
+        <span class="chip"><?= count($visibleInsuranceOrders) ?> insured shown</span>
+        <span class="chip"><?= moneyFormat($visibleInsuranceRevenueCents) ?> insured shown revenue</span>
       </div>
     </div>
 
@@ -785,7 +824,5 @@ function h(string $value): string
     <?php endif; ?>
   </section>
 </main>
-
-<?php endif; ?>
 </body>
 </html>

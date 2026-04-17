@@ -655,6 +655,7 @@ $brandCounts = [
 <header class="admin-header">
   <div class="admin-header-brand">TABLET <span>MASTERS</span> &mdash; INVENTORY</div>
   <div class="admin-header-actions">
+    <a href="index.php" class="btn btn-ghost btn-sm"><i class="fas fa-sitemap"></i> Management Console</a>
     <a href="orders.php" class="btn btn-ghost btn-sm"><i class="fas fa-chart-line"></i> Financials</a>
     <a href="../shop.php" target="_blank" class="btn btn-ghost btn-sm"><i class="fas fa-external-link-alt"></i> View Shop</a>
     <form method="POST" style="display:inline">

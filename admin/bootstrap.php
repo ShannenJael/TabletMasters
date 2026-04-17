@@ -5,12 +5,13 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 if (!defined('ADMIN_PASSWORD')) {
-    define('ADMIN_PASSWORD', 'tm-admin-2026');
+    define('ADMIN_PASSWORD', 'tm-admin-2026!');
 }
 
-function tmAdminHandleAuth(string $redirectPath): array
+function tmAdminHandleAuth(string $redirectPath, bool $allowPublic = false): array
 {
     $loginError = '';
+    $isAuthenticated = !empty($_SESSION['tm_admin']);
 
     if (isset($_POST['logout'])) {
         session_destroy();
@@ -21,13 +22,15 @@ function tmAdminHandleAuth(string $redirectPath): array
     if (isset($_POST['password'])) {
         if ((string)$_POST['password'] === ADMIN_PASSWORD) {
             $_SESSION['tm_admin'] = true;
+            $isAuthenticated = true;
         } else {
             $loginError = 'Incorrect password.';
         }
     }
 
     return [
-        'loggedIn' => !empty($_SESSION['tm_admin']),
+        'loggedIn' => $allowPublic || $isAuthenticated,
+        'isAuthenticated' => $isAuthenticated,
         'loginError' => $loginError,
     ];
 }
