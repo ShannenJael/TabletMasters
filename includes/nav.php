@@ -1,6 +1,6 @@
 <?php
 // $currentPage is set by each page before including this file
-// Possible values: home, shop, insurance, register, plans, games, about, forum, reviews
+// Possible values: home, shop, accessories, insurance, register, plans, games, about, forum, reviews
 if (!isset($currentPage)) $currentPage = 'home';
 
 $nav = [
@@ -17,8 +17,10 @@ $nav = [
     ['label' => 'Samsung',   'href' => 'shop.php?brand=Samsung'],
     ['label' => 'Microsoft', 'href' => 'shop.php?brand=Microsoft'],
     ['label' => 'Amazon',    'href' => 'shop.php?brand=Amazon'],
+    ['label' => 'Accessories', 'href' => 'accessories.php'],
     ['label' => 'Services',  'href' => 'insurance.php'],
   ]],
+  ['id' => 'accessories','label' => 'Accessories',     'href' => 'accessories.php', 'sub' => []],
   ['id' => 'insurance', 'label' => 'Insurance & Repair','href' => 'insurance.php', 'sub' => [
     ['label' => 'Coverage Plans',      'href' => 'plans.php'],
     ['label' => 'Register Tablet',     'href' => 'register.php'],

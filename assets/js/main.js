@@ -93,6 +93,7 @@ function addToCart(product) {
       brand: product.brand,
       price: product.price,
       emoji: product.emoji,
+      img: product.img || '',
       qty: 1
     });
   }
@@ -173,19 +174,23 @@ function renderCartItems() {
 
   var html = '';
   cart.forEach(function(item) {
+    var idJs = JSON.stringify(item.id);
+    var mediaHtml = item.img
+      ? '<img class="cart-item-thumb" src="' + escHtml(item.img) + '" alt="' + escHtml(item.name) + '">'
+      : item.emoji;
     html +=
       '<div class="cart-item">' +
-        '<div class="cart-item-emoji">' + item.emoji + '</div>' +
+        '<div class="cart-item-emoji">' + mediaHtml + '</div>' +
         '<div class="cart-item-info">' +
           '<div class="cart-item-name">' + escHtml(item.name) + '</div>' +
           '<div class="cart-item-price">' + fmtPrice(item.price) + '</div>' +
           '<div class="cart-item-qty">' +
-            '<button class="qty-btn" onclick="adjustQty(' + item.id + ', -1)">-</button>' +
+            '<button class="qty-btn" onclick="adjustQty(' + idJs + ', -1)">-</button>' +
             '<span class="qty-num">' + item.qty + '</span>' +
-            '<button class="qty-btn" onclick="adjustQty(' + item.id + ', 1)">+</button>' +
+            '<button class="qty-btn" onclick="adjustQty(' + idJs + ', 1)">+</button>' +
           '</div>' +
         '</div>' +
-        '<button class="cart-remove" onclick="removeItem(' + item.id + ')">x</button>' +
+        '<button class="cart-remove" onclick="removeItem(' + idJs + ')">x</button>' +
       '</div>';
   });
   container.innerHTML = html;

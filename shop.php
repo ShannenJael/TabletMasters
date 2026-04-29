@@ -1,4 +1,7 @@
-<?php $currentPage = 'shop'; ?>
+<?php
+$currentPage = 'shop';
+require_once __DIR__ . '/includes/accessories-data.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +39,12 @@ foreach ($products as $index => &$product) {
 }
 unset($product);
 
+$accessoryCatalog = tm_build_accessory_catalog($products);
+$accessoryByTablet = [];
+foreach ($accessoryCatalog as $entry) {
+  $accessoryByTablet[$entry['tablet_name']] = $entry;
+}
+
 function badgeClass($badge) {
   if ($badge === 'Sale') return 'badge-sale';
   if ($badge === 'New' || $badge === 'New Arrival' || $badge === 'Latest') return 'badge-new';
@@ -55,6 +64,9 @@ function conditionClass($condition) {
     <div>
       <div class="section-label">// Browse the Collection</div>
       <div class="section-title">TABLETS SALES</div>
+      <p class="shop-subcopy">
+        Need protection too? Browse matching <a href="accessories.php">cases and screen covers</a> for every tablet family.
+      </p>
     </div>
     <div class="shop-controls">
       <label class="shop-search" for="shop-search">
@@ -81,6 +93,7 @@ function conditionClass($condition) {
         <option value="price-asc">Price: Low &rarr; High</option>
         <option value="price-desc">Price: High &rarr; Low</option>
       </select>
+      <a class="btn-outline shop-accessories-link" href="accessories.php">Accessories</a>
     </div>
   </div>
 
@@ -176,6 +189,8 @@ function conditionClass($condition) {
 <?php
 $jsProducts = [];
 foreach ($products as $p) {
+  $baseName = tm_accessory_base_name($p['name']);
+  $matchingAccessory = $accessoryByTablet[$baseName] ?? null;
   $jsProducts[] = [
     'id'        => $p['id'],
     'name'      => $p['name'],
@@ -190,6 +205,21 @@ foreach ($products as $p) {
     'img'       => $p['img'],
     'imgClass'  => isset($p['imgClass']) ? $p['imgClass'] : '',
     'sortOrder' => $p['sortOrder'],
+    'accessory' => $matchingAccessory ? [
+      'tabletName' => $matchingAccessory['tablet_name'],
+      'case' => [
+        'id' => tm_accessory_case_id($matchingAccessory['key']),
+        'name' => $matchingAccessory['case_name'],
+        'price' => $matchingAccessory['case_price'],
+        'img' => $matchingAccessory['placeholder_image'],
+      ],
+      'screen' => [
+        'id' => tm_accessory_screen_id($matchingAccessory['key']),
+        'name' => $matchingAccessory['screen_name'],
+        'price' => $matchingAccessory['screen_price'],
+        'img' => $matchingAccessory['placeholder_image'],
+      ],
+    ] : null,
   ];
 }
 ?>
@@ -216,6 +246,21 @@ function openQuickView(id) {
   var origHtml = p.orig ? '<span class="modal-price-orig">$' + parseFloat(p.orig).toFixed(2) + '</span>' : '';
   var stockClass = p.stock <= 3 ? 'stock-low' : 'stock-ok';
   var stockText = p.stock <= 3 ? 'Only ' + p.stock + ' left!' : 'In Stock (' + p.stock + ')';
+  var accessoryHtml = '';
+  if (p.accessory && p.accessory.case) {
+    accessoryHtml =
+      '<div class="modal-accessory-card">' +
+        '<div class="modal-accessory-copy">' +
+          '<div class="modal-accessory-label">Match It With</div>' +
+          '<div class="modal-accessory-name">' + escHtml(p.accessory.case.name) + '</div>' +
+          '<div class="modal-accessory-price">$' + parseFloat(p.accessory.case.price).toFixed(2) + '</div>' +
+        '</div>' +
+        '<div class="modal-accessory-actions">' +
+          '<button class="modal-accessory-btn" id="qv-case-btn" type="button">Add Matching Case</button>' +
+          '<button class="modal-accessory-btn modal-accessory-btn-primary" id="qv-bundle-btn" type="button">Add Tablet + Case</button>' +
+        '</div>' +
+      '</div>';
+  }
   document.getElementById('qv-img-side').innerHTML = imgHtml;
 
   var infoEl = document.getElementById('qv-info-side');
@@ -232,12 +277,43 @@ function openQuickView(id) {
     '</div>' +
     '<div class="stock-tag ' + stockClass + '" style="margin-top:4px">' + stockText + '</div>' +
     '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; 4 year coverage available</div>' +
+    accessoryHtml +
     '<button class="modal-add-btn" id="qv-add-btn">Add to Cart</button>';
 
   document.getElementById('qv-add-btn').addEventListener('click', function() {
     addToCart({ id: p.id, name: p.name, brand: p.brand, price: p.price, emoji: p.emoji });
     closeQuickView();
   });
+
+  var caseBtn = document.getElementById('qv-case-btn');
+  if (caseBtn && p.accessory && p.accessory.case) {
+    caseBtn.addEventListener('click', function() {
+      addToCart({
+        id: p.accessory.case.id,
+        name: p.accessory.case.name,
+        brand: p.brand,
+        price: p.accessory.case.price,
+        emoji: 'Case',
+        img: p.accessory.case.img
+      });
+    });
+  }
+
+  var bundleBtn = document.getElementById('qv-bundle-btn');
+  if (bundleBtn && p.accessory && p.accessory.case) {
+    bundleBtn.addEventListener('click', function() {
+      addToCart({ id: p.id, name: p.name, brand: p.brand, price: p.price, emoji: p.emoji });
+      addToCart({
+        id: p.accessory.case.id,
+        name: p.accessory.case.name,
+        brand: p.brand,
+        price: p.accessory.case.price,
+        emoji: 'Case',
+        img: p.accessory.case.img
+      });
+      closeQuickView();
+    });
+  }
 
   document.getElementById('qv-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';

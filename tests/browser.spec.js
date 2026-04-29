@@ -65,6 +65,24 @@ test('shop filtering, search, and cart interactions behave correctly', async ({ 
   await expect(page.locator('#cart-items')).toContainText(/iPad|Galaxy|Surface|Fire/i);
 });
 
+test('accessories page exposes protection placeholders for tablet families', async ({ page }) => {
+  await gotoAndWait(page, '/accessories.php?brand=Apple');
+
+  await expect(page.locator('.brand-tab.active')).toHaveText('Apple');
+  await expect(page.locator('.accessory-card:visible').first()).toBeVisible();
+  await expect(page.locator('.accessory-card:visible').first()).toContainText(/Case Placeholder/i);
+
+  await page.locator('.accessory-card:visible .accessory-buy-btn').first().click();
+  await expect(page.locator('#cart-badge')).toHaveText('1');
+
+  await page.getByLabel(/search accessories/i).fill('Surface');
+  await expect(page.locator('.accessory-card:visible')).toHaveCount(0);
+  await expect(page.locator('#accessories-empty-state')).toBeVisible();
+
+  await page.getByLabel(/search accessories/i).fill('iPad');
+  await expect(page.locator('.accessory-card:visible').first()).toBeVisible();
+});
+
 test('insurance page repair form is reachable from CTA', async ({ page }) => {
   await gotoAndWait(page, '/insurance.php');
 

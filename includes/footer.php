@@ -19,6 +19,7 @@
       <a class="footer-link" href="shop.php?brand=Samsung">Samsung</a>
       <a class="footer-link" href="shop.php?brand=Microsoft">Microsoft</a>
       <a class="footer-link" href="shop.php?brand=Amazon">Amazon</a>
+      <a class="footer-link" href="accessories.php">Accessories</a>
       <a class="footer-link" href="insurance.php">Services</a>
     </div>
 

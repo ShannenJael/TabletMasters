@@ -3,6 +3,7 @@ const corePages = [
   '/index.php',
   '/shop.php',
   '/shop.php?brand=Samsung',
+  '/accessories.php',
   '/insurance.php',
   '/plans.php',
   '/about.php'
@@ -11,6 +12,7 @@ const corePages = [
 const internalPagesForLinkScan = [
   '/index.php',
   '/shop.php',
+  '/accessories.php',
   '/insurance.php',
   '/plans.php',
   '/about.php'

@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/accessories-data.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /shop.php');
@@ -37,16 +38,20 @@ $inventory     = file_exists($inventoryFile)
 
 $productMap = [];
 foreach ($inventory as $product) {
-    $productMap[$product['id']] = $product;
+    $productMap[(string)$product['id']] = $product;
+}
+
+foreach (tm_build_accessory_products() as $product) {
+    $productMap[(string)$product['id']] = $product;
 }
 
 // Build Stripe line items
 $lineItems = [];
 foreach ($cart as $item) {
-    $id  = (int)($item['id']  ?? 0);
+    $id  = (string)($item['id']  ?? '');
     $qty = (int)($item['qty'] ?? 1);
 
-    if ($qty < 1 || !isset($productMap[$id])) continue;
+    if ($id === '' || $qty < 1 || !isset($productMap[$id])) continue;
 
     $product = $productMap[$id];
     $priceInCents = (int)round($product['price'] * 100);

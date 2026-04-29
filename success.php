@@ -4,6 +4,7 @@
  */
 $currentPage = 'shop';
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/accessories-data.php';
 
 $sessionId  = $_GET['session_id'] ?? null;
 $type       = $_GET['type'] ?? '';
@@ -11,12 +12,25 @@ $plan       = $_GET['plan'] ?? '';
 $subscribed = ($type === 'subscription');
 $order      = null;
 $insurancePlan = $plan;
+$recommendedAccessories = [];
 
 if ($sessionId && !$subscribed) {
     $session = stripeGet('checkout/sessions/' . urlencode($sessionId) . '?expand[]=line_items');
     if ($session && isset($session['id'])) {
         $order = $session;
         $insurancePlan = $session['metadata']['insurance_plan'] ?? ($session['metadata']['plan'] ?? $insurancePlan);
+
+        $tabletNames = [];
+        foreach (($session['line_items']['data'] ?? []) as $lineItem) {
+            $description = trim((string)($lineItem['description'] ?? ''));
+            if ($description !== '' && stripos($description, 'Case Placeholder') === false && stripos($description, 'Screen Cover Placeholder') === false) {
+                $tabletNames[] = $description;
+            }
+        }
+
+        if ($tabletNames) {
+            $recommendedAccessories = tm_find_accessories_for_tablets($tabletNames);
+        }
     }
 }
 
@@ -101,6 +115,43 @@ $planLabels = [
         <a class="btn-primary" href="shop.php">Continue Shopping</a>
         <a class="btn-outline" href="index.php">Back to Home</a>
       </div>
+
+      <?php if (!empty($recommendedAccessories)): ?>
+      <div class="success-accessories">
+        <div class="section-label">// Finish The Setup</div>
+        <h2 class="success-accessories-title">Would you like a case for your tablet?</h2>
+        <p class="success-accessories-copy">
+          Protective cases and screen covers are available for the tablet families in this order.
+          Review the matching options below if you want to protect the device right away.
+        </p>
+        <div class="success-accessory-grid">
+          <?php foreach (array_slice($recommendedAccessories, 0, 3) as $accessory): ?>
+          <article class="success-accessory-card">
+            <div class="success-accessory-kicker"><?= htmlspecialchars($accessory['brand']) ?></div>
+            <h3><?= htmlspecialchars($accessory['tablet_name']) ?></h3>
+            <p><?= htmlspecialchars($accessory['case_name']) ?> and <?= htmlspecialchars($accessory['screen_name']) ?> are available on the accessories page.</p>
+            <div class="success-accessory-prices">
+              <span>Case from $<?= number_format($accessory['case_price'], 2) ?></span>
+              <span>Screen cover from $<?= number_format($accessory['screen_price'], 2) ?></span>
+            </div>
+            <a class="btn-outline full" href="accessories.php?brand=<?= urlencode($accessory['brand']) ?>&tablet=<?= urlencode($accessory['tablet_name']) ?>">View Matching Accessories</a>
+          </article>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php else: ?>
+      <div class="success-accessories success-accessories-simple">
+        <div class="section-label">// Finish The Setup</div>
+        <h2 class="success-accessories-title">Would you like a case for your tablet?</h2>
+        <p class="success-accessories-copy">
+          Browse the new accessories page for matching protective cases and screen covers across Apple, Samsung,
+          Microsoft, and Amazon tablets.
+        </p>
+        <div class="success-actions success-actions-secondary">
+          <a class="btn-outline" href="accessories.php">Browse Accessories</a>
+        </div>
+      </div>
+      <?php endif; ?>
     <?php endif; ?>
 
   </div>
