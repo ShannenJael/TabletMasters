@@ -94,8 +94,41 @@ function tm_accessory_placeholder_image(string $key): string {
     if ($key === 'galaxy-tab-s9-plus') {
         return 'assets/images/Galaxy Tab S9+.png';
     }
-    if ($key === 'galaxy-tab-s10-plus') {
-        return 'assets/images/Galaxy Tab S10+.png';
+    if ($key === 'galaxy-tab-s9') {
+        return 'assets/images/Galaxy Tab S9.png';
+    }
+    if ($key === 'galaxy-tab-s10') {
+        return 'assets/images/Galaxy Tab S10 Lite.png';
+    }
+    if ($key === 'galaxy-tab-s10-lite') {
+        return 'assets/images/Galaxy Tab S10 Lite.png';
+    }
+    if ($key === 'galaxy-tab-s7-plus') {
+        return 'assets/images/Galaxy Tab S7+.png';
+    }
+    if ($key === 'ipad-9th-gen') {
+        return 'assets/images/iPad 9th Gen.png';
+    }
+    if ($key === 'ipad-10th-gen-a14-2022' || $key === 'ipad-10th-gen') {
+        return 'assets/images/iPad 10th Gen.png';
+    }
+    if ($key === 'ipad-air-4th-gen') {
+        return 'assets/images/iPad Air 4th Gen.png';
+    }
+    if ($key === 'ipad-air-11-inch-m2-2024') {
+        return 'assets/images/iPad Air M2 11.png';
+    }
+    if ($key === 'ipad-air-13-inch-m2-2024') {
+        return 'assets/images/iPad Air M2 13.png';
+    }
+    if ($key === 'ipad-mini-7th-gen-a17-pro-2024' || $key === 'ipad-mini-7') {
+        return 'assets/images/iPad Mini 7.png';
+    }
+    if ($key === 'ipad-pro-11-inch-m4-2024') {
+        return 'assets/images/iPad Pro M4 11.png';
+    }
+    if ($key === 'ipad-pro-13-inch-m4-2024') {
+        return 'assets/images/iPad Pro M4 13.png';
     }
 
     return 'assets/images/accessories/' . $key . '-bundle-placeholder.svg';
