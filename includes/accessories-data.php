@@ -125,16 +125,19 @@ function tm_accessory_placeholder_image(string $key): string {
         return 'assets/images/iPad Mini 7.png';
     }
     if ($key === 'ipad-mini-5') {
-        return 'assets/images/iPad Mini 7.png';
+        return 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-silver-201903?wid=470&hei=556&fmt=png-alpha';
     }
     if ($key === 'ipad-mini-6') {
-        return 'assets/images/iPad Mini 7.png';
+        return 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-select-wifi-purple-202109?wid=470&hei=556&fmt=png-alpha';
     }
     if ($key === 'ipad-pro-11-inch-m4-2024' || $key === 'ipad-pro-11-inch-m5-2025') {
         return 'assets/images/iPad Pro M4 11.png';
     }
-    if ($key === 'ipad-pro-13-inch-m4-2024' || $key === 'ipad-pro-13-inch-m5-2025' || $key === 'ipad-pro-12-9') {
+    if ($key === 'ipad-pro-13-inch-m4-2024' || $key === 'ipad-pro-13-inch-m5-2025') {
         return 'assets/images/iPad Pro M4 13.png';
+    }
+    if ($key === 'ipad-pro-12-9') {
+        return 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=470&hei=556&fmt=png-alpha';
     }
     if ($key === 'ipad-air-11-inch-m4-2026') {
         return 'assets/images/iPad Air M2 11.png';
@@ -143,7 +146,7 @@ function tm_accessory_placeholder_image(string $key): string {
         return 'assets/images/iPad Air M2 13.png';
     }
     if ($key === 'ipad-air-5th-gen') {
-        return 'assets/images/iPad Air 4th Gen.png';
+        return 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=470&hei=556&fmt=png-alpha';
     }
     if ($key === 'ipad-11th-gen-a16-2025' || $key === 'ipad-11th-gen') {
         return 'assets/images/iPad 10th Gen.png';
