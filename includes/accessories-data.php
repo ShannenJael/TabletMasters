@@ -125,7 +125,7 @@ function tm_accessory_placeholder_image(string $key): string {
         return 'assets/images/iPad Mini 7.png';
     }
     if ($key === 'ipad-mini-5') {
-        return 'assets/images/iPad 9th Gen.png';
+        return 'assets/images/iPad Mini 7.png';
     }
     if ($key === 'ipad-mini-6') {
         return 'assets/images/iPad Mini 7.png';
