@@ -7385,9 +7385,8 @@ footer {
 
 .accessory-bundle-panel {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+  flex-direction: column;
+  gap: 12px;
   padding: 18px;
   border-radius: 22px;
   background:
@@ -7413,21 +7412,23 @@ footer {
 }
 
 .accessory-bundle-cta {
-  min-width: 0;
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .accessory-bundle-price {
   font-size: 1.35rem;
   font-weight: 700;
   color: #f8fafc;
-  text-align: right;
+  white-space: nowrap;
 }
 
+.accessory-buy-btn {
+  flex: 1;
+  white-space: nowrap;
+}
 .accessory-offer {
   padding: 16px;
   border-radius: 18px;
@@ -7518,10 +7519,6 @@ footer {
   transform: translateY(-1px);
 }
 
-.accessory-buy-btn {
-  width: 100%;
-  margin-top: 0;
-}
 
 .cart-item-thumb {
   width: 56px;
