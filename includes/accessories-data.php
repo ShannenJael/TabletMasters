@@ -124,11 +124,29 @@ function tm_accessory_placeholder_image(string $key): string {
     if ($key === 'ipad-mini-7th-gen-a17-pro-2024' || $key === 'ipad-mini-7') {
         return 'assets/images/iPad Mini 7.png';
     }
-    if ($key === 'ipad-pro-11-inch-m4-2024') {
+    if ($key === 'ipad-mini-5') {
+        return 'assets/images/iPad 9th Gen.png';
+    }
+    if ($key === 'ipad-mini-6') {
+        return 'assets/images/iPad Mini 7.png';
+    }
+    if ($key === 'ipad-pro-11-inch-m4-2024' || $key === 'ipad-pro-11-inch-m5-2025') {
         return 'assets/images/iPad Pro M4 11.png';
     }
-    if ($key === 'ipad-pro-13-inch-m4-2024') {
+    if ($key === 'ipad-pro-13-inch-m4-2024' || $key === 'ipad-pro-13-inch-m5-2025' || $key === 'ipad-pro-12-9') {
         return 'assets/images/iPad Pro M4 13.png';
+    }
+    if ($key === 'ipad-air-11-inch-m4-2026') {
+        return 'assets/images/iPad Air M2 11.png';
+    }
+    if ($key === 'ipad-air-13-inch-m4-2026') {
+        return 'assets/images/iPad Air M2 13.png';
+    }
+    if ($key === 'ipad-air-5th-gen') {
+        return 'assets/images/iPad Air 4th Gen.png';
+    }
+    if ($key === 'ipad-11th-gen-a16-2025' || $key === 'ipad-11th-gen') {
+        return 'assets/images/iPad 10th Gen.png';
     }
 
     return 'assets/images/accessories/' . $key . '-bundle-placeholder.svg';
