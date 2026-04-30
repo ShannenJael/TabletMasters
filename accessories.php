@@ -118,14 +118,14 @@ foreach ($catalog as $entry) {
         <p class="accessory-compatibility"><?= htmlspecialchars($compatibility) ?></p>
 
         <div class="accessory-bundle-panel">
-          <div class="accessory-bundle-copy">
-            <span class="accessory-bundle-eyebrow">Bundle</span>
-            <h3>Case + Screen Cover</h3>
-          </div>
-          <div class="accessory-bundle-cta">
+          <div class="accessory-bundle-top">
+            <div class="accessory-bundle-copy">
+              <span class="accessory-bundle-eyebrow">Bundle</span>
+              <h3>Case + Screen Cover</h3>
+            </div>
             <div class="accessory-bundle-price">From $<?= number_format($bundleStartingAt, 2) ?></div>
-            <button class="btn-primary full accessory-buy-btn" type="button" onclick='addAccessoryBundleToCart(<?= json_encode($caseProduct) ?>, <?= json_encode($screenProduct) ?>)'>Add Full Bundle</button>
           </div>
+          <button class="btn-primary accessory-buy-btn" type="button" onclick='addAccessoryBundleToCart(<?= json_encode($caseProduct) ?>, <?= json_encode($screenProduct) ?>)'>Add Full Bundle</button>
         </div>
 
         <div class="accessory-offer-grid">
