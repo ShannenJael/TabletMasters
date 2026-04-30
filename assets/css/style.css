@@ -7427,6 +7427,9 @@ footer {
 
 .accessory-buy-btn {
   flex: 1;
+  min-width: 0;
+  width: auto !important;
+  text-align: center;
   white-space: nowrap;
 }
 .accessory-offer {
