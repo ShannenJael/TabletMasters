@@ -7483,8 +7483,31 @@ footer {
 .accessory-actions {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-top: 4px;
+  align-items: center;
+}
+
+.accessory-cart-icon {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid rgba(96,165,250,0.24);
+  background: rgba(59,130,246,0.14);
+  color: #dbeafe;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  flex-shrink: 0;
+}
+
+.accessory-cart-icon:hover {
+  background: rgba(59,130,246,0.24);
+  border-color: rgba(96,165,250,0.44);
+  transform: translateY(-1px);
 }
 
 .accessory-buy-btn {
@@ -7596,11 +7619,10 @@ footer {
   }
 
   .accessory-actions {
-    flex-direction: column;
+    flex-direction: row;
   }
 
-  .accessory-actions .btn-primary,
   .accessory-actions .btn-outline {
-    width: 100%;
+    flex: 1 1 auto;
   }
 }

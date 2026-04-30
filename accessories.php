@@ -157,6 +157,15 @@ foreach ($catalog as $entry) {
         </div>
 
         <div class="accessory-actions">
+          <button
+            class="accessory-cart-icon"
+            type="button"
+            onclick='addAccessoryBundleToCart(<?= json_encode($caseProduct) ?>, <?= json_encode($screenProduct) ?>)'
+            aria-label="Add bundle to cart"
+            title="Add bundle to cart"
+          >
+            <i class="fas fa-cart-plus" aria-hidden="true"></i>
+          </button>
           <a class="btn-outline" href="<?= htmlspecialchars($mailto) ?>">Ask About Fit</a>
         </div>
       </div>
@@ -174,11 +183,13 @@ var TM_ACCESSORY_SEARCH = <?= json_encode(strtolower($tabletFilter)) ?>;
 
 function addAccessoryToCart(product) {
   addToCart(product);
+  openCart();
 }
 
 function addAccessoryBundleToCart(caseProduct, screenProduct) {
   addToCart(caseProduct);
   addToCart(screenProduct);
+  openCart();
 }
 
 function filterAccessories(brand) {

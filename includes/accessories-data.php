@@ -16,12 +16,88 @@ function tm_accessory_base_name(string $tabletName): string {
 }
 
 function tm_accessory_slug(string $tabletName): string {
-    $slug = strtolower(tm_accessory_base_name($tabletName));
+    $slug = strtolower(str_replace('+', ' Plus ', tm_accessory_base_name($tabletName)));
     $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
     return trim((string)$slug, '-');
 }
 
 function tm_accessory_placeholder_image(string $key): string {
+    if ($key === 'fire-hd-10-2023') {
+        return 'assets/images/Fire HD 10 (2025) 1.png';
+    }
+    if ($key === 'fire-hd-10-plus') {
+        return 'assets/images/Fire HD 10 (2025).png';
+    }
+    if ($key === 'fire-hd-7') {
+        return 'assets/images/Fire 7 (2024).png';
+    }
+    if ($key === 'fire-hd-8-2022') {
+        return 'assets/images/Fire HD 8.png';
+    }
+    if ($key === 'fire-max-11') {
+        return 'assets/images/Fire Max 11.png';
+    }
+    if ($key === 'surface-go-3') {
+        return 'assets/images/Surface Go 3.png';
+    }
+    if ($key === 'surface-go-4') {
+        return 'assets/images/Surface Go 4.png';
+    }
+    if ($key === 'surface-pro-11') {
+        return 'assets/images/Surface Pro 11.png';
+    }
+    if ($key === 'surface-pro-7') {
+        return 'assets/images/Surface Pro 7.png';
+    }
+    if ($key === 'surface-pro-8') {
+        return 'assets/images/Surface Pro 8.png';
+    }
+    if ($key === 'surface-pro-9') {
+        return 'assets/images/Surface Pro 9.png';
+    }
+    if ($key === 'surface-pro-x') {
+        return 'assets/images/Surface Pro 10 3-Photoroom.png';
+    }
+    if ($key === 'galaxy-tab-a8') {
+        return 'assets/images/Galaxy Tab A8.png';
+    }
+    if ($key === 'galaxy-tab-s6-lite') {
+        return 'assets/images/Galaxy Tab S6 Lite.png';
+    }
+    if ($key === 'galaxy-tab-s7') {
+        return 'assets/images/Galaxy Tab S7.png';
+    }
+    if ($key === 'galaxy-tab-s7-fe') {
+        return 'assets/images/Galaxy Tab S7 FE.png';
+    }
+    if ($key === 'galaxy-tab-s8') {
+        return 'assets/images/Galaxy Tab S8.png';
+    }
+    if ($key === 'galaxy-tab-s8-ultra') {
+        return 'assets/images/Galaxy Tab S8 Ultra.png';
+    }
+    if ($key === 'galaxy-tab-s9-fe') {
+        return 'assets/images/Galaxy Tab S9 FE.png';
+    }
+    if ($key === 'galaxy-tab-s10-plus') {
+        return 'assets/images/Galaxy Tab S10+.png';
+    }
+    if ($key === 'galaxy-tab-s10-fe') {
+        return 'assets/images/Galaxy Tab S10 FE.png';
+    }
+    if ($key === 'galaxy-tab-s10-ultra') {
+        return 'assets/images/Galaxy Tab S10 Ultra.png';
+    }
+    if ($key === 'galaxy-tab-s9-ultra') {
+        return 'assets/images/Galaxy Tab S9 Ultra.png';
+    }
+    if ($key === 'galaxy-tab-s9-plus') {
+        return 'assets/images/Galaxy Tab S9+.png';
+    }
+    if ($key === 'galaxy-tab-s10-plus') {
+        return 'assets/images/Galaxy Tab S10+.png';
+    }
+
     return 'assets/images/accessories/' . $key . '-bundle-placeholder.svg';
 }
 
