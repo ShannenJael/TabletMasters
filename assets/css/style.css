@@ -1,4 +1,4 @@
-/* ── RESET & VARIABLES ── */
+/* â”€â”€ RESET & VARIABLES â”€â”€ */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -36,7 +36,7 @@ body {
   min-height:    100vh;
 }
 
-/* ── KEYFRAMES ── */
+/* â”€â”€ KEYFRAMES â”€â”€ */
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 8px var(--blue); }
   50%       { box-shadow: 0 0 20px var(--blue-glow); }
@@ -54,7 +54,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── NAV ── */
+/* â”€â”€ NAV â”€â”€ */
 .nav {
   position:        sticky;
   top:             0;
@@ -197,7 +197,7 @@ body {
   gap:         8px;
 }
 
-/* CTA nav buttons — flat 2D */
+/* CTA nav buttons â€” flat 2D */
 .nav-btn-outline {
   display:        inline-flex;
   align-items:    center;
@@ -307,7 +307,7 @@ body {
   border-left-color: var(--blue);
 }
 
-/* ── CART DRAWER ── */
+/* â”€â”€ CART DRAWER â”€â”€ */
 .cart-overlay {
   display:    none;
   position:   fixed;
@@ -427,7 +427,7 @@ body {
 }
 .cart-remove:hover { color: #EF4444; }
 
-/* ── CART INSURANCE UPSELL ── */
+/* â”€â”€ CART INSURANCE UPSELL â”€â”€ */
 .cart-upsell {
   padding:     16px 20px;
   border-top:  1px solid var(--border);
@@ -552,7 +552,7 @@ body {
 }
 .cart-total-note a:hover { text-decoration: underline; }
 
-/* ── TOAST ── */
+/* â”€â”€ TOAST â”€â”€ */
 .toast {
   position:       fixed;
   bottom:         28px;
@@ -592,7 +592,7 @@ body {
   background: rgba(59,130,246,0.12);
 }
 
-/* ── BUTTONS ── */
+/* â”€â”€ BUTTONS â”€â”€ */
 .btn-primary {
   background:     var(--blue);
   color:          #000;
@@ -632,7 +632,7 @@ body {
 .btn-outline:hover { background: var(--blue-glow); color: #000; transform: translateY(-2px); }
 .btn-outline.full  { width: 100%; text-align: center; }
 
-/* ── SHARED TYPOGRAPHY ── */
+/* â”€â”€ SHARED TYPOGRAPHY â”€â”€ */
 .section-label {
   font-family:    var(--display);
   font-size:      0.7rem;
@@ -651,7 +651,7 @@ body {
   color:          var(--white);
 }
 
-/* ── HOME / HERO ── */
+/* â”€â”€ HOME / HERO â”€â”€ */
 .hero {
   min-height:     calc(100vh - 64px);
   display:        flex;
@@ -673,7 +673,7 @@ body {
   z-index:    0;
 }
 
-/* Dark overlay — adjust opacity to control how dark the video appears */
+/* Dark overlay â€” adjust opacity to control how dark the video appears */
 .hero-video-overlay {
   position:   absolute;
   inset:      0;
@@ -773,7 +773,7 @@ body {
 .stat-num { font-family: var(--display); font-size: 42px; font-weight: 700; letter-spacing: 2px; color: var(--white); }
 .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
 
-/* ── INSURANCE BAR ── */
+/* â”€â”€ INSURANCE BAR â”€â”€ */
 .insurance-bar {
   background:      linear-gradient(135deg, var(--bg3) 0%, rgba(59,130,246,0.08) 100%);
   border-top:      1px solid var(--border);
@@ -800,7 +800,7 @@ body {
   flex-shrink:     0;
 }
 
-/* ── VIDEO SECTION ── */
+/* â”€â”€ VIDEO SECTION â”€â”€ */
 .video-section { position: relative; width: 100%; background: var(--bg); overflow: hidden; }
 
 .video-section-inner {
@@ -889,7 +889,7 @@ body {
 .video-play-btn:hover { background: var(--blue); transform: translate(-50%, -50%) scale(1.1); }
 .video-play-btn.hidden { display: none; }
 
-/* ── SHOP ── */
+/* â”€â”€ SHOP â”€â”€ */
 .shop-section { padding: 60px 40px 100px; }
 
 .cart-prompt {
@@ -1036,7 +1036,7 @@ body {
 
 .product-brand { font-size: 12px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.5px; margin-bottom: 0; }
 
-/* ── CONDITION BADGE ── */
+/* â”€â”€ CONDITION BADGE â”€â”€ */
 .condition-badge {
   display:        inline-flex;
   align-items:    center;
@@ -1053,7 +1053,7 @@ body {
 .condition-grade-a  { background: rgba(59,130,246,0.12); color: var(--blue-glow); border: 1px solid var(--border);         }
 .condition-grade-b  { background: rgba(234,179,8,0.12);  color: #d4a820;        border: 1px solid rgba(234,179,8,0.25);  }
 
-/* ── WARRANTY BADGE ── */
+/* â”€â”€ WARRANTY BADGE â”€â”€ */
 .warranty-badge {
   display:     flex;
   align-items: center;
@@ -1064,7 +1064,7 @@ body {
   font-family: var(--mono);
 }
 
-/* ── STOCK TAG ── */
+/* â”€â”€ STOCK TAG â”€â”€ */
 .stock-tag {
   font-size:   11px;
   font-family: var(--mono);
@@ -1073,7 +1073,7 @@ body {
 .stock-low { color: #EF4444; font-weight: 600; }
 .stock-ok  { color: var(--muted); }
 
-/* ── SHOP CONTROLS (brand tabs + sort) ── */
+/* â”€â”€ SHOP CONTROLS (brand tabs + sort) â”€â”€ */
 .shop-controls {
   display:     flex;
   align-items: center;
@@ -1119,7 +1119,7 @@ body {
   color:          var(--muted);
 }
 
-/* ── SORT DROPDOWN ── */
+/* â”€â”€ SORT DROPDOWN â”€â”€ */
 .sort-select {
   background:    var(--surface);
   color:         var(--white);
@@ -1150,7 +1150,7 @@ body {
   padding:        24px;
 }
 
-/* ── QUICK VIEW BUTTON ── */
+/* â”€â”€ QUICK VIEW BUTTON â”€â”€ */
 .quick-view-btn {
   position:        absolute;
   bottom:          12px;
@@ -1178,7 +1178,7 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── QUICK VIEW MODAL ── */
+/* â”€â”€ QUICK VIEW MODAL â”€â”€ */
 .modal-overlay {
   display:         none;
   position:        fixed;
@@ -1385,7 +1385,7 @@ body {
 }
 .add-btn:hover { background: var(--blue-glow); transform: scale(1.08); }
 
-/* ── INSURANCE & REPAIR ── */
+/* â”€â”€ INSURANCE & REPAIR â”€â”€ */
 .ins-section { padding: 70px 40px 100px; max-width: 1100px; margin: 0 auto; }
 
 .ins-hero {
@@ -1542,7 +1542,7 @@ body {
 .repair-input:focus { border-color: var(--blue); }
 .repair-input option { background: var(--bg2); }
 
-/* ── ABOUT ── */
+/* â”€â”€ ABOUT â”€â”€ */
 .about-section { padding: 80px 40px; max-width: 960px; margin: 0 auto; }
 .policy-section { padding: 80px 40px 100px; max-width: 1100px; margin: 0 auto; }
 .policy-hero { max-width: 760px; margin-bottom: 36px; }
@@ -1638,7 +1638,7 @@ body {
 }
 .feature-list a:hover { text-decoration: underline; }
 
-/* ── PLANS ── */
+/* â”€â”€ PLANS â”€â”€ */
 .plans-section { padding: 80px 40px 100px; }
 .plans-header  { text-align: center; margin-bottom: 56px; }
 
@@ -1687,7 +1687,7 @@ body {
 .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
 .plan-dot { width: 5px; height: 5px; background: var(--blue); border-radius: 50%; flex-shrink: 0; }
 
-/* ── BUSINESS CONFERENCES ── */
+/* â”€â”€ BUSINESS CONFERENCES â”€â”€ */
 .conference-section {
   padding:   70px 40px 100px;
   max-width: 1160px;
@@ -1829,7 +1829,7 @@ body {
   resize:     vertical;
 }
 
-/* ── FOOTER ── */
+/* â”€â”€ FOOTER â”€â”€ */
 footer {
   background: var(--bg2);
   border-top: 1px solid var(--border);
@@ -1899,7 +1899,7 @@ footer {
 }
 .social-link:hover { background: rgba(59,130,246,0.15); border-color: var(--blue); color: var(--blue-glow); }
 
-/* ── SUCCESS / ALERT MESSAGES ── */
+/* â”€â”€ SUCCESS / ALERT MESSAGES â”€â”€ */
 .alert {
   padding:       14px 20px;
   border-radius: 10px;
@@ -1921,7 +1921,7 @@ footer {
   font-weight: 700;
 }
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media (max-width: 768px) {
   .nav { padding: 8px 20px; min-height: 84px; }
   .nav-links { display: none; }
@@ -1973,7 +1973,7 @@ footer {
   .reg-choice-copy strong em { display: inline-block; margin: 8px 0 0; }
 }
 
-/* ── DEVICE REGISTRATION PAGE ── */
+/* â”€â”€ DEVICE REGISTRATION PAGE â”€â”€ */
 .reg-page {
   max-width: 1200px;
   margin:    0 auto;
@@ -2476,7 +2476,7 @@ footer {
   }
 }
 
-/* ── DAMAGE TYPE CARDS ── */
+/* â”€â”€ DAMAGE TYPE CARDS â”€â”€ */
 .damage-type-label {
   font-size:     13px;
   color:         var(--muted);
@@ -6718,7 +6718,7 @@ footer {
   }
 }
 
-/* ── HOME PAGE ───────────────────────────────────────────────────────────────── */
+/* â”€â”€ HOME PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 /* Hero overrides for home layout */
 .home-hero-content {
@@ -6792,7 +6792,7 @@ footer {
   margin-bottom: 40px;
 }
 
-/* ── Entry Panel (Start in the right place) ── */
+/* â”€â”€ Entry Panel (Start in the right place) â”€â”€ */
 .home-entry-panel {
   background: linear-gradient(180deg, rgba(9,16,31,0.94) 0%, rgba(8,14,28,0.9) 100%);
   border: 1px solid rgba(59, 130, 246, 0.14);
@@ -6859,7 +6859,7 @@ footer {
   margin: 0;
 }
 
-/* ── Pathways Section ── */
+/* â”€â”€ Pathways Section â”€â”€ */
 .home-pathways {
   display: flex;
   flex-direction: column;
@@ -6933,7 +6933,7 @@ footer {
   margin-top: 8px;
 }
 
-/* ── Brand Section ── */
+/* â”€â”€ Brand Section â”€â”€ */
 .home-brand-section {
   display: flex;
   flex-direction: column;
@@ -7005,7 +7005,7 @@ footer {
   text-decoration: underline;
 }
 
-/* ── Service Section ── */
+/* â”€â”€ Service Section â”€â”€ */
 .home-service-section {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -7070,7 +7070,7 @@ footer {
   flex-shrink: 0;
 }
 
-/* ── Sector Section ── */
+/* â”€â”€ Sector Section â”€â”€ */
 .home-sector-section {
   display: flex;
   flex-direction: column;
@@ -7136,7 +7136,7 @@ footer {
   letter-spacing: 0.5px;
 }
 
-/* ── Bottom CTA ── */
+/* â”€â”€ Bottom CTA â”€â”€ */
 .home-bottom-cta {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -7155,7 +7155,7 @@ footer {
   flex-shrink: 0;
 }
 
-/* ── Responsive ── */
+/* â”€â”€ Responsive â”€â”€ */
 @media (max-width: 1100px) {
   .home-brand-grid,
   .home-sector-grid {
@@ -7413,10 +7413,11 @@ footer {
 }
 
 .accessory-bundle-cta {
-  min-width: 190px;
+  min-width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 10px;
 }
 
@@ -7425,7 +7426,6 @@ footer {
   font-weight: 700;
   color: #f8fafc;
   text-align: right;
-}
 }
 
 .accessory-offer {
@@ -7519,7 +7519,8 @@ footer {
 }
 
 .accessory-buy-btn {
-  margin-top: 2px;
+  width: 100%;
+  margin-top: 0;
 }
 
 .cart-item-thumb {
