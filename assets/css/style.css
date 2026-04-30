@@ -7414,14 +7414,18 @@ footer {
 
 .accessory-bundle-cta {
   min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 .accessory-bundle-price {
   font-size: 1.35rem;
   font-weight: 700;
   color: #f8fafc;
-  margin-bottom: 10px;
   text-align: right;
+}
 }
 
 .accessory-offer {
