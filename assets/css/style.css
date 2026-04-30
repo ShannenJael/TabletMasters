@@ -622,7 +622,7 @@ body {
   font-family:   var(--display);
   font-size:     0.85rem;
   font-weight:   700;
-  letter-spacing:1px;
+  letter-spacing: 0;
   text-transform:uppercase;
   cursor:        pointer;
   transition:    border-color 0.2s, background 0.2s, transform 0.15s;
