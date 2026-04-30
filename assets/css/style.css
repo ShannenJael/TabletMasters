@@ -7339,70 +7339,65 @@ footer {
   flex-direction: column;
   background: linear-gradient(180deg, rgba(17,24,39,0.96), rgba(15,23,42,0.98));
   border: 1px solid rgba(148,163,184,0.16);
-  border-radius: 28px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 24px 56px rgba(2, 6, 23, 0.32);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.28);
 }
 
 .accessory-visual {
-  padding: 22px 22px 0;
+  padding: 20px 20px 0;
 }
 
 .accessory-visual img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   display: block;
-  border-radius: 22px;
-  border: 1px solid rgba(191,219,254,0.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  border-radius: 16px;
   object-fit: contain;
-  background: rgba(255,255,255,0.03);
 }
 
 .accessory-body {
   flex: 1;
-  padding: 22px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .accessory-card-title {
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   line-height: 1.2;
 }
 
 .accessory-compatibility {
   color: var(--muted);
   line-height: 1.6;
-}
-
-.accessory-offer-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  font-size: 13px;
 }
 
 .accessory-bundle-panel {
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.98));
+  border: 1px solid rgba(96,165,250,0.2);
+}
+
+.accessory-bundle-top {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 18px;
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at top right, rgba(59,130,246,0.18), transparent 35%),
-    linear-gradient(135deg, rgba(30,41,59,0.82), rgba(15,23,42,0.95));
-  border: 1px solid rgba(96,165,250,0.18);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
 .accessory-bundle-copy h3 {
-  font-size: 1.15rem;
-  margin: 4px 0 0;
+  font-size: 1rem;
+  margin: 2px 0 0;
+  color: #f8fafc;
 }
 
 .accessory-bundle-eyebrow {
   display: inline-flex;
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-radius: 999px;
   background: rgba(59,130,246,0.16);
   color: #bfdbfe;
@@ -7411,30 +7406,29 @@ footer {
   text-transform: uppercase;
 }
 
-.accessory-bundle-cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
 .accessory-bundle-price {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #93c5fd;
   white-space: nowrap;
 }
 
 .accessory-buy-btn {
-  flex: 1;
-  min-width: 0;
-  width: auto !important;
+  display: block;
+  width: 100%;
   text-align: center;
-  white-space: nowrap;
+  box-sizing: border-box;
 }
+
+.accessory-offer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .accessory-offer {
-  padding: 16px;
-  border-radius: 18px;
+  padding: 14px;
+  border-radius: 14px;
   background: rgba(15,23,42,0.68);
   border: 1px solid rgba(148,163,184,0.12);
 }
@@ -7445,6 +7439,7 @@ footer {
   text-align: left;
   cursor: pointer;
   transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  width: 100%;
 }
 
 .accessory-offer-action:hover {
@@ -7457,56 +7452,56 @@ footer {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
 }
 
 .accessory-offer-label {
   color: #93c5fd;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .accessory-offer-name {
   font-weight: 600;
+  font-size: 14px;
   line-height: 1.2;
 }
 
 .accessory-offer-price {
   color: #93c5fd;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .accessory-offer-footer {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #cbd5e1;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .accessory-chip-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .accessory-actions {
   display: flex;
-  gap: 12px;
-  flex-wrap: nowrap;
+  gap: 10px;
   margin-top: 4px;
   align-items: center;
 }
 
 .accessory-cart-icon {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid rgba(96,165,250,0.24);
   background: rgba(59,130,246,0.14);
   color: #dbeafe;
