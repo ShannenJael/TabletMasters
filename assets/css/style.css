@@ -3411,15 +3411,15 @@ footer {
   height: 56.25vw;
   min-height: 100%;
   transform: translate(-50%, -50%);
-  opacity: 0.5;
+  opacity: 0.8;
   filter: saturate(1.05) contrast(1.02);
 }
 
 .tablet-games-hero-video-overlay {
   z-index: 0;
   background:
-    linear-gradient(135deg, rgba(6,10,18,0.9) 0%, rgba(6,10,18,0.58) 42%, rgba(6,10,18,0.86) 100%),
-    radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 36%);
+    linear-gradient(135deg, rgba(6,10,18,0.65) 0%, rgba(6,10,18,0.3) 42%, rgba(6,10,18,0.6) 100%),
+    radial-gradient(circle at top left, rgba(59,130,246,0.12), transparent 36%);
 }
 
 .tablet-games-hero-inner,
