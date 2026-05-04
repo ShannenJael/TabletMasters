@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__ . '/../includes/accessories-data.php';
 
 // ── CHANGE THIS PASSWORD ──────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────
@@ -21,6 +22,14 @@ if (file_exists(INVENTORY_FILE)) {
   $products = json_decode(file_get_contents(INVENTORY_FILE), true) ?: [];
 }
 
+foreach ($products as &$product) {
+  $product['productType'] = tm_inventory_product_type($product);
+  if (!isset($product['compatibleKey'])) {
+    $product['compatibleKey'] = '';
+  }
+}
+unset($product);
+
 // Sort by brand then name for display
 usort($products, function($a, $b) {
   $brandOrder = ['Apple' => 0, 'Samsung' => 1, 'Microsoft' => 2, 'Amazon' => 3];
@@ -37,6 +46,11 @@ $brandCounts = [
   'Samsung' => count(array_filter($products, fn($p) => ($p['brand'] ?? '') === 'Samsung')),
   'Microsoft' => count(array_filter($products, fn($p) => ($p['brand'] ?? '') === 'Microsoft')),
   'Amazon' => count(array_filter($products, fn($p) => ($p['brand'] ?? '') === 'Amazon')),
+];
+$typeCounts = [
+  'tablet' => count(array_filter($products, fn($p) => ($p['productType'] ?? 'tablet') === 'tablet')),
+  'case' => count(array_filter($products, fn($p) => ($p['productType'] ?? 'tablet') === 'case')),
+  'screen_cover' => count(array_filter($products, fn($p) => ($p['productType'] ?? 'tablet') === 'screen_cover')),
 ];
 ?>
 <!DOCTYPE html>
@@ -394,6 +408,7 @@ $brandCounts = [
     .admin-chip,
     .inventory-legend span,
     .brand-pill,
+    .type-pill,
     .stock-state {
       display: inline-flex;
       align-items: center;
@@ -411,6 +426,26 @@ $brandCounts = [
     .brand-pill {
       background: rgba(59,130,246,0.1);
       color: #dbeafe;
+    }
+    .type-pill {
+      background: rgba(148,163,184,0.14);
+      border-color: rgba(148,163,184,0.22);
+      color: #e2e8f0;
+    }
+    .type-pill.type-tablet {
+      background: rgba(59,130,246,0.1);
+      border-color: rgba(59,130,246,0.22);
+      color: #dbeafe;
+    }
+    .type-pill.type-case {
+      background: rgba(34,197,94,0.12);
+      border-color: rgba(34,197,94,0.22);
+      color: #bbf7d0;
+    }
+    .type-pill.type-screen_cover {
+      background: rgba(245,158,11,0.12);
+      border-color: rgba(245,158,11,0.22);
+      color: #fde68a;
     }
     .admin-chip-row { margin-top: 18px; }
     .brand-breakdown {
@@ -584,6 +619,9 @@ $brandCounts = [
     .cell-input.url-input {
       min-width: 260px;
     }
+    .cell-input.compat-input {
+      min-width: 220px;
+    }
     .stock-cell {
       display: grid;
       gap: 8px;
@@ -678,10 +716,13 @@ $brandCounts = [
       <div class="admin-title">Manage the live catalog with less friction.</div>
       <p class="admin-copy">
         This screen is your fast-edit inventory desk for Tablet Masters. Search, filter, spot low-stock items,
-        and adjust pricing or product details in one place before saving changes back to the live shop.
+        and adjust tablets, cases, or screen covers in one place before saving changes back to the live shop.
       </p>
       <div class="admin-chip-row">
         <span class="admin-chip"><?= count($products) ?> total SKUs</span>
+        <span class="admin-chip"><?= $typeCounts['tablet'] ?> tablets</span>
+        <span class="admin-chip"><?= $typeCounts['case'] ?> cases</span>
+        <span class="admin-chip"><?= $typeCounts['screen_cover'] ?> screen covers</span>
         <span class="admin-chip"><?= $totalStock ?> total units</span>
         <span class="admin-chip"><?= $lowStock ?> low-stock items</span>
         <span class="admin-chip"><?= $outOfStock ?> out of stock</span>
@@ -729,16 +770,23 @@ $brandCounts = [
       <div class="toolbar-header">
         <div class="toolbar-copy">
           <h2>Inventory Grid</h2>
-          <p class="admin-copy">Filter by brand, stock state, or product name before editing. Changes stay local to this page until you save.</p>
+          <p class="admin-copy">Filter by brand, product type, stock state, or product name before editing. Changes stay local to this page until you save.</p>
         </div>
         <div class="toolbar-actions">
           <div class="search-wrap">
             <i class="fas fa-search"></i>
-            <input id="inventory-search" class="search-input" type="search" placeholder="Search by name, brand, badge, or image path" oninput="applyFilters()" />
+            <input id="inventory-search" class="search-input" type="search" placeholder="Search by name, brand, type, compatibility key, badge, or image path" oninput="applyFilters()" />
           </div>
           <button class="btn btn-ghost btn-sm" type="button" onclick="resetFilters()"><i class="fas fa-rotate-left"></i> Reset Filters</button>
-          <button class="btn btn-primary btn-sm" type="button" onclick="addRow()"><i class="fas fa-plus"></i> Add Product</button>
+          <button class="btn btn-primary btn-sm" type="button" onclick="addRow()"><i class="fas fa-plus"></i> Add Item</button>
         </div>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn active type-filter" onclick="setTypeFilter('all', this)">All Types</button>
+        <button class="filter-btn type-filter" onclick="setTypeFilter('tablet', this)">Tablets</button>
+        <button class="filter-btn type-filter" onclick="setTypeFilter('case', this)">Cases</button>
+        <button class="filter-btn type-filter" onclick="setTypeFilter('screen_cover', this)">Screen Covers</button>
       </div>
 
       <div class="filter-row">
@@ -763,8 +811,8 @@ $brandCounts = [
       </div>
     </div>
 
-    <div class="inventory-results">
-      <div class="inventory-results-count" id="results-count"><?= count($products) ?> products shown</div>
+      <div class="inventory-results">
+      <div class="inventory-results-count" id="results-count"><?= count($products) ?> items shown</div>
       <div class="inventory-results-meta">Use the filters above to narrow the table without leaving the page.</div>
     </div>
 
@@ -775,7 +823,9 @@ $brandCounts = [
         <tr>
           <th style="width:44px"></th>
           <th>Name</th>
+          <th style="width:130px">Type</th>
           <th>Brand</th>
+          <th>Match Key</th>
           <th style="width:90px">Price</th>
           <th style="width:90px">Was</th>
           <th style="width:120px">Condition</th>
@@ -789,8 +839,10 @@ $brandCounts = [
         <?php foreach ($products as $p):
           $stock = (int)$p['stock'];
           $stockClass = $stock === 0 ? 'stock-low' : ($stock <= 3 ? 'stock-warn' : 'stock-ok');
+          $productType = $p['productType'] ?? 'tablet';
+          $typeLabel = $productType === 'screen_cover' ? 'Screen Cover' : ucfirst($productType);
         ?>
-        <tr data-brand="<?= htmlspecialchars($p['brand']) ?>" data-id="<?= (int)$p['id'] ?>">
+        <tr data-brand="<?= htmlspecialchars($p['brand']) ?>" data-id="<?= (int)$p['id'] ?>" data-type="<?= htmlspecialchars($productType) ?>">
           <td>
             <?php if (!empty($p['img'])): ?>
             <img class="thumb" src="<?= htmlspecialchars(strpos($p['img'],'http') === 0 ? $p['img'] : '../' . $p['img']) ?>" alt="" onerror="this.style.opacity='.2'">
@@ -802,8 +854,16 @@ $brandCounts = [
             <div class="name-meta">
               <span class="sku-label">ID <?= (int)$p['id'] ?></span>
               <span class="brand-pill"><?= htmlspecialchars($p['brand']) ?></span>
+              <span class="type-pill type-<?= htmlspecialchars($productType) ?>"><?= htmlspecialchars($typeLabel) ?></span>
             </div>
             <input class="cell-input" type="text" name="name" value="<?= htmlspecialchars($p['name']) ?>" oninput="markDirty(); applyFilters()" />
+          </td>
+          <td>
+            <select class="cell-input" name="productType" onchange="markDirty(); updateRowType(this.closest('tr'), this.value); applyFilters()">
+              <option value="tablet" <?= $productType === 'tablet' ? 'selected' : '' ?>>Tablet</option>
+              <option value="case" <?= $productType === 'case' ? 'selected' : '' ?>>Case</option>
+              <option value="screen_cover" <?= $productType === 'screen_cover' ? 'selected' : '' ?>>Screen Cover</option>
+            </select>
           </td>
           <td>
             <select class="cell-input" name="brand" onchange="markDirty(); this.closest('tr').dataset.brand=this.value; updateBrandPill(this.closest('tr')); applyFilters()">
@@ -812,6 +872,7 @@ $brandCounts = [
               <?php endforeach; ?>
             </select>
           </td>
+          <td><input class="cell-input compat-input" type="text" name="compatibleKey" value="<?= htmlspecialchars($p['compatibleKey'] ?? '') ?>" placeholder="e.g. ipad-air-11-inch-m4-2026" oninput="markDirty(); applyFilters()" /></td>
           <td><input class="cell-input price-input" type="number" name="price" value="<?= $p['price'] ?>" min="0" step="1" oninput="markDirty()" /></td>
           <td><input class="cell-input price-input" type="number" name="orig" value="<?= $p['orig'] ?? '' ?>" min="0" step="1" placeholder="—" oninput="markDirty()" /></td>
           <td>
@@ -845,7 +906,7 @@ $brandCounts = [
       </tbody>
     </table>
   </div>
-  <div class="empty-state" id="inventory-empty-state">No products match the current search or filter combination.</div>
+  <div class="empty-state" id="inventory-empty-state">No inventory items match the current search or filter combination.</div>
   </section>
 
   <!-- Hidden form for save -->
@@ -865,7 +926,14 @@ $brandCounts = [
 <script>
 var dirty = false;
 var currentBrand = 'All';
+var currentType = 'all';
 var currentStock = 'all';
+
+function formatTypeLabel(type) {
+  if (type === 'screen_cover') return 'Screen Cover';
+  if (type === 'case') return 'Case';
+  return 'Tablet';
+}
 
 function markDirty() {
   dirty = true;
@@ -903,6 +971,7 @@ function applyFilters() {
 
   document.querySelectorAll('#inv-body tr').forEach(function(row) {
     var brandMatch = currentBrand === 'All' || row.dataset.brand === currentBrand;
+    var typeMatch = currentType === 'all' || row.dataset.type === currentType;
     var stock = parseInt(row.querySelector('[name="stock"]').value, 10) || 0;
     var stockMatch = currentStock === 'all'
       || (currentStock === 'healthy' && stock > 3)
@@ -912,17 +981,19 @@ function applyFilters() {
       row.querySelector('[name="name"]').value || '',
       row.querySelector('[name="img"]').value || '',
       row.querySelector('[name="badge"]').value || '',
+      row.querySelector('[name="compatibleKey"]').value || '',
+      row.querySelector('[name="productType"]').value || '',
       row.dataset.brand || ''
     ].join(' ').toLowerCase();
     var searchMatch = query === '' || haystack.indexOf(query) !== -1;
-    var hidden = !(brandMatch && stockMatch && searchMatch);
+    var hidden = !(brandMatch && typeMatch && stockMatch && searchMatch);
     row.classList.toggle('row-hidden', hidden);
     if (!hidden) visible++;
   });
 
   var resultsCount = document.getElementById('results-count');
   if (resultsCount) {
-    resultsCount.textContent = visible + (visible === 1 ? ' product shown' : ' products shown');
+    resultsCount.textContent = visible + (visible === 1 ? ' item shown' : ' items shown');
   }
 
   var emptyState = document.getElementById('inventory-empty-state');
@@ -940,6 +1011,15 @@ function setBrandFilter(brand, btn) {
   applyFilters();
 }
 
+function setTypeFilter(type, btn) {
+  currentType = type;
+  document.querySelectorAll('.type-filter').forEach(function(button) {
+    button.classList.remove('active');
+  });
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
 function setStockFilter(mode, btn) {
   currentStock = mode;
   document.querySelectorAll('.stock-filter').forEach(function(button) {
@@ -951,9 +1031,13 @@ function setStockFilter(mode, btn) {
 
 function resetFilters() {
   currentBrand = 'All';
+  currentType = 'all';
   currentStock = 'all';
   var searchField = document.getElementById('inventory-search');
   if (searchField) searchField.value = '';
+  document.querySelectorAll('.type-filter').forEach(function(button, index) {
+    button.classList.toggle('active', index === 0);
+  });
   document.querySelectorAll('.brand-filter').forEach(function(button, index) {
     button.classList.toggle('active', index === 0);
   });
@@ -972,6 +1056,27 @@ function updateBrandPill(row) {
   var brand = row.querySelector('[name="brand"]').value || 'Apple';
   if (pill) {
     pill.textContent = brand;
+  }
+}
+
+function updateTypePill(row, type) {
+  var pill = row.querySelector('.type-pill');
+  if (!pill) return;
+
+  pill.textContent = formatTypeLabel(type);
+  pill.className = 'type-pill type-' + type;
+}
+
+function updateRowType(row, type) {
+  row.dataset.type = type;
+  updateTypePill(row, type);
+
+  var compatInput = row.querySelector('[name="compatibleKey"]');
+  if (compatInput) {
+    compatInput.disabled = type === 'tablet';
+    if (type === 'tablet') {
+      compatInput.value = '';
+    }
   }
 }
 
@@ -1008,6 +1113,7 @@ function addRow() {
   var tbody = document.getElementById('inv-body');
   var tr = document.createElement('tr');
   tr.dataset.brand = 'Apple';
+  tr.dataset.type = 'tablet';
   tr.dataset.id = nextId;
   tr.innerHTML = `
     <td><div class="thumb-empty"><i class="fas fa-tablet-alt"></i></div></td>
@@ -1015,14 +1121,21 @@ function addRow() {
       <div class="name-meta">
         <span class="sku-label">ID ${nextId}</span>
         <span class="brand-pill">Apple</span>
+        <span class="type-pill type-tablet">Tablet</span>
       </div>
       <input class="cell-input" type="text" name="name" value="New Tablet" oninput="markDirty(); applyFilters()" />
+    </td>
+    <td>
+      <select class="cell-input" name="productType" onchange="markDirty(); updateRowType(this.closest('tr'), this.value); applyFilters()">
+        <option value="tablet">Tablet</option><option value="case">Case</option><option value="screen_cover">Screen Cover</option>
+      </select>
     </td>
     <td>
       <select class="cell-input" name="brand" onchange="markDirty(); this.closest('tr').dataset.brand=this.value; updateBrandPill(this.closest('tr')); applyFilters()">
         <option>Apple</option><option>Samsung</option><option>Microsoft</option><option>Amazon</option>
       </select>
     </td>
+    <td><input class="cell-input compat-input" type="text" name="compatibleKey" value="" placeholder="e.g. ipad-air-11-inch-m4-2026" oninput="markDirty(); applyFilters()" disabled /></td>
     <td><input class="cell-input price-input" type="number" name="price" value="0" min="0" step="1" oninput="markDirty()" /></td>
     <td><input class="cell-input price-input" type="number" name="orig" value="" min="0" step="1" placeholder="—" oninput="markDirty()" /></td>
     <td>
@@ -1060,9 +1173,13 @@ function brandToEmoji(brand) {
   return map[brand] || 'Tab';
 }
 
+function emojiForProductType(brand, type) {
+  if (type === 'case') return 'Case';
+  if (type === 'screen_cover') return 'Shield';
+  return brandToEmoji(brand);
+}
+
 function saveInventory() {
-  var rows = document.querySelectorAll('#inv-body tr:not(.row-hidden)');
-  // collect ALL rows, not just visible
   var allRows = document.querySelectorAll('#inv-body tr');
   var products = [];
   var id = 1;
@@ -1071,6 +1188,8 @@ function saveInventory() {
     var get = function(n) { return tr.querySelector('[name="' + n + '"]'); };
     var name   = get('name')  ? get('name').value.trim()   : '';
     var brand  = get('brand') ? get('brand').value         : 'Apple';
+    var productType = get('productType') ? get('productType').value : 'tablet';
+    var compatibleKey = get('compatibleKey') ? get('compatibleKey').value.trim() : '';
     var price  = get('price') ? parseFloat(get('price').value) || 0 : 0;
     var orig   = get('orig')  && get('orig').value.trim() !== '' ? parseFloat(get('orig').value) : null;
     var cond   = get('condition') ? get('condition').value : 'Grade A';
@@ -1084,9 +1203,11 @@ function saveInventory() {
       id:        parseInt(tr.dataset.id) || id,
       name:      name,
       brand:     brand,
+      productType: productType,
+      compatibleKey: productType === 'tablet' ? '' : compatibleKey,
       price:     price,
       orig:      orig,
-      emoji:     brandToEmoji(brand),
+      emoji:     emojiForProductType(brand, productType),
       badge:     badge,
       condition: cond,
       stock:     stock,
@@ -1102,6 +1223,9 @@ function saveInventory() {
 
 window.addEventListener('beforeunload', function(e) {
   if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+document.querySelectorAll('#inv-body tr').forEach(function(row) {
+  updateRowType(row, row.dataset.type || 'tablet');
 });
 applyFilters();
 </script>

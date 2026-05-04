@@ -645,5 +645,35 @@
     "stock": 8,
     "img": "assets/images/Fire 7 (2024).png",
     "imgClass": "product-shot-centered"
+  },
+  {
+    "id": 1001,
+    "name": "iPad Air (11-inch, M4, 2026) Protective Case",
+    "brand": "Apple",
+    "productType": "case",
+    "compatibleKey": "ipad-air-11-inch-m4-2026",
+    "price": 54,
+    "orig": null,
+    "emoji": "Case",
+    "badge": "",
+    "condition": "Like New",
+    "stock": 6,
+    "img": "assets/images/accessories/ipad-air-11-inch-m4-2026-bundle-placeholder.svg",
+    "imgClass": ""
+  },
+  {
+    "id": 1002,
+    "name": "iPad Air (11-inch, M4, 2026) Screen Cover",
+    "brand": "Apple",
+    "productType": "screen_cover",
+    "compatibleKey": "ipad-air-11-inch-m4-2026",
+    "price": 34,
+    "orig": null,
+    "emoji": "Shield",
+    "badge": "",
+    "condition": "Like New",
+    "stock": 8,
+    "img": "assets/images/accessories/ipad-air-11-inch-m4-2026-bundle-placeholder.svg",
+    "imgClass": ""
   }
 ]

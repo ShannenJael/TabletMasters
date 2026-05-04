@@ -57,13 +57,14 @@ foreach ($catalog as $entry) {
     <div class="brand-tabs accessories-brand-tabs">
       <?php foreach ($brands as $brand): ?>
       <button
+        type="button"
         class="brand-tab <?= $brand === 'All' ? 'active' : '' ?>"
         data-brand="<?= htmlspecialchars($brand) ?>"
         onclick="filterAccessories('<?= htmlspecialchars($brand) ?>')"
       ><span><?= htmlspecialchars($brand) ?></span><span class="brand-tab-count"><?= (int)($brandCounts[$brand] ?? 0) ?></span></button>
       <?php endforeach; ?>
     </div>
-    <label class="shop-search accessories-search" for="accessory-search">
+    <label class="shop-search accessories-search" id="accessories-search-wrap" for="accessory-search">
       <i class="fas fa-search" aria-hidden="true"></i>
       <input
         id="accessory-search"
@@ -83,30 +84,30 @@ foreach ($catalog as $entry) {
       $mailto = 'mailto:service@tablet-masters.com?subject=' . rawurlencode('Accessory request for ' . $entry['tablet_name']);
       $bundleStartingAt = $entry['case_price'] + $entry['screen_price'];
       $caseProduct = [
-        'id' => tm_accessory_case_id($entry['key']),
+        'id' => $entry['case_id'],
         'name' => $entry['case_name'],
         'brand' => $entry['brand'],
         'price' => $entry['case_price'],
         'emoji' => 'Case',
-        'img' => $entry['placeholder_image'],
+        'img' => $entry['case_image'],
       ];
       $screenProduct = [
-        'id' => tm_accessory_screen_id($entry['key']),
+        'id' => $entry['screen_id'],
         'name' => $entry['screen_name'],
         'brand' => $entry['brand'],
         'price' => $entry['screen_price'],
         'emoji' => 'Shield',
-        'img' => $entry['placeholder_image'],
+        'img' => $entry['screen_image'],
       ];
     ?>
     <article
       class="accessory-card"
       data-brand="<?= htmlspecialchars($entry['brand']) ?>"
       data-tablet="<?= htmlspecialchars($entry['tablet_name']) ?>"
-      data-search="<?= htmlspecialchars(strtolower($entry['tablet_name'] . ' ' . $entry['brand'] . ' ' . $entry['case_name'] . ' ' . $entry['screen_name'])) ?>"
+        data-search="<?= htmlspecialchars(strtolower($entry['tablet_name'] . ' ' . $entry['brand'] . ' ' . $entry['case_name'] . ' ' . $entry['screen_name'])) ?>"
     >
       <div class="accessory-visual">
-        <img src="<?= htmlspecialchars($entry['placeholder_image']) ?>" alt="<?= htmlspecialchars($entry['tablet_name']) ?> accessory bundle" loading="lazy" />
+        <img src="<?= htmlspecialchars($entry['bundle_image']) ?>" alt="<?= htmlspecialchars($entry['tablet_name']) ?> accessory bundle" loading="lazy" />
       </div>
 
       <div class="accessory-body">
@@ -133,9 +134,9 @@ foreach ($catalog as $entry) {
             <div class="accessory-offer-top">
               <div>
                 <div class="accessory-offer-label">Case</div>
-                <div class="accessory-offer-name">$<?= number_format($entry['case_price'], 2) ?></div>
+                <div class="accessory-offer-name"><?= htmlspecialchars($entry['case_name']) ?></div>
               </div>
-              <div class="accessory-offer-price">+</div>
+              <div class="accessory-offer-price">$<?= number_format($entry['case_price'], 2) ?></div>
             </div>
             <div class="accessory-offer-footer">Add case</div>
           </button>
@@ -143,9 +144,9 @@ foreach ($catalog as $entry) {
             <div class="accessory-offer-top">
               <div>
                 <div class="accessory-offer-label">Screen Cover</div>
-                <div class="accessory-offer-name">$<?= number_format($entry['screen_price'], 2) ?></div>
+                <div class="accessory-offer-name"><?= htmlspecialchars($entry['screen_name']) ?></div>
               </div>
-              <div class="accessory-offer-price">+</div>
+              <div class="accessory-offer-price">$<?= number_format($entry['screen_price'], 2) ?></div>
             </div>
             <div class="accessory-offer-footer">Add screen cover</div>
           </button>
@@ -166,7 +167,6 @@ foreach ($catalog as $entry) {
           >
             <i class="fas fa-cart-plus" aria-hidden="true"></i>
           </button>
-          <a class="btn-outline" href="<?= htmlspecialchars($mailto) ?>">Ask About Fit</a>
         </div>
       </div>
     </article>
@@ -197,6 +197,7 @@ function filterAccessories(brand) {
   document.querySelectorAll('.brand-tab').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.brand === brand);
   });
+  updateAccessorySearchVisibility();
   applyAccessoryFilters();
 }
 
@@ -208,9 +209,10 @@ function setAccessorySearch(query) {
 function applyAccessoryFilters() {
   var cards = document.querySelectorAll('.accessory-card');
   var visibleCount = 0;
+  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
   cards.forEach(function(card) {
     var matchesBrand = TM_ACCESSORY_BRAND === 'All' || card.dataset.brand === TM_ACCESSORY_BRAND;
-    var matchesSearch = TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
+    var matchesSearch = !searchEnabled || TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
     var show = matchesBrand && matchesSearch;
     card.style.display = show ? '' : 'none';
     if (show) visibleCount += 1;
@@ -228,7 +230,23 @@ function applyAccessoryFilters() {
   }
 }
 
+function updateAccessorySearchVisibility() {
+  var searchWrap = document.getElementById('accessories-search-wrap');
+  var searchInput = document.getElementById('accessory-search');
+  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
+
+  if (searchWrap) {
+    searchWrap.hidden = !searchEnabled;
+    searchWrap.style.display = searchEnabled ? '' : 'none';
+  }
+
+  if (searchInput) {
+    searchInput.disabled = !searchEnabled;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  updateAccessorySearchVisibility();
   filterAccessories(TM_ACCESSORY_BRAND);
   var search = document.getElementById('accessory-search');
   if (search && TM_ACCESSORY_SEARCH) {

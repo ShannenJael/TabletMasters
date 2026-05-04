@@ -23,10 +23,7 @@ require_once __DIR__ . '/includes/accessories-data.php';
 
 <?php
 // Load inventory from JSON — edit via admin/inventory.php
-$_inventoryFile = __DIR__ . '/data/inventory.json';
-$products = file_exists($_inventoryFile)
-  ? (json_decode(file_get_contents($_inventoryFile), true) ?: [])
-  : [];
+$products = tm_inventory_tablets();
 
 foreach ($products as $index => &$product) {
   $product['sortOrder'] = $index;
@@ -208,16 +205,16 @@ foreach ($products as $p) {
     'accessory' => $matchingAccessory ? [
       'tabletName' => $matchingAccessory['tablet_name'],
       'case' => [
-        'id' => tm_accessory_case_id($matchingAccessory['key']),
+        'id' => $matchingAccessory['case_id'],
         'name' => $matchingAccessory['case_name'],
         'price' => $matchingAccessory['case_price'],
-        'img' => $matchingAccessory['placeholder_image'],
+        'img' => $matchingAccessory['case_image'],
       ],
       'screen' => [
-        'id' => tm_accessory_screen_id($matchingAccessory['key']),
+        'id' => $matchingAccessory['screen_id'],
         'name' => $matchingAccessory['screen_name'],
         'price' => $matchingAccessory['screen_price'],
-        'img' => $matchingAccessory['placeholder_image'],
+        'img' => $matchingAccessory['screen_image'],
       ],
     ] : null,
   ];

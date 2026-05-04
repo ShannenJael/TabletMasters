@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__ . '/../includes/accessories-data.php';
 tmAdminRequireLogin('inventory.php');
 
 define('INVENTORY_FILE', __DIR__ . '/../data/inventory.json');
@@ -34,14 +35,26 @@ foreach ($data as $item) {
 
   $brandMap = ['Apple' => 'iPad', 'Samsung' => 'Tab', 'Microsoft' => 'Surface', 'Amazon' => 'Fire'];
   $brand    = in_array($item['brand'] ?? '', array_keys($brandMap)) ? $item['brand'] : 'Apple';
+  $productType = strtolower(trim((string)($item['productType'] ?? 'tablet')));
+  if (!in_array($productType, ['tablet', 'case', 'screen_cover'], true)) {
+    $productType = 'tablet';
+  }
+  $compatibleKey = trim((string)($item['compatibleKey'] ?? ''));
+  $emojiMap = [
+    'tablet' => $brandMap[$brand],
+    'case' => 'Case',
+    'screen_cover' => 'Shield',
+  ];
 
   $clean[] = [
     'id'        => $id,
     'name'      => trim($item['name']),
     'brand'     => $brand,
+    'productType' => $productType,
+    'compatibleKey' => $productType === 'tablet' ? '' : $compatibleKey,
     'price'     => max(0, (float)($item['price'] ?? 0)),
     'orig'      => isset($item['orig']) && $item['orig'] !== null && $item['orig'] !== '' ? max(0, (float)$item['orig']) : null,
-    'emoji'     => $brandMap[$brand],
+    'emoji'     => $emojiMap[$productType],
     'badge'     => trim($item['badge'] ?? ''),
     'condition' => in_array($item['condition'] ?? '', ['Like New','Grade A','Grade B']) ? $item['condition'] : 'Grade A',
     'stock'     => max(0, (int)($item['stock'] ?? 0)),

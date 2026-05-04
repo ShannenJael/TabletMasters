@@ -51,6 +51,8 @@ test('shop filtering, search, and cart interactions behave correctly', async ({ 
   await page.getByLabel(/search tablets/i).fill('');
   await page.getByRole('button', { name: 'All' }).click();
   await expect(page.locator('.product-card:visible').first()).toBeVisible();
+  await expect(page.locator('.product-card[data-id="1001"]')).toHaveCount(0);
+  await expect(page.locator('.product-card[data-id="1002"]')).toHaveCount(0);
 
   await page.locator('.product-card:visible .add-btn').first().click();
   await expect(page.locator('#cart-badge')).toHaveText('1');
@@ -67,12 +69,16 @@ test('shop filtering, search, and cart interactions behave correctly', async ({ 
   await expect(page.locator('#cart-items')).toContainText(/iPad|Galaxy|Surface|Fire/i);
 });
 
-test('accessories page exposes protection placeholders for tablet families', async ({ page }) => {
+test('accessories page exposes generated and explicit protection inventory for tablet families', async ({ page }) => {
   await gotoAndWait(page, '/accessories.php?brand=Apple');
 
   await expect(page.locator('.brand-tab.active')).toContainText('Apple');
   await expect(page.locator('.accessory-card:visible').first()).toBeVisible();
   await expect(page.locator('.accessory-card:visible').first()).toContainText(/Protective Case|Screen Cover/i);
+  await page.getByLabel(/search accessories/i).fill('2026');
+  await expect(page.locator('.accessory-card:visible').first()).toContainText('iPad Air (11-inch, M4, 2026) Protective Case');
+  await expect(page.locator('.accessory-card:visible').first()).toContainText('$54.00');
+  await expect(page.locator('.accessory-card:visible').first()).toContainText('$34.00');
 
   await page.locator('.accessory-card:visible .accessory-buy-btn').first().click();
   await expect(page.locator('#cart-badge')).toHaveText('2');
@@ -83,6 +89,32 @@ test('accessories page exposes protection placeholders for tablet families', asy
 
   await page.getByLabel(/search accessories/i).fill('iPad');
   await expect(page.locator('.accessory-card:visible').first()).toBeVisible();
+});
+
+test('accessory cart items can increase, decrease, and be removed', async ({ page }) => {
+  await gotoAndWait(page, '/accessories.php?brand=Apple');
+
+  await page.getByLabel(/search accessories/i).fill('2026');
+  await page.locator('.accessory-card:visible .accessory-offer-action').first().click();
+
+  const drawer = page.locator('#cart-drawer');
+  await expect(drawer).toHaveClass(/open/);
+  await expect(page.locator('#cart-badge')).toHaveText('1');
+
+  const cartItem = page.locator('.cart-item').first();
+  await expect(cartItem.locator('.qty-num')).toHaveText('1');
+
+  await cartItem.locator('.qty-btn').nth(1).click();
+  await expect(page.locator('#cart-badge')).toHaveText('2');
+  await expect(cartItem.locator('.qty-num')).toHaveText('2');
+
+  await cartItem.locator('.qty-btn').nth(0).click();
+  await expect(page.locator('#cart-badge')).toHaveText('1');
+  await expect(cartItem.locator('.qty-num')).toHaveText('1');
+
+  await cartItem.locator('.cart-remove').click();
+  await expect(page.locator('#cart-badge')).toHaveText('0');
+  await expect(page.locator('#cart-items')).toContainText('Your cart is empty');
 });
 
 test('insurance page repair form is reachable from CTA', async ({ page }) => {

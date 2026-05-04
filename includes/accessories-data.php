@@ -10,6 +10,26 @@ function tm_load_inventory(): array {
     return is_array($inventory) ? $inventory : [];
 }
 
+function tm_inventory_product_type(array $product): string {
+    $type = strtolower(trim((string)($product['productType'] ?? '')));
+    $allowed = ['tablet', 'case', 'screen_cover'];
+    return in_array($type, $allowed, true) ? $type : 'tablet';
+}
+
+function tm_inventory_tablets(?array $inventory = null): array {
+    $inventory = $inventory ?? tm_load_inventory();
+    return array_values(array_filter($inventory, static function (array $product): bool {
+        return tm_inventory_product_type($product) === 'tablet';
+    }));
+}
+
+function tm_inventory_accessories(?array $inventory = null): array {
+    $inventory = $inventory ?? tm_load_inventory();
+    return array_values(array_filter($inventory, static function (array $product): bool {
+        return tm_inventory_product_type($product) !== 'tablet';
+    }));
+}
+
 function tm_accessory_base_name(string $tabletName): string {
     $name = preg_replace('/\s+Wi-Fi \+ Cellular$/i', '', trim($tabletName));
     return trim((string)$name);
@@ -19,6 +39,21 @@ function tm_accessory_slug(string $tabletName): string {
     $slug = strtolower(str_replace('+', ' Plus ', tm_accessory_base_name($tabletName)));
     $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
     return trim((string)$slug, '-');
+}
+
+function tm_accessory_compatible_key(array $product): string {
+    $compatibleKey = trim((string)($product['compatibleKey'] ?? ''));
+    if ($compatibleKey !== '') {
+        return tm_accessory_slug($compatibleKey);
+    }
+
+    $name = trim((string)($product['name'] ?? ''));
+    if ($name === '') {
+        return '';
+    }
+
+    $name = preg_replace('/\s+(Protective\s+Case|Case|Screen\s+Cover|Tempered\s+Glass|Glass)$/i', '', $name);
+    return tm_accessory_slug($name);
 }
 
 function tm_accessory_placeholder_image(string $key): string {
@@ -201,11 +236,28 @@ function tm_accessory_case_family(array $product): string {
     return 'Protective tablet case';
 }
 
-function tm_build_accessory_catalog(?array $inventory = null): array {
-    $products = $inventory ?? tm_load_inventory();
-    $catalog = [];
+function tm_accessory_image_for_product(array $product, string $fallbackImage): string {
+    $img = trim((string)($product['img'] ?? ''));
+    return $img !== '' ? $img : $fallbackImage;
+}
 
-    foreach ($products as $product) {
+function tm_build_accessory_catalog(?array $inventory = null): array {
+    $inventory = $inventory ?? tm_load_inventory();
+    $tablets = tm_inventory_tablets($inventory);
+    $accessories = tm_inventory_accessories($inventory);
+    $catalog = [];
+    $accessoryIndex = [];
+
+    foreach ($accessories as $product) {
+        $key = tm_accessory_compatible_key($product);
+        $type = tm_inventory_product_type($product);
+        if ($key === '' || !in_array($type, ['case', 'screen_cover'], true)) {
+            continue;
+        }
+        $accessoryIndex[$key][$type] = $product;
+    }
+
+    foreach ($tablets as $product) {
         $name = (string)($product['name'] ?? '');
         $brand = (string)($product['brand'] ?? '');
         if ($name === '' || $brand === '') {
@@ -214,19 +266,29 @@ function tm_build_accessory_catalog(?array $inventory = null): array {
 
         $baseName = tm_accessory_base_name($name);
         $key = tm_accessory_slug($baseName);
+        $placeholderImage = tm_accessory_placeholder_image($key);
+        $caseProduct = $accessoryIndex[$key]['case'] ?? null;
+        $screenProduct = $accessoryIndex[$key]['screen_cover'] ?? null;
 
         if (!isset($catalog[$key])) {
             $catalog[$key] = [
                 'key' => $key,
                 'tablet_name' => $baseName,
                 'brand' => $brand,
-                'placeholder_image' => tm_accessory_placeholder_image($key),
+                'placeholder_image' => $placeholderImage,
                 'tablet_image' => $product['img'] ?? '',
                 'tablet_image_class' => $product['imgClass'] ?? '',
-                'case_name' => $baseName . ' Protective Case',
-                'screen_name' => $baseName . ' Screen Cover',
-                'case_price' => tm_accessory_case_price($product),
-                'screen_price' => tm_accessory_screen_price($product),
+                'case_id' => $caseProduct ? (string)$caseProduct['id'] : tm_accessory_case_id($key),
+                'screen_id' => $screenProduct ? (string)$screenProduct['id'] : tm_accessory_screen_id($key),
+                'case_name' => $caseProduct['name'] ?? ($baseName . ' Protective Case'),
+                'screen_name' => $screenProduct['name'] ?? ($baseName . ' Screen Cover'),
+                'case_price' => $caseProduct ? (float)($caseProduct['price'] ?? 0) : tm_accessory_case_price($product),
+                'screen_price' => $screenProduct ? (float)($screenProduct['price'] ?? 0) : tm_accessory_screen_price($product),
+                'case_image' => $caseProduct ? tm_accessory_image_for_product($caseProduct, $placeholderImage) : $placeholderImage,
+                'screen_image' => $screenProduct ? tm_accessory_image_for_product($screenProduct, $placeholderImage) : $placeholderImage,
+                'bundle_image' => $placeholderImage,
+                'case_stock' => $caseProduct ? (int)($caseProduct['stock'] ?? 0) : null,
+                'screen_stock' => $screenProduct ? (int)($screenProduct['stock'] ?? 0) : null,
                 'case_family' => tm_accessory_case_family($product),
                 'compatibility' => [],
                 'tags' => [
@@ -243,6 +305,8 @@ function tm_build_accessory_catalog(?array $inventory = null): array {
                     'Designed for the listed tablet family',
                     'Helps reduce scratches during everyday use',
                 ],
+                'has_explicit_case' => $caseProduct !== null,
+                'has_explicit_screen' => $screenProduct !== null,
             ];
         }
 
@@ -267,25 +331,27 @@ function tm_build_accessory_products(?array $catalog = null): array {
 
     foreach ($catalog as $entry) {
         $products[] = [
-            'id' => tm_accessory_case_id($entry['key']),
+            'id' => $entry['case_id'],
             'name' => $entry['case_name'],
             'brand' => $entry['brand'],
             'price' => $entry['case_price'],
             'emoji' => 'Case',
-            'img' => $entry['placeholder_image'],
+            'img' => $entry['case_image'],
             'type' => 'accessory',
+            'productType' => 'case',
             'accessory_kind' => 'case',
             'tablet_name' => $entry['tablet_name'],
         ];
 
         $products[] = [
-            'id' => tm_accessory_screen_id($entry['key']),
+            'id' => $entry['screen_id'],
             'name' => $entry['screen_name'],
             'brand' => $entry['brand'],
             'price' => $entry['screen_price'],
             'emoji' => 'Shield',
-            'img' => $entry['placeholder_image'],
+            'img' => $entry['screen_image'],
             'type' => 'accessory',
+            'productType' => 'screen_cover',
             'accessory_kind' => 'screen',
             'tablet_name' => $entry['tablet_name'],
         ];

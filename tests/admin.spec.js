@@ -38,6 +38,9 @@ test('inventory admin requires password and allows access after login', async ({
 
   await expect(page).toHaveTitle(/Inventory Admin/i);
   await expect(page.getByRole('heading', { name: /Inventory Grid/i })).toBeVisible();
-  await expect(page.getByRole('button', { name: /Add Product/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Add Item/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Cases/i })).toBeVisible();
+  await expect(page.locator('thead')).toContainText(/Type/i);
+  await expect(page.locator('thead')).toContainText(/Match Key/i);
   await expect(page.getByRole('link', { name: /Management Console/i })).toBeVisible();
 });
