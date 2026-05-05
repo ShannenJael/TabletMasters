@@ -114,6 +114,10 @@
       <span class="cart-total-price" id="cart-total">$0.00</span>
     </div>
     <div class="cart-total-note" id="cart-total-note" hidden></div>
+    <label class="cart-sms-opt-in">
+      <input type="checkbox" id="cart-sms-opt-in" value="1">
+      <span>Send me SMS updates on my order &amp; coverage</span>
+    </label>
     <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
     <a class="cart-insurance-link" href="plans.php">View all coverage plans →</a>
   </div>

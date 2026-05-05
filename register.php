@@ -126,6 +126,11 @@ $prefill   = [
               <input class="repair-input" type="tel" name="phone" placeholder="Optional" autocomplete="tel" inputmode="tel" />
             </label>
           </div>
+          <label class="sms-opt-in-row">
+            <input type="checkbox" name="sms_opt_in" value="1" id="reg-sms-opt-in" />
+            <span>Yes, send me SMS updates about my coverage, claims, and device protection</span>
+          </label>
+          <p class="sms-opt-in-note">Requires a phone number above. Message &amp; data rates may apply. Reply STOP to unsubscribe.</p>
         </div>
 
         <div class="reg-group">

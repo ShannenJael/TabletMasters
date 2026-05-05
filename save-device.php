@@ -43,6 +43,7 @@ $purchase_date = clean($_POST['purchase_date'] ?? '');
 $source        = clean($_POST['purchase_source'] ?? 'tablet-masters');
 $plan          = clean($_POST['plan']          ?? 'none');
 $order_id      = clean($_POST['order_id']      ?? '');
+$sms_opt_in    = isset($_POST['sms_opt_in']) && $_POST['sms_opt_in'] === '1' ? 1 : 0;
 
 // Validate required fields
 if (!$name || !$email || !$brand || !$model || !$serial) {
@@ -130,6 +131,7 @@ try {
         'device_brand' => $brand,
         'device_model' => $model,
         'plan' => $plan,
+        'sms_opt_in' => $sms_opt_in,
     ]);
 
     // If external + plan selected, auto-submit to subscribe.php (Stripe checkout)

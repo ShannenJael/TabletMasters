@@ -240,6 +240,13 @@ function stripeCheckout() {
   planInput.value = selectedPlan ? selectedPlan.value : 'none';
   form.appendChild(planInput);
 
+  var smsInput = document.createElement('input');
+  smsInput.type = 'hidden';
+  smsInput.name = 'sms_opt_in';
+  var smsCheckbox = document.getElementById('cart-sms-opt-in');
+  smsInput.value = (smsCheckbox && smsCheckbox.checked) ? '1' : '0';
+  form.appendChild(smsInput);
+
   document.body.appendChild(form);
   form.submit();
 }

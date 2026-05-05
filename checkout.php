@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $cartRaw = $_POST['cart'] ?? '';
 $cart    = json_decode($cartRaw, true);
 $insurancePlan = trim((string)($_POST['insurance_plan'] ?? 'none'));
+$smsOptIn = ($_POST['sms_opt_in'] ?? '0') === '1' ? '1' : '0';
 
 if (!is_array($cart) || count($cart) === 0) {
     header('Location: /shop.php?error=empty_cart');
@@ -88,6 +89,7 @@ $payload = [
     'metadata' => [
         'checkout_type' => 'purchase',
         'insurance_plan' => $insurancePlan,
+        'sms_opt_in'    => $smsOptIn,
     ],
 ];
 
