@@ -81,7 +81,6 @@ foreach ($catalog as $entry) {
     <?php foreach ($catalog as $entry): ?>
     <?php
       $compatibility = implode(' | ', $entry['compatibility']);
-      $mailto = 'mailto:service@tablet-masters.com?subject=' . rawurlencode('Accessory request for ' . $entry['tablet_name']);
       $bundleStartingAt = $entry['case_price'] + $entry['screen_price'];
       $caseProduct = [
         'id' => $entry['case_id'],
@@ -209,10 +208,9 @@ function setAccessorySearch(query) {
 function applyAccessoryFilters() {
   var cards = document.querySelectorAll('.accessory-card');
   var visibleCount = 0;
-  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
   cards.forEach(function(card) {
     var matchesBrand = TM_ACCESSORY_BRAND === 'All' || card.dataset.brand === TM_ACCESSORY_BRAND;
-    var matchesSearch = !searchEnabled || TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
+    var matchesSearch = TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
     var show = matchesBrand && matchesSearch;
     card.style.display = show ? '' : 'none';
     if (show) visibleCount += 1;
@@ -233,15 +231,14 @@ function applyAccessoryFilters() {
 function updateAccessorySearchVisibility() {
   var searchWrap = document.getElementById('accessories-search-wrap');
   var searchInput = document.getElementById('accessory-search');
-  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
 
   if (searchWrap) {
-    searchWrap.hidden = !searchEnabled;
-    searchWrap.style.display = searchEnabled ? '' : 'none';
+    searchWrap.hidden = false;
+    searchWrap.style.display = '';
   }
 
   if (searchInput) {
-    searchInput.disabled = !searchEnabled;
+    searchInput.disabled = false;
   }
 }
 

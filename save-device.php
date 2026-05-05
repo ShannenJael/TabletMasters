@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/includes/database.php';
 require_once __DIR__ . '/includes/emails.php';
+require_once __DIR__ . '/includes/notifications.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /register.php');
@@ -121,6 +122,15 @@ try {
 
     // Send confirmation email
     sendDeviceRegistrationEmail($email, $name, $brand, $model, $serial, $regNumber, $plan, $source);
+    tmNotifyDeviceRegistration([
+        'registration_number' => $regNumber,
+        'customer_email' => $email,
+        'customer_name' => $name,
+        'customer_phone' => $phone,
+        'device_brand' => $brand,
+        'device_model' => $model,
+        'plan' => $plan,
+    ]);
 
     // If external + plan selected, auto-submit to subscribe.php (Stripe checkout)
     if ($source === 'external' && $plan !== 'none') {

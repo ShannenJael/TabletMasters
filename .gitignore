@@ -1,6 +1,7 @@
 ssh-keys/
 *.mov
 includes/config.php
+config.twilio.production.php
 node_modules/
 playwright-report/
 test-results/

@@ -34,6 +34,9 @@ $payload = [
     'success_url' => SITE_URL . '/success.php?session_id={CHECKOUT_SESSION_ID}&type=subscription&plan=' . urlencode($plan),
     'cancel_url'  => SITE_URL . '/plans.php?cancelled=1',
     'billing_address_collection' => 'required',
+    'phone_number_collection' => [
+        'enabled' => 'true',
+    ],
     'metadata' => [
         'checkout_type' => 'subscription',
         'plan' => $plan,

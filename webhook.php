@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/notifications.php';
 
 $payload   = file_get_contents('php://input');
 $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
@@ -48,6 +49,7 @@ if ($eventType === 'checkout.session.completed') {
     $paymentIntent   = $session['payment_intent']            ?? null;
     $customerEmail   = $session['customer_details']['email'] ?? null;
     $customerName    = $session['customer_details']['name']  ?? null;
+    $customerPhone   = $session['customer_details']['phone'] ?? null;
     $totalAmount     = $session['amount_total']              ?? 0;
     $currency        = $session['currency']                  ?? 'usd';
     $paymentStatus   = $session['payment_status']            ?? 'completed';
@@ -83,6 +85,7 @@ if ($eventType === 'checkout.session.completed') {
         count($lineItems)
     );
     file_put_contents($logFile, $summary, FILE_APPEND);
+    $notificationResults = tmNotifyOrderCompleted($session, $lineItems);
 
     // Persist a lightweight order record as JSON
     $orderFile = $logDir . '/orders.json';
@@ -101,6 +104,7 @@ if ($eventType === 'checkout.session.completed') {
             'payment_intent'=> $paymentIntent,
             'email'         => $customerEmail,
             'name'          => $customerName,
+            'phone'         => $customerPhone,
             'total'         => $totalAmount,
             'currency'      => $currency,
             'payment_status'=> $paymentStatus,
@@ -108,6 +112,7 @@ if ($eventType === 'checkout.session.completed') {
             'checkout_type' => $checkoutType,
             'plan'          => $plan,
             'items'         => $lineItems,
+            'notifications' => $notificationResults,
             'stripe_created'=> $stripeCreated,
             'created_at'    => date('Y-m-d H:i:s'),
         ];

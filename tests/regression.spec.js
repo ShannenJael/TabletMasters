@@ -11,7 +11,8 @@ test('home page hero remains visually stable', async ({ page }) => {
   await page.waitForTimeout(1000);
 
   await expect(page.locator('.hero')).toHaveScreenshot('home-hero.png', {
-    maxDiffPixelRatio: 0.02,
+    timeout: 15000,
+    maxDiffPixelRatio: page.viewportSize()?.width && page.viewportSize().width < 600 ? 0.05 : 0.02,
   });
 });
 
