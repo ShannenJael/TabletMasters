@@ -4,6 +4,7 @@ require_once __DIR__ . '/includes/accessories-data.php';
 
 $catalog = tm_build_accessory_catalog();
 $brandFilter = trim((string)($_GET['brand'] ?? 'All'));
+$tabletFilter = trim((string)($_GET['tablet'] ?? ''));
 $brands = ['All'];
 foreach ($catalog as $entry) {
     if (!in_array($entry['brand'], $brands, true)) {
@@ -62,6 +63,23 @@ foreach ($catalog as $entry) {
       ><span><?= htmlspecialchars($brand) ?></span><span class="brand-tab-count"><?= (int)($brandCounts[$brand] ?? 0) ?></span></button>
       <?php endforeach; ?>
     </div>
+    <label
+      class="shop-search accessories-search"
+      id="accessories-search-wrap"
+      for="accessory-search"
+      <?= $brandFilter === 'All' ? '' : 'hidden' ?>
+    >
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input
+        id="accessory-search"
+        type="search"
+        placeholder="Search tablet name, brand, case, screen cover"
+        aria-label="Search accessories"
+        value="<?= htmlspecialchars($tabletFilter) ?>"
+        oninput="setAccessorySearch(this.value)"
+        <?= $brandFilter === 'All' ? '' : 'disabled' ?>
+      />
+    </label>
   </div>
 
   <div class="accessories-grid" id="accessories-grid">
@@ -90,6 +108,7 @@ foreach ($catalog as $entry) {
       class="accessory-card"
       data-brand="<?= htmlspecialchars($entry['brand']) ?>"
       data-tablet="<?= htmlspecialchars($entry['tablet_name']) ?>"
+      data-search="<?= htmlspecialchars(strtolower($entry['tablet_name'] . ' ' . $entry['brand'] . ' ' . $entry['case_name'] . ' ' . $entry['screen_name'])) ?>"
     >
       <div class="accessory-visual">
         <img src="<?= htmlspecialchars($entry['bundle_image']) ?>" alt="<?= htmlspecialchars($entry['tablet_name']) ?> accessory bundle" loading="lazy" />
@@ -158,12 +177,13 @@ foreach ($catalog as $entry) {
     <?php endforeach; ?>
   </div>
 
-  <div class="shop-empty-state" id="accessories-empty-state" hidden>No accessories match that brand yet.</div>
+  <div class="shop-empty-state" id="accessories-empty-state" hidden>No accessories match your current filter.</div>
 </section>
 
 <?php include 'includes/footer.php'; ?>
 <script>
 var TM_ACCESSORY_BRAND = <?= json_encode(in_array($brandFilter, $brands, true) ? $brandFilter : 'All') ?>;
+var TM_ACCESSORY_SEARCH = <?= json_encode(strtolower($tabletFilter)) ?>;
 
 function addAccessoryToCart(product) {
   addToCart(product);
@@ -181,15 +201,23 @@ function filterAccessories(brand) {
   document.querySelectorAll('.brand-tab').forEach(function(btn) {
     btn.classList.toggle('active', btn.dataset.brand === brand);
   });
+  updateAccessorySearchVisibility();
+  applyAccessoryFilters();
+}
+
+function setAccessorySearch(query) {
+  TM_ACCESSORY_SEARCH = String(query || '').trim().toLowerCase();
   applyAccessoryFilters();
 }
 
 function applyAccessoryFilters() {
   var cards = document.querySelectorAll('.accessory-card');
   var visibleCount = 0;
+  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
   cards.forEach(function(card) {
     var matchesBrand = TM_ACCESSORY_BRAND === 'All' || card.dataset.brand === TM_ACCESSORY_BRAND;
-    var show = matchesBrand;
+    var matchesSearch = !searchEnabled || TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
+    var show = matchesBrand && matchesSearch;
     card.style.display = show ? '' : 'none';
     if (show) visibleCount += 1;
   });
@@ -206,8 +234,34 @@ function applyAccessoryFilters() {
   }
 }
 
+function updateAccessorySearchVisibility() {
+  var searchWrap = document.getElementById('accessories-search-wrap');
+  var searchInput = document.getElementById('accessory-search');
+  var showSearch = TM_ACCESSORY_BRAND === 'All';
+
+  if (searchWrap) {
+    searchWrap.hidden = !showSearch;
+  }
+
+  if (searchInput) {
+    searchInput.disabled = !showSearch;
+    if (!showSearch) {
+      searchInput.value = '';
+    }
+  }
+
+  if (!showSearch) {
+    TM_ACCESSORY_SEARCH = '';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  updateAccessorySearchVisibility();
   filterAccessories(TM_ACCESSORY_BRAND);
+  var search = document.getElementById('accessory-search');
+  if (search && TM_ACCESSORY_SEARCH) {
+    search.value = TM_ACCESSORY_SEARCH;
+  }
 });
 </script>
 <script>
