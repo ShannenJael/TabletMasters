@@ -1,8 +1,8 @@
 <?php
 $gamePageMeta = [
-  'last_updated' => 'April 10, 2026',
-  'coverage_month' => 'April 2026',
-  'editor_note' => 'New this month: the card art is fully refreshed, Disco Elysium and Chants of Sennaar joined the visual lineup, and Pokemon TCG Pocket is still the fastest recommendation for casual tablet play.',
+  'last_updated' => 'May 6, 2026',
+  'coverage_month' => 'May 2026',
+  'editor_note' => 'New this month: Meg\'s Monster and Perchang World are the freshest iPad-side additions, Racing Master gives Android buyers a newer racing option, and Pokemon TCG Pocket still remains the easiest all-around recommendation.',
   'refresh_rhythm' => 'Refresh one or two picks every month, rotate the featured slot when a stronger title lands, and keep routing readers toward the best-fit tablet category.',
   'monthly_focus' => 'Best tablet games to play this month on iPad, Android tablets, and Surface devices.',
 ];
@@ -49,6 +49,48 @@ $games = [
     'cta_label' => 'Shop Premium iPads',
     'review_href' => 'reviews.php',
     'comparison_note' => 'Best for buyers who want a stronger display and enough overhead for slower, mood-driven premium games.',
+  ],
+  [
+    'name' => 'Meg\'s Monster',
+    'img' => '',
+    'img_fit' => 'cover',
+    'genre' => 'Story JRPG',
+    'badge' => 'New This Week',
+    'featured' => false,
+    'new_this_month' => true,
+    'published_month' => '2026-05',
+    'platforms' => ['iPad'],
+    'best_tablet' => 'iPad Air or iPad Pro',
+    'fit' => 'A story-first RPG with emotional pacing, readable battle presentation, and a setup that makes more sense on a larger tablet display.',
+    'best_for' => 'Players who want a narrative-heavy JRPG instead of another endless free-to-play grind.',
+    'source_label' => 'Apple App Store expected May 7, 2026',
+    'source_url' => 'https://apps.apple.com/us/app/megs-monster/id1550415965',
+    'shop_href' => 'shop.php?brand=Apple',
+    'tablet_brand' => 'Apple',
+    'cta_label' => 'Shop Story-Ready iPads',
+    'review_href' => 'reviews.php',
+    'comparison_note' => 'A smart add for buyers comparing iPad Air versus Pro for narrative games that benefit from screen comfort more than raw twitch speed.',
+  ],
+  [
+    'name' => 'Perchang World',
+    'img' => '',
+    'img_fit' => 'cover',
+    'genre' => 'Physics Puzzle',
+    'badge' => 'New Puzzle Pick',
+    'featured' => false,
+    'new_this_month' => true,
+    'published_month' => '2026-05',
+    'platforms' => ['iPad'],
+    'best_tablet' => 'iPad or iPad Air',
+    'fit' => 'Physics puzzles, clean touch play, and short-session structure make it a natural fit for casual tablet gaming.',
+    'best_for' => 'Players who want something family-friendly, lower pressure, and easy to pick up in short bursts.',
+    'source_label' => 'Apple App Store expected May 7, 2026',
+    'source_url' => 'https://apps.apple.com/us/app/perchang-world/id6477922353',
+    'shop_href' => 'shop.php?brand=Apple',
+    'tablet_brand' => 'Apple',
+    'cta_label' => 'Shop Casual iPad Picks',
+    'review_href' => 'reviews.php',
+    'comparison_note' => 'Useful for value-minded iPad shoppers who care more about touch comfort and puzzle play than flagship-level performance.',
   ],
   [
     'name' => 'Infinity Nikki',
@@ -112,6 +154,27 @@ $games = [
     'cta_label' => 'Shop Multi-Device Tablets',
     'review_href' => 'reviews.php',
     'comparison_note' => 'A useful commerce bridge for users choosing between a Galaxy Tab and a work-and-play Surface.',
+  ],
+  [
+    'name' => 'Racing Master',
+    'img' => '',
+    'img_fit' => 'cover',
+    'genre' => 'Realistic Racing',
+    'badge' => 'Newest Android Racer',
+    'featured' => false,
+    'new_this_month' => true,
+    'published_month' => '2026-05',
+    'platforms' => ['Android Tablet', 'Windows'],
+    'best_tablet' => 'Galaxy Tab S10 or Surface Pro 11',
+    'fit' => 'More realistic car handling, licensed vehicles, and larger-screen cockpit play make it a strong showroom game for premium tablets.',
+    'best_for' => 'Players who want a more serious racing game than arcade kart-style mobile racers.',
+    'source_label' => 'Google Play updated April 17, 2026',
+    'source_url' => 'https://play.google.com/store/apps/details?hl=en&id=com.netease.dfjsla',
+    'shop_href' => 'shop.php?brand=Samsung',
+    'tablet_brand' => 'Samsung',
+    'cta_label' => 'Shop Performance Tablets',
+    'review_href' => 'reviews.php',
+    'comparison_note' => 'A strong conversion game for readers deciding whether a larger Android tablet or Surface-class screen is worth it for racing and cross-device play.',
   ],
   [
     'name' => 'Disco Elysium',
@@ -191,13 +254,13 @@ $playStyles = [
   ],
   [
     'title' => 'Best racing game',
-    'game' => 'Disney Speedstorm',
-    'desc' => 'High energy, clear visuals, and official recognition for strong multi-device play.',
+    'game' => 'Racing Master',
+    'desc' => 'A fresher pick for players who want licensed cars, more realistic handling, and a tablet that shows off cockpit detail.',
   ],
   [
     'title' => 'Best story-heavy game',
-    'game' => 'Disco Elysium',
-    'desc' => 'The kind of game that gets easier to sink into when text and interface elements have real space.',
+    'game' => 'Meg\'s Monster',
+    'desc' => 'A strong current story pick for players who want emotion, pacing, and readable battle presentation on a larger screen.',
   ],
   [
     'title' => 'Best action RPG',
@@ -205,28 +268,28 @@ $playStyles = [
     'desc' => 'A big-screen Android pick when you want movement, combat, and a live-service progression loop.',
   ],
   [
-    'title' => 'Best visual showcase',
-    'game' => 'Infinity Nikki',
-    'desc' => 'A strong fit for high-end iPads that can turn style and environment detail into the point of the experience.',
+    'title' => 'Best puzzle pick',
+    'game' => 'Perchang World',
+    'desc' => 'A clean, family-friendly tablet game that works well for short sessions and touch-first puzzle play.',
   ],
 ];
 
 $tabletMatches = [
   [
     'tablet' => 'iPad Gaming Picks',
-    'games' => 'DREDGE, Infinity Nikki, and Prince of Persia Lost Crown',
+    'games' => 'DREDGE, Meg\'s Monster, Perchang World, and Infinity Nikki',
     'desc' => 'Best for players who want polished premium releases and the strongest tablet-first ecosystem.',
     'shop_href' => 'shop.php?brand=Apple',
   ],
   [
     'tablet' => 'Galaxy Tab Gaming Picks',
-    'games' => 'Disney Speedstorm, Wuthering Waves, and Pokemon TCG Pocket',
+    'games' => 'Racing Master, Wuthering Waves, and Pokemon TCG Pocket',
     'desc' => 'Best for players who want large Android displays, multitasking flexibility, and a mix of action and pick-up-and-play titles.',
     'shop_href' => 'shop.php?brand=Samsung',
   ],
   [
     'tablet' => 'Surface Gaming Picks',
-    'games' => 'Disney Speedstorm and Disco Elysium',
+    'games' => 'Racing Master and Disco Elysium',
     'desc' => 'Best for users who split time between work and games and want a tablet that still behaves like a PC when needed.',
     'shop_href' => 'shop.php?brand=Microsoft',
   ],
@@ -251,39 +314,51 @@ $sources = [
     'label' => 'Google Play Best of 2025',
     'url' => 'https://blog.google/products/google-play/best-apps-games-2025/',
   ],
+  [
+    'label' => 'Apple App Store: Meg\'s Monster',
+    'url' => 'https://apps.apple.com/us/app/megs-monster/id1550415965',
+  ],
+  [
+    'label' => 'Apple App Store: Perchang World',
+    'url' => 'https://apps.apple.com/us/app/perchang-world/id6477922353',
+  ],
+  [
+    'label' => 'Google Play: Racing Master',
+    'url' => 'https://play.google.com/store/apps/details?hl=en&id=com.netease.dfjsla',
+  ],
 ];
 
 $monthlyUpdates = [
   [
-    'title' => 'Refreshed card art across the lineup',
-    'desc' => 'All eight game cards now carry artwork so the page reads like current editorial instead of a text-only landing page.',
+    'title' => 'Fresh May picks added for iPad buyers',
+    'desc' => 'Meg\'s Monster and Perchang World are the newest iPad-side additions and give the page stronger story and puzzle coverage this month.',
   ],
   [
     'title' => 'Featured pick stays conversion-friendly',
     'desc' => 'Pokemon TCG Pocket remains in the hero because it is still the easiest recommendation to connect to both Apple and Android tablet buyers.',
   ],
   [
-    'title' => 'Narrative and indie picks broaden the mix',
-    'desc' => 'Disco Elysium and Chants of Sennaar strengthen the page for readers looking beyond the usual action and racing recommendations.',
+    'title' => 'Android gets a newer racing option',
+    'desc' => 'Racing Master gives the page a fresher performance-focused racing game to pair with Galaxy Tab and Surface hardware recommendations.',
   ],
 ];
 
 $categoryGuides = [
   [
     'title' => 'Best iPad Games',
-    'copy' => 'If the reader is shopping premium tablets, lead with DREDGE, Infinity Nikki, and Prince of Persia Lost Crown. These games help justify brighter displays, better speakers, and stronger sustained performance.',
+    'copy' => 'If the reader is shopping iPads, lead with DREDGE, Meg\'s Monster, Perchang World, and Infinity Nikki. That mix gives you premium atmosphere, story, puzzle play, and visual showcase coverage without repeating the same recommendation angle.',
     'shop_href' => 'shop.php?brand=Apple',
     'review_href' => 'reviews.php',
   ],
   [
     'title' => 'Best Android Tablet Games',
-    'copy' => 'For Android buyers, keep Pokemon TCG Pocket, Wuthering Waves, Disney Speedstorm, and Chants of Sennaar in rotation. That mix gives you quick-play, live-service, multiplayer, and indie discovery angles on one page.',
+    'copy' => 'For Android buyers, keep Pokemon TCG Pocket, Wuthering Waves, Racing Master, and Chants of Sennaar in rotation. That mix gives you quick-play, live-service, performance racing, and indie discovery angles on one page.',
     'shop_href' => 'shop.php?brand=Samsung',
     'review_href' => 'reviews.php',
   ],
   [
     'title' => 'Best Surface Games',
-    'copy' => 'Surface should stay positioned as the work-and-play pick. Disney Speedstorm and Disco Elysium are useful because they support the story that a Surface can cover both light gaming and everyday PC needs.',
+    'copy' => 'Surface should stay positioned as the work-and-play pick. Racing Master and Disco Elysium are useful because they support the story that a Surface can cover both performance-focused gaming and everyday PC-style use.',
     'shop_href' => 'shop.php?brand=Microsoft',
     'review_href' => 'reviews.php',
   ],
@@ -292,7 +367,7 @@ $categoryGuides = [
 $faqItems = [
   [
     'question' => 'What games are best on tablets right now?',
-    'answer' => 'The best tablet games right now are the ones that use the extra screen well: Pokemon TCG Pocket for fast sessions, DREDGE for premium single-player play, Disney Speedstorm for multi-device racing, and Disco Elysium for story-heavy reading and choice-driven gameplay.',
+    'answer' => 'The best tablet games right now are the ones that use the extra screen well: Pokemon TCG Pocket for fast sessions, DREDGE for premium single-player play, Meg\'s Monster for story-heavy play, Perchang World for touch-first puzzles, and Racing Master for newer large-screen racing.',
   ],
   [
     'question' => 'Are iPads or Android tablets better for gaming?',
