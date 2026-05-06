@@ -73,7 +73,7 @@ $games = [
   ],
   [
     'name' => 'Perchang World',
-    'img' => '',
+    'img' => 'assets/images/games/perchang-world.jpg',
     'img_fit' => 'cover',
     'genre' => 'Physics Puzzle',
     'badge' => 'New Puzzle Pick',
