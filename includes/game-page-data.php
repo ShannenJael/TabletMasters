@@ -157,7 +157,7 @@ $games = [
   ],
   [
     'name' => 'Racing Master',
-    'img' => '',
+    'img' => 'assets/images/games/racing-master.png',
     'img_fit' => 'cover',
     'genre' => 'Realistic Racing',
     'badge' => 'Newest Android Racer',
