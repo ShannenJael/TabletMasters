@@ -52,7 +52,7 @@ $games = [
   ],
   [
     'name' => 'Meg\'s Monster',
-    'img' => '',
+    'img' => 'assets/images/games/megs-monster.jpg',
     'img_fit' => 'cover',
     'genre' => 'Story JRPG',
     'badge' => 'New This Week',
