@@ -1586,6 +1586,11 @@ body {
   font-size:   15px;
   line-height: 1.8;
 }
+.policy-card a {
+  color:           var(--blue-glow);
+  text-decoration: none;
+}
+.policy-card a:hover { text-decoration: underline; }
 .policy-list {
   margin:         14px 0 0 18px;
   color:          #9BACC8;
@@ -6771,6 +6776,13 @@ footer {
   margin-top: 4px;
   line-height: 1.5;
 }
+
+.sms-opt-in-note a {
+  color: var(--blue-glow);
+  text-decoration: none;
+}
+
+.sms-opt-in-note a:hover { text-decoration: underline; }
 
 /* Hero overrides for home layout */
 .home-hero-content {

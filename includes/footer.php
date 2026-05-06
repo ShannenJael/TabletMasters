@@ -30,6 +30,7 @@
       <a class="footer-link" href="tablet-games.php">Tablet Games</a>
       <a class="footer-link" href="privacy.php">Privacy Policy</a>
       <a class="footer-link" href="terms.php">Terms of Service</a>
+      <a class="footer-link" href="sms-terms.php">SMS Terms</a>
       <a class="footer-link" href="reviews.php">Reviews</a>
       <a class="footer-link" href="forum.php">Forum</a>
     </div>
@@ -118,6 +119,10 @@
       <input type="checkbox" id="cart-sms-opt-in" value="1">
       <span>Send me SMS updates on my order &amp; coverage</span>
     </label>
+    <p class="cart-sms-opt-in-note sms-opt-in-note">
+      By checking this box, you agree to receive Tablet Masters SMS updates. Message &amp; data rates may apply.
+      Reply STOP to unsubscribe. See <a href="sms-terms.php">SMS Terms</a> and <a href="privacy.php">Privacy Policy</a>.
+    </p>
     <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
     <a class="cart-insurance-link" href="plans.php">View all coverage plans →</a>
   </div>

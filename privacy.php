@@ -40,6 +40,7 @@
         <li>Your name, email address, phone number, and repair request details when you submit the repair form.</li>
         <li>Your cart contents and product selections while you shop.</li>
         <li>Order-related details returned to us by Stripe, such as your email address, name, phone number, shipping details, Stripe session ID, and payment intent ID.</li>
+        <li>Your SMS opt-in status, phone number, and related consent records when you choose to receive text message updates.</li>
         <li>Technical information typically provided by browsers and servers, such as IP address, browser type, device type, referring pages, and timestamps.</li>
         <li>Browser-side storage used to keep your cart and cached site files available on your device.</li>
       </ul>
@@ -87,7 +88,10 @@
         <li>With shipping, fulfillment, repair, insurance, or supplier partners when needed to complete your purchase or service request.</li>
         <li>When required by law, legal process, or to protect rights, safety, and the integrity of our services.</li>
       </ul>
-      <p class="policy-note">We do not sell personal information for money.</p>
+      <p class="policy-note">
+        We do not sell personal information for money. Mobile opt-in information and SMS consent
+        records are not shared with third parties for their own marketing or promotional purposes.
+      </p>
     </section>
 
     <section class="policy-card">
