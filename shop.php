@@ -25,13 +25,71 @@ require_once __DIR__ . '/includes/accessories-data.php';
 // Load inventory from JSON — edit via admin/inventory.php
 $products = tm_inventory_tablets();
 
+function defaultTabletMemory(string $name): ?string {
+  static $memoryByName = [
+    'iPad Air (11-inch, M4, 2026)' => '128GB',
+    'iPad Air (13-inch, M4, 2026)' => '128GB',
+    'iPad Pro (11-inch, M5, 2025)' => '256GB',
+    'iPad Pro (13-inch, M5, 2025)' => '256GB',
+    'iPad (11th Gen, A16, 2025)' => '128GB',
+    'iPad Air (11-inch, M4, 2026) Wi-Fi + Cellular' => '128GB',
+    'iPad Air (13-inch, M4, 2026) Wi-Fi + Cellular' => '128GB',
+    'iPad Pro (11-inch, M5, 2025) Wi-Fi + Cellular' => '256GB',
+    'iPad Pro (13-inch, M5, 2025) Wi-Fi + Cellular' => '256GB',
+    'iPad (11th Gen, A16, 2025) Wi-Fi + Cellular' => '128GB',
+    'iPad Pro (11-inch, M4, 2024)' => '256GB',
+    'iPad Pro (13-inch, M4, 2024)' => '256GB',
+    'iPad Air (11-inch, M2, 2024)' => '128GB',
+    'iPad Air (13-inch, M2, 2024)' => '128GB',
+    'iPad Mini (7th Gen, A17 Pro, 2024)' => '128GB',
+    'iPad (10th Gen, A14, 2022)' => '64GB',
+    'iPad Air (5th Gen)' => '64GB',
+    'iPad Pro 12.9"' => '256GB',
+    'iPad Mini 6' => '64GB',
+    'Galaxy Tab S9 Ultra' => '256GB',
+    'Galaxy Tab S9+' => '256GB',
+    'Galaxy Tab S9' => '128GB',
+    'Galaxy Tab S9 FE' => '128GB',
+    'Galaxy Tab S8' => '128GB',
+    'Galaxy Tab S8 Ultra' => '128GB',
+    'Galaxy Tab A8' => '64GB',
+    'Galaxy Tab S7 FE' => '64GB',
+    'Galaxy Tab S10+' => '256GB',
+    'Galaxy Tab S10 Ultra' => '256GB',
+    'Galaxy Tab S10 FE' => '128GB',
+    'Galaxy Tab S10 Lite' => '128GB',
+    'Surface Pro 11' => '256GB',
+    'Surface Go 4' => '64GB',
+    'Surface Pro 9' => '256GB',
+    'Surface Go 3' => '64GB',
+    'Surface Pro 8' => '256GB',
+    'Fire HD 10 (2023)' => '32GB',
+    'Fire HD 10 Plus' => '32GB',
+    'Fire Max 11' => '64GB',
+    'iPad Air 4th Gen' => '64GB',
+    'iPad 9th Gen' => '64GB',
+    'iPad Mini 5' => '64GB',
+    'Galaxy Tab S7' => '128GB',
+    'Galaxy Tab S7+' => '128GB',
+    'Galaxy Tab S6 Lite' => '64GB',
+    'Surface Pro 7' => '128GB',
+    'Surface Pro X' => '256GB',
+    'Fire HD 8 (2022)' => '32GB',
+    'Fire HD 7' => '32GB',
+  ];
+
+  return $memoryByName[$name] ?? null;
+}
+
 foreach ($products as $index => &$product) {
   $product['sortOrder'] = $index;
   if (empty($product['imgClass'])) $product['imgClass'] = '';
   if (!isset($product['orig']))    $product['orig'] = null;
   if (empty($product['badge']))    $product['badge'] = null;
   if (empty($product['memory'])) {
-    $product['memory'] = !empty($product['storage']) ? (string)$product['storage'] : 'Memory size coming soon';
+    $product['memory'] = !empty($product['storage'])
+      ? (string)$product['storage']
+      : (defaultTabletMemory($product['name']) ?? 'Memory size coming soon');
   }
   if (empty($product['connectivity'])) {
     $product['connectivity'] = stripos($product['name'], 'cellular') !== false ? 'Wi-Fi + Cellular' : 'Wi-Fi';
