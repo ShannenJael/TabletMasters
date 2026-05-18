@@ -30,6 +30,9 @@ foreach ($products as $index => &$product) {
   if (empty($product['imgClass'])) $product['imgClass'] = '';
   if (!isset($product['orig']))    $product['orig'] = null;
   if (empty($product['badge']))    $product['badge'] = null;
+  if (empty($product['memory'])) {
+    $product['memory'] = !empty($product['storage']) ? (string)$product['storage'] : 'Memory size coming soon';
+  }
   if (empty($product['connectivity'])) {
     $product['connectivity'] = stripos($product['name'], 'cellular') !== false ? 'Wi-Fi + Cellular' : 'Wi-Fi';
   }
@@ -115,6 +118,7 @@ function conditionClass($condition) {
       data-name="<?= htmlspecialchars($p['name']) ?>"
       data-condition="<?= htmlspecialchars($p['condition']) ?>"
       data-badge="<?= htmlspecialchars((string)($p['badge'] ?? '')) ?>"
+      data-memory="<?= htmlspecialchars($p['memory']) ?>"
       data-connectivity="<?= htmlspecialchars($p['connectivity']) ?>"
     >
       <div class="product-img">
@@ -145,7 +149,16 @@ function conditionClass($condition) {
           <span class="product-brand"><?= htmlspecialchars($p['brand']) ?></span>
           <span class="condition-badge <?= conditionClass($p['condition']) ?>"><?= htmlspecialchars($p['condition']) ?></span>
         </div>
-        <div class="product-connectivity"><?= htmlspecialchars($p['connectivity']) ?></div>
+        <div class="product-spec-list" aria-label="Tablet details">
+          <div class="product-spec">
+            <span class="product-spec-label">Memory</span>
+            <span class="product-spec-value"><?= htmlspecialchars($p['memory']) ?></span>
+          </div>
+          <div class="product-spec">
+            <span class="product-spec-label">Network</span>
+            <span class="product-spec-value"><?= htmlspecialchars($p['connectivity']) ?></span>
+          </div>
+        </div>
         <div class="product-price-row">
           <div>
             <span class="product-price">$<?= number_format($p['price'], 2) ?></span>
@@ -197,6 +210,7 @@ foreach ($products as $p) {
     'emoji'     => $p['emoji'],
     'badge'     => $p['badge'],
     'condition' => $p['condition'],
+    'memory'    => $p['memory'],
     'connectivity' => $p['connectivity'],
     'stock'     => $p['stock'],
     'img'       => $p['img'],
@@ -267,6 +281,10 @@ function openQuickView(id) {
     '<div class="modal-chip-row">' +
       '<span class="condition-badge ' + _condClass(p.condition) + '">' + escHtml(p.condition) + '</span>' +
       '<span class="condition-badge">' + escHtml(p.connectivity) + '</span>' +
+    '</div>' +
+    '<div class="modal-spec-list" aria-label="Tablet details">' +
+      '<div class="modal-spec"><span class="modal-spec-label">Memory</span><span class="modal-spec-value">' + escHtml(p.memory) + '</span></div>' +
+      '<div class="modal-spec"><span class="modal-spec-label">Network</span><span class="modal-spec-value">' + escHtml(p.connectivity) + '</span></div>' +
     '</div>' +
     '<hr class="modal-divider">' +
     '<div class="modal-price-row">' +
@@ -350,6 +368,7 @@ function applyProductFilters() {
       card.dataset.brand,
       card.dataset.condition,
       card.dataset.badge,
+      card.dataset.memory,
       card.dataset.connectivity
     ].join(' ').toLowerCase();
     var matchesSearch = TM_SEARCH_QUERY === '' || haystack.indexOf(TM_SEARCH_QUERY) !== -1;

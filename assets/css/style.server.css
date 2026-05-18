@@ -1036,6 +1036,38 @@ body {
 
 .product-brand { font-size: 12px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.5px; margin-bottom: 0; }
 
+.product-spec-list {
+  display:       grid;
+  gap:           8px;
+  margin-bottom: 12px;
+}
+
+.product-spec {
+  display:         flex;
+  align-items:     baseline;
+  justify-content: space-between;
+  gap:             12px;
+  padding:         8px 10px;
+  border-radius:   8px;
+  background:      rgba(59,130,246,0.06);
+  border:          1px solid rgba(59,130,246,0.12);
+}
+
+.product-spec-label {
+  color:          var(--muted);
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.product-spec-value {
+  color:       var(--white);
+  font-size:   12px;
+  font-weight: 500;
+  text-align:  right;
+}
+
 /* ── CONDITION BADGE ── */
 .condition-badge {
   display:        inline-flex;
@@ -1255,6 +1287,37 @@ body {
 .modal-price     { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--white); }
 .modal-price-orig{ font-size: 14px; color: var(--muted); text-decoration: line-through; }
 .modal-divider   { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
+
+.modal-spec-list {
+  display: grid;
+  gap:     8px;
+}
+
+.modal-spec {
+  display:         flex;
+  align-items:     baseline;
+  justify-content: space-between;
+  gap:             12px;
+  padding:         10px 12px;
+  border-radius:   8px;
+  background:      rgba(59,130,246,0.06);
+  border:          1px solid rgba(59,130,246,0.14);
+}
+
+.modal-spec-label {
+  color:          var(--muted);
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.modal-spec-value {
+  color:       var(--white);
+  font-size:   13px;
+  font-weight: 500;
+  text-align:  right;
+}
 
 .modal-warranty {
   display:       flex;
