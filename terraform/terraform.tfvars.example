@@ -1,0 +1,15 @@
+# Copy this file to terraform.tfvars and fill in real values.
+# Never commit terraform.tfvars — it may contain environment-specific values.
+
+aws_region = "us-east-2"
+site_url   = "https://tablet-masters.com"
+
+resource_prefix         = "tablet-masters-sms"
+opt_out_list_name       = "tablet-masters-opt-out"
+configuration_set_name  = "tablet-masters-sms"
+iam_user_name           = "tablet-masters-sms-app"
+
+# Fill in once the manual toll-free verification (Phase 0, see
+# docs/AWS_SMS_SETUP.md) is approved and AWS issues a registration ID.
+# Leave blank ("") until then.
+tollfree_registration_id = ""

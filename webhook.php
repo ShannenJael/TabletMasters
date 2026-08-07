@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/stripe-security.php';
 
 $payload   = file_get_contents('php://input');
 $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
@@ -59,18 +60,24 @@ if ($eventType === 'checkout.session.completed') {
     $plan            = $metadata['plan']                     ?? ($metadata['insurance_plan'] ?? '');
     $stripeCreated   = (int)($session['created']             ?? time());
 
+    if (!validStripeSessionId($stripeSessionId)) {
+        file_put_contents($logDir . '/webhook_errors.log',
+            date('Y-m-d H:i:s') . " | Invalid checkout session ID\n", FILE_APPEND);
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid session_id']);
+        exit;
+    }
+
     // Fetch line items via direct API call
     $lineItems = [];
-    if ($stripeSessionId) {
-        $itemsResponse = stripeGet('checkout/sessions/' . urlencode($stripeSessionId) . '/line_items?limit=20');
-        if ($itemsResponse && isset($itemsResponse['data'])) {
-            foreach ($itemsResponse['data'] as $item) {
-                $lineItems[] = [
-                    'name'     => $item['description'] ?? ($item['price']['product']['name'] ?? 'Item'),
-                    'quantity' => $item['quantity'] ?? 1,
-                    'price'    => $item['amount_total'] ?? 0,
-                ];
-            }
+    $itemsResponse = stripeGet('checkout/sessions/' . rawurlencode($stripeSessionId) . '/line_items?limit=20');
+    if ($itemsResponse && isset($itemsResponse['data'])) {
+        foreach ($itemsResponse['data'] as $item) {
+            $lineItems[] = [
+                'name'     => $item['description'] ?? ($item['price']['product']['name'] ?? 'Item'),
+                'quantity' => $item['quantity'] ?? 1,
+                'price'    => $item['amount_total'] ?? 0,
+            ];
         }
     }
 

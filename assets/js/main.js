@@ -400,6 +400,20 @@ function trackPromoClick(eventName, label, href) {
   } catch (e) {}
 }
 
+function initObfuscatedEmails() {
+  document.querySelectorAll('[data-email-user]').forEach(function(el) {
+    if (el.dataset.emailBound === '1') return;
+    el.dataset.emailBound = '1';
+
+    var user = el.dataset.emailUser.split('').reverse().join('');
+    var domain = el.dataset.emailDomain.split('').reverse().join('');
+    var email = user + '@' + domain;
+
+    el.setAttribute('href', 'mailto:' + email);
+    if (el.dataset.emailText === '1') el.textContent = email;
+  });
+}
+
 function initTrackedLinks(selector) {
   document.querySelectorAll(selector || '[data-track]').forEach(function(link) {
     if (link.dataset.trackBound === '1') return;
@@ -421,6 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initVideo();
   initRepairForm();
   initTrackedLinks('[data-track]');
+  initObfuscatedEmails();
 
   var overlay = document.getElementById('cart-overlay');
   if (overlay) overlay.addEventListener('click', closeCart);

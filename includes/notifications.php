@@ -3,7 +3,7 @@
  * Tablet Masters - SMS notification workflows
  */
 
-require_once __DIR__ . '/twilio.php';
+require_once __DIR__ . '/aws-sms.php';
 
 function tmNotifyOrderCompleted(array $session, array $lineItems = []): array
 {
@@ -30,7 +30,7 @@ function tmNotifyOrderCompleted(array $session, array $lineItems = []): array
         }
     }
 
-    $alertNumber = tmTwilioConfig()['support_alert_number'];
+    $alertNumber = tmSmsConfig()['support_alert_number'];
     if ($alertNumber !== '') {
         $typeLabel = $checkoutType === 'subscription' ? 'insurance signup' : 'purchase';
         $body = "Tablet Masters alert: New {$typeLabel}. {$customerName} {$customerEmail} {$amount}. {$itemSummary}";
@@ -63,7 +63,7 @@ function tmNotifyDeviceRegistration(array $registration): array
         $results['customer'] = tmSendNotificationOnce('customer-registration:' . $registrationNumber, $phone, $body);
     }
 
-    $alertNumber = tmTwilioConfig()['support_alert_number'];
+    $alertNumber = tmSmsConfig()['support_alert_number'];
     if ($alertNumber !== '') {
         $body = "Tablet Masters alert: Device registration {$registrationNumber}. {$name} {$email}. {$brand} {$model}.";
         if ($plan !== '' && $plan !== 'none') {
@@ -92,13 +92,13 @@ function tmSendNotificationOnce(string $key, string $to, string $body): array
         ];
     }
 
-    $result = tmTwilioSendMessage($to, $body);
+    $result = tmSendSmsMessage($to, $body);
     $entries[$key] = [
         'sent_at' => date('Y-m-d H:i:s'),
         'ok' => (bool)($result['ok'] ?? false),
         'skipped' => (bool)($result['skipped'] ?? false),
         'to' => (string)($result['to'] ?? $to),
-        'message_sid' => (string)($result['message_sid'] ?? ''),
+        'message_id' => (string)($result['message_uuid'] ?? $result['message_sid'] ?? ''),
         'reason' => (string)($result['reason'] ?? ''),
     ];
     file_put_contents($ledger, json_encode($entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -113,40 +113,48 @@ function tmRecordInboundSms(array $payload): void
         mkdir($logDir, 0755, true);
     }
 
-    $inboxFile = $logDir . '/twilio_inbox.json';
+    $inboxFile = $logDir . '/sms_inbox.json';
     $messages = file_exists($inboxFile)
         ? (json_decode((string)file_get_contents($inboxFile), true) ?: [])
         : [];
 
+    $messageId = tmSmsPayloadValue($payload, ['MessageUUID', 'message_uuid', 'MessageSid', 'SmsSid', 'message_sid']);
+    $from = tmSmsPayloadValue($payload, ['From', 'from', 'from_number']);
+    $to = tmSmsPayloadValue($payload, ['To', 'to', 'to_number']);
+    $body = tmSmsPayloadValue($payload, ['Text', 'Body', 'text', 'body']);
+
     $messages[] = [
-        'message_sid' => (string)($payload['MessageSid'] ?? ''),
-        'from' => tmNormalizePhoneNumber((string)($payload['From'] ?? '')) ?: (string)($payload['From'] ?? ''),
-        'to' => tmNormalizePhoneNumber((string)($payload['To'] ?? '')) ?: (string)($payload['To'] ?? ''),
-        'body' => trim((string)($payload['Body'] ?? '')),
+        'provider' => 'aws',
+        'message_id' => $messageId,
+        'from' => tmNormalizePhoneNumber($from) ?: $from,
+        'to' => tmNormalizePhoneNumber($to) ?: $to,
+        'body' => trim($body),
         'received_at' => date('Y-m-d H:i:s'),
     ];
 
     file_put_contents($inboxFile, json_encode($messages, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
 
-function tmRecordTwilioStatusCallback(array $payload): void
+function tmRecordSmsStatusCallback(array $payload): void
 {
     $logDir = __DIR__ . '/../data/logs';
     if (!is_dir($logDir)) {
         mkdir($logDir, 0755, true);
     }
 
-    $statusFile = $logDir . '/twilio_status_callbacks.json';
+    $statusFile = $logDir . '/sms_status_callbacks.json';
     $rows = file_exists($statusFile)
         ? (json_decode((string)file_get_contents($statusFile), true) ?: [])
         : [];
 
     $rows[] = [
-        'message_sid' => (string)($payload['MessageSid'] ?? ''),
-        'message_status' => (string)($payload['MessageStatus'] ?? ''),
-        'to' => (string)($payload['To'] ?? ''),
-        'error_code' => (string)($payload['ErrorCode'] ?? ''),
-        'error_message' => (string)($payload['ErrorMessage'] ?? ''),
+        'provider' => 'aws',
+        'message_id' => tmSmsPayloadValue($payload, ['MessageUUID', 'message_uuid', 'MessageSid', 'message_sid']),
+        'message_status' => tmSmsPayloadValue($payload, ['Status', 'MessageStatus', 'message_state', 'status']),
+        'to' => tmSmsPayloadValue($payload, ['To', 'to', 'to_number']),
+        'from' => tmSmsPayloadValue($payload, ['From', 'from', 'from_number']),
+        'error_code' => tmSmsPayloadValue($payload, ['ErrorCode', 'error_code']),
+        'error_message' => tmSmsPayloadValue($payload, ['ErrorMessage', 'error_message']),
         'recorded_at' => date('Y-m-d H:i:s'),
     ];
 
@@ -160,7 +168,18 @@ function tmNotificationLedgerPath(): string
         mkdir($logDir, 0755, true);
     }
 
-    return $logDir . '/twilio_notifications.json';
+    return $logDir . '/sms_notifications.json';
+}
+
+function tmSmsPayloadValue(array $payload, array $keys): string
+{
+    foreach ($keys as $key) {
+        if (isset($payload[$key]) && trim((string)$payload[$key]) !== '') {
+            return trim((string)$payload[$key]);
+        }
+    }
+
+    return '';
 }
 
 function tmFormatCurrency(int $amountCents, string $currency): string

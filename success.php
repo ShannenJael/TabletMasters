@@ -5,6 +5,7 @@
 $currentPage = 'shop';
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/accessories-data.php';
+require_once __DIR__ . '/includes/stripe-security.php';
 
 $sessionId  = $_GET['session_id'] ?? null;
 $type       = $_GET['type'] ?? '';
@@ -14,8 +15,13 @@ $order      = null;
 $insurancePlan = $plan;
 $recommendedAccessories = [];
 
+if ($sessionId !== null && !validStripeSessionId($sessionId)) {
+    http_response_code(400);
+    exit('Invalid session_id');
+}
+
 if ($sessionId && !$subscribed) {
-    $session = stripeGet('checkout/sessions/' . urlencode($sessionId) . '?expand[]=line_items');
+    $session = stripeGet('checkout/sessions/' . rawurlencode($sessionId) . '?expand[]=line_items');
     if ($session && isset($session['id'])) {
         $order = $session;
         $insurancePlan = $session['metadata']['insurance_plan'] ?? ($session['metadata']['plan'] ?? $insurancePlan);

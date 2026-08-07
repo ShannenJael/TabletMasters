@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/includes/database.php';
 
-$toEmail = 'service@tablet-masters.com';
+$toEmail = 'Tabletmasters@clouddogg.com';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: insurance.php');
@@ -74,7 +74,7 @@ $adminMessage = "New repair booking submitted via tablet-masters.com\n\n"
     . "Notes:\n{$notes}\n\n"
     . "View in admin: https://tablet-masters.com/admin/index.php?page=repairs";
 
-$adminHeaders  = "From: service@tablet-masters.com\r\n";
+$adminHeaders  = "From: Tabletmasters@clouddogg.com\r\n";
 $adminHeaders .= "Reply-To: {$email}\r\n";
 $adminHeaders .= "X-Mailer: PHP/" . phpversion();
 
@@ -93,8 +93,8 @@ $custMessage = "Hi {$name},\n\n"
     . "— The Tablet Masters Team\n"
     . "https://tablet-masters.com";
 
-$custHeaders  = "From: service@tablet-masters.com\r\n";
-$custHeaders .= "Reply-To: service@tablet-masters.com\r\n";
+$custHeaders  = "From: Tabletmasters@clouddogg.com\r\n";
+$custHeaders .= "Reply-To: Tabletmasters@clouddogg.com\r\n";
 $custHeaders .= "X-Mailer: PHP/" . phpversion();
 
 mail($email, $custSubject, $custMessage, $custHeaders);

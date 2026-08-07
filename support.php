@@ -131,7 +131,7 @@ $responseHighlights = [
 
       <div class="support-hero-actions">
         <a class="btn-primary" href="insurance.php#book-form">Book a Repair</a>
-        <a class="btn-outline" href="mailto:service@tablet-masters.com">Email Support</a>
+        <a class="btn-outline" href="#" data-email-user="sretsamtelbaT" data-email-domain="moc.ggodduolc" rel="nofollow">Email Support</a>
       </div>
 
       <div class="support-jump-links" aria-label="Support page sections">
@@ -268,7 +268,7 @@ $responseHighlights = [
 
       <div class="support-action-stack">
         <a class="btn-primary full" href="insurance.php#book-form">Go to Repair Booking</a>
-        <a class="btn-outline full" href="mailto:service@tablet-masters.com">Email service@tablet-masters.com</a>
+        <a class="btn-outline full" href="#" data-email-user="sretsamtelbaT" data-email-domain="moc.ggodduolc" data-email-text="1" rel="nofollow">Email Us</a>
         <a class="btn-outline full" href="plans.php">Review Coverage Plans</a>
       </div>
     </section>

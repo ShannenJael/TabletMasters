@@ -67,7 +67,6 @@ foreach ($catalog as $entry) {
       class="shop-search accessories-search"
       id="accessories-search-wrap"
       for="accessory-search"
-      <?= $brandFilter === 'All' ? '' : 'hidden' ?>
     >
       <i class="fas fa-search" aria-hidden="true"></i>
       <input
@@ -77,7 +76,6 @@ foreach ($catalog as $entry) {
         aria-label="Search accessories"
         value="<?= htmlspecialchars($tabletFilter) ?>"
         oninput="setAccessorySearch(this.value)"
-        <?= $brandFilter === 'All' ? '' : 'disabled' ?>
       />
     </label>
   </div>
@@ -213,10 +211,9 @@ function setAccessorySearch(query) {
 function applyAccessoryFilters() {
   var cards = document.querySelectorAll('.accessory-card');
   var visibleCount = 0;
-  var searchEnabled = TM_ACCESSORY_BRAND === 'All';
   cards.forEach(function(card) {
     var matchesBrand = TM_ACCESSORY_BRAND === 'All' || card.dataset.brand === TM_ACCESSORY_BRAND;
-    var matchesSearch = !searchEnabled || TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
+    var matchesSearch = TM_ACCESSORY_SEARCH === '' || card.dataset.search.indexOf(TM_ACCESSORY_SEARCH) !== -1;
     var show = matchesBrand && matchesSearch;
     card.style.display = show ? '' : 'none';
     if (show) visibleCount += 1;
@@ -237,21 +234,13 @@ function applyAccessoryFilters() {
 function updateAccessorySearchVisibility() {
   var searchWrap = document.getElementById('accessories-search-wrap');
   var searchInput = document.getElementById('accessory-search');
-  var showSearch = TM_ACCESSORY_BRAND === 'All';
 
   if (searchWrap) {
-    searchWrap.hidden = !showSearch;
+    searchWrap.hidden = false;
   }
 
   if (searchInput) {
-    searchInput.disabled = !showSearch;
-    if (!showSearch) {
-      searchInput.value = '';
-    }
-  }
-
-  if (!showSearch) {
-    TM_ACCESSORY_SEARCH = '';
+    searchInput.disabled = false;
   }
 }
 

@@ -4,6 +4,8 @@ const { defineConfig, devices } = require('@playwright/test');
 const PORT = process.env.PORT || '3100';
 const HOST = process.env.HOST || '127.0.0.1';
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || `http://${HOST}:${PORT}`;
+const ignoreHTTPSErrors = process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === '1'
+  || Boolean(process.env.PLAYWRIGHT_BASE_URL && baseURL.startsWith('https://'));
 
 module.exports = defineConfig({
   testDir: './tests',
@@ -18,7 +20,8 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    serviceWorkers: 'block'
+    serviceWorkers: 'block',
+    ignoreHTTPSErrors
   },
   expect: {
     toHaveScreenshot: {

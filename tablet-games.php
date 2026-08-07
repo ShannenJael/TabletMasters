@@ -113,7 +113,6 @@ $faqSchema = [
 <section class="tablet-games-page">
   <div class="tablet-games-storyline">
     <div class="tablet-games-story-card" id="new-this-month" style="grid-column: 1 / -1;">
-      <div class="section-label">// Monthly Refresh</div>
       <div class="section-title" style="font-size:44px">NEW THIS MONTH</div>
       <p><?= htmlspecialchars($editorNote) ?></p>
       <div class="tablet-games-mini-grid tablet-games-mini-grid-compact">
@@ -129,7 +128,6 @@ $faqSchema = [
   </div>
 
   <div class="repair-section-title" id="tablet-games-grid">
-    <div class="section-label">// Best Right Now</div>
     <div class="section-title" style="font-size:44px">CURRENT PICKS</div>
   </div>
 
@@ -139,6 +137,10 @@ $faqSchema = [
       <?php if (!empty($game['img'])): ?>
       <div class="tablet-game-card-img tablet-game-card-img-<?= htmlspecialchars($game['img_fit'] ?? 'cover') ?>">
         <img src="<?= htmlspecialchars($game['img']) ?>" alt="<?= htmlspecialchars($game['name']) ?>" loading="lazy" decoding="async" />
+      </div>
+      <?php else: ?>
+      <div class="tablet-game-card-img tablet-game-card-img-placeholder" role="img" aria-label="<?= htmlspecialchars($game['name']) ?> artwork placeholder">
+        <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
       </div>
       <?php endif; ?>
       <div class="tablet-game-card-top">
@@ -185,7 +187,6 @@ $faqSchema = [
 
   <div class="tablet-games-commerce-banner">
     <div>
-      <div class="section-label">// Mid-Page CTA</div>
       <h3>BUY FOR THE WAY PEOPLE ACTUALLY PLAY</h3>
       <p>
         Premium iPads for polished single-player games, Galaxy Tabs for flexibility and Android value, and Surface for work-and-play overlap.
@@ -204,6 +205,10 @@ $faqSchema = [
       <?php if (!empty($game['img'])): ?>
       <div class="tablet-game-card-img tablet-game-card-img-<?= htmlspecialchars($game['img_fit'] ?? 'cover') ?>">
         <img src="<?= htmlspecialchars($game['img']) ?>" alt="<?= htmlspecialchars($game['name']) ?>" loading="lazy" decoding="async" />
+      </div>
+      <?php else: ?>
+      <div class="tablet-game-card-img tablet-game-card-img-placeholder" role="img" aria-label="<?= htmlspecialchars($game['name']) ?> artwork placeholder">
+        <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
       </div>
       <?php endif; ?>
       <div class="tablet-game-card-top">
@@ -249,7 +254,6 @@ $faqSchema = [
   </div>
 
   <div class="repair-section-title" style="margin-top:72px;margin-bottom:32px;">
-    <div class="section-label">// Best By Play Style</div>
     <div class="section-title" style="font-size:44px">WHAT TO PLAY</div>
   </div>
 
@@ -264,7 +268,6 @@ $faqSchema = [
   </div>
 
   <div class="repair-section-title" style="margin-top:72px;margin-bottom:32px;">
-    <div class="section-label">// Platform Search Coverage</div>
     <div class="section-title" style="font-size:44px">BEST BY PLATFORM</div>
   </div>
 
@@ -283,7 +286,6 @@ $faqSchema = [
   </div>
 
   <div class="repair-section-title" id="tablet-matches" style="margin-top:72px;margin-bottom:32px;">
-    <div class="section-label">// Best By Tablet</div>
     <div class="section-title" style="font-size:44px">MATCH THE HARDWARE</div>
   </div>
 
@@ -299,7 +301,6 @@ $faqSchema = [
   </div>
 
   <div class="repair-section-title" style="margin-top:72px;margin-bottom:32px;">
-    <div class="section-label">// Common Questions</div>
     <div class="section-title" style="font-size:44px">FAQ</div>
   </div>
 

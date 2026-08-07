@@ -6,7 +6,7 @@
 
 require_once __DIR__ . '/includes/database.php';
 
-$toEmail = 'service@tablet-masters.com';
+$toEmail = 'Tabletmasters@clouddogg.com';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: business-conferences.php#conference-quote');
@@ -163,7 +163,7 @@ $adminMessage = "New business conference quote request submitted via tablet-mast
     . "App Requirements:\n" . ($appRequirements ?: 'None provided') . "\n\n"
     . "Additional Notes:\n" . ($notes ?: 'None provided') . "\n";
 
-$adminHeaders = "From: service@tablet-masters.com\r\n";
+$adminHeaders = "From: Tabletmasters@clouddogg.com\r\n";
 $adminHeaders .= "Reply-To: {$email}\r\n";
 $adminHeaders .= "X-Mailer: PHP/" . phpversion();
 
@@ -185,8 +185,8 @@ $customerMessage = "Hi {$contactName},\n\n"
     . "- The Tablet Masters Team\n"
     . "https://tablet-masters.com";
 
-$customerHeaders = "From: service@tablet-masters.com\r\n";
-$customerHeaders .= "Reply-To: service@tablet-masters.com\r\n";
+$customerHeaders = "From: Tabletmasters@clouddogg.com\r\n";
+$customerHeaders .= "Reply-To: Tabletmasters@clouddogg.com\r\n";
 $customerHeaders .= "X-Mailer: PHP/" . phpversion();
 
 mail($email, $customerSubject, $customerMessage, $customerHeaders);

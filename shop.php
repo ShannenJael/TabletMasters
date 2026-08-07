@@ -58,7 +58,14 @@ function defaultTabletMemory(string $name): ?string {
     'Galaxy Tab S10 Ultra' => '256GB',
     'Galaxy Tab S10 FE' => '128GB',
     'Galaxy Tab S10 Lite' => '128GB',
+    'Galaxy Tab S11' => '256GB',
+    'Galaxy Tab S11 Ultra' => '256GB',
+    'Galaxy Tab S10 FE+' => '128GB',
+    'Galaxy Tab A11+' => '128GB',
+    'Galaxy Tab Active5 Pro' => '128GB',
     'Surface Pro 11' => '256GB',
+    'Surface Pro (13-inch, 12th Edition)' => '256GB',
+    'Surface Pro 12-inch, 12th Edition' => '256GB',
     'Surface Go 4' => '64GB',
     'Surface Pro 9' => '256GB',
     'Surface Go 3' => '64GB',
@@ -74,7 +81,7 @@ function defaultTabletMemory(string $name): ?string {
     'Galaxy Tab S6 Lite' => '64GB',
     'Surface Pro 7' => '128GB',
     'Surface Pro X' => '256GB',
-    'Fire HD 8 (2022)' => '32GB',
+    'Fire HD 8 (2024)' => '32GB',
     'Fire HD 7' => '32GB',
   ];
 
@@ -107,12 +114,14 @@ function badgeClass($badge) {
   if ($badge === 'Sale') return 'badge-sale';
   if ($badge === 'New' || $badge === 'New Arrival' || $badge === 'Latest') return 'badge-new';
   if ($badge === 'Previous Gen') return 'badge-prev';
+  if ($badge === 'Coming Soon') return 'badge-coming-soon';
   return 'badge-default';
 }
 
 function conditionClass($condition) {
   if ($condition === 'Like New') return 'condition-like-new';
   if ($condition === 'Grade A') return 'condition-grade-a';
+  if ($condition === 'Coming Soon') return 'condition-coming-soon';
   return 'condition-grade-b';
 }
 ?>
@@ -157,20 +166,26 @@ function conditionClass($condition) {
 
   <div class="product-grid" id="product-grid">
     <?php foreach ($products as $p):
+      $isPlaceholder = tm_inventory_is_placeholder($p);
+      $hasPrice = (float)$p['price'] > 0;
+      $hasStock = (int)$p['stock'] > 0;
       $priceJs = json_encode($p['price']);
       $nameJs = json_encode($p['name']);
       $brandJs = json_encode($p['brand']);
       $emojiJs = json_encode($p['emoji']);
       $addCall = "addToCart({id:{$p['id']},name:{$nameJs},brand:{$brandJs},price:{$priceJs},emoji:{$emojiJs}})";
-      $stockClass = $p['stock'] <= 3 ? 'stock-low' : 'stock-ok';
-      $stockText = $p['stock'] <= 3
-        ? 'Only ' . $p['stock'] . ' left!'
-        : 'In Stock (' . $p['stock'] . ')';
+      $stockClass = $isPlaceholder ? 'stock-coming-soon' : ($p['stock'] <= 3 ? 'stock-low' : 'stock-ok');
+      $stockText = $isPlaceholder
+        ? ($hasStock ? 'In Stock (' . $p['stock'] . ')' : 'Coming Soon')
+        : ($p['stock'] <= 3
+          ? 'Only ' . $p['stock'] . ' left!'
+          : 'In Stock (' . $p['stock'] . ')');
     ?>
     <div
       class="product-card"
       data-brand="<?= htmlspecialchars($p['brand']) ?>"
       data-price="<?= $p['price'] ?>"
+      data-placeholder="<?= $isPlaceholder ? '1' : '0' ?>"
       data-id="<?= $p['id'] ?>"
       data-sort-order="<?= $p['sortOrder'] ?>"
       data-name="<?= htmlspecialchars($p['name']) ?>"
@@ -219,15 +234,27 @@ function conditionClass($condition) {
         </div>
         <div class="product-price-row">
           <div>
+            <?php if ($isPlaceholder && !$hasPrice): ?>
+            <span class="product-price product-price-coming-soon">Price coming soon</span>
+            <?php else: ?>
             <span class="product-price">$<?= number_format($p['price'], 2) ?></span>
             <?php if ($p['orig']): ?>
             <span class="product-price-orig">$<?= number_format($p['orig'], 2) ?></span>
             <?php endif; ?>
+            <?php endif; ?>
           </div>
+          <?php if ($isPlaceholder): ?>
+          <button class="add-btn add-btn-disabled" type="button" disabled title="Coming soon" aria-label="Coming soon">+</button>
+          <?php else: ?>
           <button class="add-btn" onclick="<?= htmlspecialchars($addCall) ?>" title="Add to cart">+</button>
+          <?php endif; ?>
         </div>
         <div class="warranty-badge">
+          <?php if ($isPlaceholder): ?>
+          <i class="fas fa-clock"></i> <?= $hasStock ? 'Available soon' : ($hasPrice ? 'Stock to be confirmed' : 'Pricing and stock to be confirmed') ?>
+          <?php else: ?>
           <i class="fas fa-shield-alt"></i> 4 year coverage available
+          <?php endif; ?>
         </div>
         <div class="stock-tag <?= $stockClass ?>"><?= $stockText ?></div>
       </div>
@@ -274,6 +301,7 @@ foreach ($products as $p) {
     'img'       => $p['img'],
     'imgClass'  => isset($p['imgClass']) ? $p['imgClass'] : '',
     'sortOrder' => $p['sortOrder'],
+    'placeholder' => tm_inventory_is_placeholder($p),
     'accessory' => $matchingAccessory ? [
       'tabletName' => $matchingAccessory['tablet_name'],
       'case' => [
@@ -300,23 +328,42 @@ var TM_SEARCH_QUERY = '';
 function _condClass(c) {
   if (c === 'Like New') return 'condition-like-new';
   if (c === 'Grade A') return 'condition-grade-a';
+  if (c === 'Coming Soon') return 'condition-coming-soon';
   return 'condition-grade-b';
+}
+
+function isPlaceholderProduct(p) {
+  var price = parseFloat(p.price || 0);
+  var stock = parseInt(p.stock || 0, 10);
+  return !!p.placeholder || p.badge === 'Coming Soon' || p.condition === 'Coming Soon' || (price <= 0 && stock <= 0);
 }
 
 function openQuickView(id) {
   var p = TM_PRODUCTS.find(function(x){ return x.id === id; });
   if (!p) return;
+  var isPlaceholder = isPlaceholderProduct(p);
 
   var imgClass = p.imgClass ? ' class="' + escHtml(p.imgClass) + '"' : '';
   var imgHtml = p.img
     ? '<img' + imgClass + ' src="' + escHtml(p.img) + '" alt="' + escHtml(p.name) + '" onerror="this.style.display=\'none\'">'
     : '<span class="modal-emoji">' + p.emoji + '</span>';
 
-  var origHtml = p.orig ? '<span class="modal-price-orig">$' + parseFloat(p.orig).toFixed(2) + '</span>' : '';
-  var stockClass = p.stock <= 3 ? 'stock-low' : 'stock-ok';
-  var stockText = p.stock <= 3 ? 'Only ' + p.stock + ' left!' : 'In Stock (' + p.stock + ')';
+  var origHtml = !isPlaceholder && p.orig ? '<span class="modal-price-orig">$' + parseFloat(p.orig).toFixed(2) + '</span>' : '';
+  var hasPrice = parseFloat(p.price || 0) > 0;
+  var hasStock = parseInt(p.stock || 0, 10) > 0;
+  var priceHtml = isPlaceholder && !hasPrice
+    ? '<span class="modal-price modal-price-coming-soon">Price coming soon</span>'
+    : '<span class="modal-price">$' + parseFloat(p.price).toFixed(2) + '</span>';
+  var stockClass = isPlaceholder ? 'stock-coming-soon' : (p.stock <= 3 ? 'stock-low' : 'stock-ok');
+  var stockText = isPlaceholder ? (hasStock ? 'In Stock (' + p.stock + ')' : 'Coming Soon') : (p.stock <= 3 ? 'Only ' + p.stock + ' left!' : 'In Stock (' + p.stock + ')');
+  var warrantyHtml = isPlaceholder
+    ? '<div class="modal-warranty"><i class="fas fa-clock"></i>&nbsp; ' + (hasStock ? 'Available soon' : (hasPrice ? 'Stock to be confirmed' : 'Pricing and stock to be confirmed')) + '</div>'
+    : '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; 4 year coverage available</div>';
+  var addButtonHtml = isPlaceholder
+    ? '<button class="modal-add-btn modal-add-btn-disabled" id="qv-add-btn" type="button" disabled>Coming Soon</button>'
+    : '<button class="modal-add-btn" id="qv-add-btn" type="button">Add to Cart</button>';
   var accessoryHtml = '';
-  if (p.accessory && p.accessory.case) {
+  if (!isPlaceholder && p.accessory && p.accessory.case) {
     accessoryHtml =
       '<div class="modal-accessory-card">' +
         '<div class="modal-accessory-copy">' +
@@ -346,17 +393,20 @@ function openQuickView(id) {
     '</div>' +
     '<hr class="modal-divider">' +
     '<div class="modal-price-row">' +
-      '<span class="modal-price">$' + parseFloat(p.price).toFixed(2) + '</span>' + origHtml +
+      priceHtml + origHtml +
     '</div>' +
     '<div class="stock-tag ' + stockClass + '" style="margin-top:4px">' + stockText + '</div>' +
-    '<div class="modal-warranty"><i class="fas fa-shield-alt"></i>&nbsp; 4 year coverage available</div>' +
+    warrantyHtml +
     accessoryHtml +
-    '<button class="modal-add-btn" id="qv-add-btn">Add to Cart</button>';
+    addButtonHtml;
 
-  document.getElementById('qv-add-btn').addEventListener('click', function() {
+  var addBtn = document.getElementById('qv-add-btn');
+  if (addBtn && !isPlaceholder) {
+    addBtn.addEventListener('click', function() {
     addToCart({ id: p.id, name: p.name, brand: p.brand, price: p.price, emoji: p.emoji });
     closeQuickView();
-  });
+    });
+  }
 
   var caseBtn = document.getElementById('qv-case-btn');
   if (caseBtn && p.accessory && p.accessory.case) {
@@ -401,6 +451,11 @@ function sortProducts(val) {
   var grid = document.getElementById('product-grid');
   var cards = Array.from(grid.querySelectorAll('.product-card'));
   cards.sort(function(a, b) {
+    var aPlaceholder = a.dataset.placeholder === '1';
+    var bPlaceholder = b.dataset.placeholder === '1';
+    if ((val === 'price-asc' || val === 'price-desc') && aPlaceholder !== bPlaceholder) {
+      return aPlaceholder ? 1 : -1;
+    }
     if (val === 'price-asc') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
     if (val === 'price-desc') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
     return parseInt(a.dataset.sortOrder) - parseInt(b.dataset.sortOrder);

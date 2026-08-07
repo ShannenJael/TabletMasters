@@ -151,7 +151,7 @@
     <h2>Contact Us</h2>
     <p>
       For privacy questions or requests, contact Tablet Masters at
-      <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
+      <a href="#" data-email-user="sretsamtelbaT" data-email-domain="moc.ggodduolc" data-email-text="1" rel="nofollow">Tabletmasters@clouddogg.com</a>.
     </p>
     <p>
       Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoff #18, PMB 376,

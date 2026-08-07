@@ -100,7 +100,7 @@
       <h2>Help and Support</h2>
       <p>
         For help, reply <strong>HELP</strong> to a Tablet Masters text message or contact us at
-        <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
+        <a href="#" data-email-user="sretsamtelbaT" data-email-domain="moc.ggodduolc" data-email-text="1" rel="nofollow">Tabletmasters@clouddogg.com</a>.
       </p>
     </section>
 
@@ -118,7 +118,7 @@
     <h2>Contact Us</h2>
     <p>
       Questions about these SMS Terms can be sent to
-      <a href="mailto:service@tablet-masters.com">service@tablet-masters.com</a>.
+      <a href="#" data-email-user="sretsamtelbaT" data-email-domain="moc.ggodduolc" data-email-text="1" rel="nofollow">Tabletmasters@clouddogg.com</a>.
     </p>
     <p>
       Mailing address: <strong>TabletmastersLLC, 550 Mary Esther Cutoff #18, PMB 376,

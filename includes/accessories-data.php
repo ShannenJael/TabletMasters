@@ -30,6 +30,17 @@ function tm_inventory_accessories(?array $inventory = null): array {
     }));
 }
 
+function tm_inventory_is_placeholder(array $product): bool {
+    $badge = trim((string)($product['badge'] ?? ''));
+    $condition = trim((string)($product['condition'] ?? ''));
+    $price = (float)($product['price'] ?? 0);
+    $stock = (int)($product['stock'] ?? 0);
+
+    return strcasecmp($badge, 'Coming Soon') === 0
+        || strcasecmp($condition, 'Coming Soon') === 0
+        || ($price <= 0 && $stock <= 0);
+}
+
 function tm_accessory_base_name(string $tabletName): string {
     $name = preg_replace('/\s+Wi-Fi \+ Cellular$/i', '', trim($tabletName));
     return trim((string)$name);
@@ -69,6 +80,9 @@ function tm_accessory_placeholder_image(string $key): string {
     if ($key === 'fire-hd-8-2022') {
         return 'assets/images/Fire HD 8.png';
     }
+    if ($key === 'fire-hd-8-2024') {
+        return 'assets/images/Fire HD 8.png';
+    }
     if ($key === 'fire-max-11') {
         return 'assets/images/Fire Max 11.png';
     }
@@ -79,6 +93,12 @@ function tm_accessory_placeholder_image(string $key): string {
         return 'assets/images/Surface Go 4.png';
     }
     if ($key === 'surface-pro-11') {
+        return 'assets/images/Surface Pro 11.png';
+    }
+    if ($key === 'surface-pro-13-inch-12th-edition') {
+        return 'assets/images/Surface Pro 11.png';
+    }
+    if ($key === 'surface-pro-12-inch-12th-edition') {
         return 'assets/images/Surface Pro 11.png';
     }
     if ($key === 'surface-pro-7') {
@@ -94,6 +114,9 @@ function tm_accessory_placeholder_image(string $key): string {
         return 'assets/images/Surface Pro 10 3-Photoroom.png';
     }
     if ($key === 'galaxy-tab-a8') {
+        return 'assets/images/Galaxy Tab A8.png';
+    }
+    if ($key === 'galaxy-tab-a11-plus') {
         return 'assets/images/Galaxy Tab A8.png';
     }
     if ($key === 'galaxy-tab-s6-lite') {
@@ -120,8 +143,14 @@ function tm_accessory_placeholder_image(string $key): string {
     if ($key === 'galaxy-tab-s10-fe') {
         return 'assets/images/Galaxy Tab S10 FE.png';
     }
+    if ($key === 'galaxy-tab-s10-fe-plus') {
+        return 'assets/images/Galaxy Tab S10 FE.png';
+    }
     if ($key === 'galaxy-tab-s10-ultra') {
         return 'assets/images/Galaxy Tab S10 Ultra.png';
+    }
+    if ($key === 'galaxy-tab-active5-pro') {
+        return 'assets/images/Galaxy Tab S8.png';
     }
     if ($key === 'galaxy-tab-s9-ultra') {
         return 'assets/images/Galaxy Tab S9 Ultra.png';
@@ -137,6 +166,12 @@ function tm_accessory_placeholder_image(string $key): string {
     }
     if ($key === 'galaxy-tab-s10-lite') {
         return 'assets/images/Galaxy Tab S10 Lite.png';
+    }
+    if ($key === 'galaxy-tab-s11') {
+        return 'assets/images/Galaxy Tab S10+.png';
+    }
+    if ($key === 'galaxy-tab-s11-ultra') {
+        return 'assets/images/Galaxy Tab S10 Ultra.png';
     }
     if ($key === 'galaxy-tab-s7-plus') {
         return 'assets/images/Galaxy Tab S7+.png';
@@ -261,6 +296,9 @@ function tm_build_accessory_catalog(?array $inventory = null): array {
         $name = (string)($product['name'] ?? '');
         $brand = (string)($product['brand'] ?? '');
         if ($name === '' || $brand === '') {
+            continue;
+        }
+        if (tm_inventory_is_placeholder($product)) {
             continue;
         }
 

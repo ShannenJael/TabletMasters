@@ -68,6 +68,7 @@ body {
   display:         flex;
   align-items:     center;
   justify-content: space-between;
+  gap:             18px;
   min-height:      100px;
 }
 
@@ -109,6 +110,9 @@ body {
   gap:         2px;
   list-style:  none;
   height:      100%;
+  flex:        1 1 auto;
+  justify-content: center;
+  min-width:   0;
 }
 
 .nav-item {
@@ -129,7 +133,7 @@ body {
   font-family:    'DM Sans', sans-serif;
   font-size:      13px;
   font-weight:    600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
   text-transform: uppercase;
   padding:        0 12px;
   cursor:         pointer;
@@ -197,6 +201,7 @@ body {
   display:     flex;
   align-items: center;
   gap:         8px;
+  flex:        0 0 auto;
 }
 
 /* CTA nav buttons â€” flat 2D */
@@ -213,7 +218,7 @@ body {
   font-family:    var(--display);
   font-size:      20px;
   font-weight:    700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
   text-transform: uppercase;
   cursor:         pointer;
   transition:     background 0.15s, color 0.15s, box-shadow 0.15s;
@@ -240,7 +245,7 @@ body {
   font-family:    var(--display);
   font-size:      20px;
   font-weight:    700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0;
   text-transform: uppercase;
   cursor:         pointer;
   transition:     background 0.15s, color 0.15s, box-shadow 0.15s;
@@ -1023,6 +1028,7 @@ body {
 .badge-new     { background: var(--blue);    color: #fff; }
 .badge-sale    { background: #EF4444;        color: #fff; }
 .badge-prev    { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+.badge-coming-soon { background: rgba(234,179,8,0.14); color: #F6D06B; border: 1px solid rgba(234,179,8,0.35); }
 
 .product-info { padding: 18px 18px 20px; }
 .product-name  { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 6px; }
@@ -1086,6 +1092,7 @@ body {
 .condition-like-new { background: rgba(46,159,109,0.15); color: #2e9f6d;        border: 1px solid rgba(46,159,109,0.3);  }
 .condition-grade-a  { background: rgba(59,130,246,0.12); color: var(--blue-glow); border: 1px solid var(--border);         }
 .condition-grade-b  { background: rgba(234,179,8,0.12);  color: #d4a820;        border: 1px solid rgba(234,179,8,0.25);  }
+.condition-coming-soon { background: rgba(234,179,8,0.12); color: #F6D06B; border: 1px solid rgba(234,179,8,0.28); }
 
 /* â”€â”€ WARRANTY BADGE â”€â”€ */
 .warranty-badge {
@@ -1106,6 +1113,7 @@ body {
 }
 .stock-low { color: #EF4444; font-weight: 600; }
 .stock-ok  { color: var(--muted); }
+.stock-coming-soon { color: #F6D06B; font-weight: 700; }
 
 /* â”€â”€ SHOP CONTROLS (brand tabs + sort) â”€â”€ */
 .shop-controls {
@@ -1287,6 +1295,7 @@ body {
 .modal-name      { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.2; }
 .modal-price-row { display: flex; align-items: baseline; gap: 8px; }
 .modal-price     { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--white); }
+.modal-price-coming-soon { font-size: 16px; letter-spacing: 0; text-transform: uppercase; color: #F6D06B; }
 .modal-price-orig{ font-size: 14px; color: var(--muted); text-decoration: line-through; }
 .modal-divider   { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
 
@@ -1422,6 +1431,15 @@ body {
   width:          100%;
 }
 .modal-add-btn:hover { background: var(--blue-glow); color: #000; }
+.modal-add-btn:disabled,
+.modal-add-btn-disabled,
+.modal-add-btn-disabled:hover {
+  background:   var(--surface);
+  color:        var(--muted);
+  border:       1px solid var(--border);
+  cursor:       not-allowed;
+  transform:    none;
+}
 
 .product-price-row {
   display:         flex;
@@ -1431,6 +1449,7 @@ body {
 }
 
 .product-price      { font-family: var(--display); font-size: 24px; font-weight: 700; letter-spacing: 1px; color: var(--white); }
+.product-price-coming-soon { font-size: 13px; letter-spacing: 0; text-transform: uppercase; color: #F6D06B; }
 .product-price-orig { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
 
 .add-btn {
@@ -1449,6 +1468,15 @@ body {
   flex-shrink:     0;
 }
 .add-btn:hover { background: var(--blue-glow); transform: scale(1.08); }
+.add-btn:disabled,
+.add-btn-disabled,
+.add-btn-disabled:hover {
+  background: var(--surface);
+  color:      var(--muted);
+  border:     1px solid var(--border);
+  cursor:     not-allowed;
+  transform:  none;
+}
 
 /* â”€â”€ INSURANCE & REPAIR â”€â”€ */
 .ins-section { padding: 70px 40px 100px; max-width: 1100px; margin: 0 auto; }
@@ -1992,6 +2020,48 @@ footer {
 }
 
 /* â”€â”€ RESPONSIVE â”€â”€ */
+@media (max-width: 1500px) {
+  .nav {
+    padding: 0 28px;
+    gap: 14px;
+  }
+  .nav-link {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+  .nav-btn-outline,
+  .nav-cart {
+    height: 44px;
+    padding: 8px 11px;
+    font-size: 16px;
+  }
+  .nav-cart {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .nav {
+    padding: 8px 24px;
+    min-height: 84px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .nav-hamburger {
+    display: block;
+  }
+  .nav-cart {
+    padding: 10px 14px;
+  }
+  .nav-cart-text {
+    display: none;
+  }
+  .logo-img {
+    height: 64px;
+  }
+}
+
 @media (max-width: 768px) {
   .nav { padding: 8px 20px; min-height: 84px; }
   .nav-links { display: none; }
