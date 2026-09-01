@@ -18,14 +18,17 @@ $requiredPaths = @(
     "assets",
     "business-conferences.php",
     "checkout.php",
+    "forum.php",
     "healthcare-hospitals.php",
     "includes",
     "index.php",
     "insurance.php",
+    "manifest.json",
     "plans.php",
     "privacy.php",
     "register.php",
     "reviews.php",
+    "save-device.php",
     "send-conference-quote.php",
     "send-healthcare-quote.php",
     "send-school-quote.php",
@@ -39,6 +42,7 @@ $requiredPaths = @(
     "schools.php",
     "success.php",
     "support.php",
+    "sw.js",
     "tablet-games.php",
     "terms.php",
     "webhook.php",
@@ -74,7 +78,7 @@ for dir in admin assets includes public; do
   fi
 done
 
-for file in .gitignore about.php accessories.php business-conferences.php checkout.php healthcare-hospitals.php index.php insurance.php plans.php privacy.php register.php reviews.php send-conference-quote.php send-healthcare-quote.php send-school-quote.php send-repair.php shop.php sms-inbound.php sms-status.php sms-terms.php schools.php subscribe.php success.php support.php tablet-games.php terms.php webhook.php tablet-masters.code-workspace; do
+for file in .gitignore about.php accessories.php business-conferences.php checkout.php forum.php healthcare-hospitals.php index.php insurance.php manifest.json plans.php privacy.php register.php reviews.php save-device.php send-conference-quote.php send-healthcare-quote.php send-school-quote.php send-repair.php shop.php sms-inbound.php sms-status.php sms-terms.php schools.php subscribe.php success.php support.php sw.js tablet-games.php terms.php webhook.php tablet-masters.code-workspace; do
   if [ -f "$file" ]; then
     chmod 644 "$file"
   fi
