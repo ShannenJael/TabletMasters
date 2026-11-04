@@ -2,7 +2,9 @@
 param(
     [string]$RemoteHost = "rzixjmmy@129.121.81.231",
     [string]$RemoteDir = "/home2/rzixjmmy/public_html/website_34e35390",
-    [string]$SshKey = "C:\Users\JoshuaDixon\.ssh\id_ed25519_antipolo"
+    # Defaults to the current user's key; if it isn't there, ssh falls back to
+    # its own default identities / agent.
+    [string]$SshKey = (Join-Path $env:USERPROFILE ".ssh\id_ed25519_antipolo")
 )
 
 $ErrorActionPreference = "Stop"
@@ -57,8 +59,13 @@ foreach ($path in $requiredPaths) {
     }
 }
 
-$sshArgs = @("-i", $SshKey)
-$scpArgs = @("-i", $SshKey, "-r") + $requiredPaths + @("$RemoteHost`:$RemoteDir/")
+$sshArgs = @()
+if ($SshKey -and (Test-Path -LiteralPath $SshKey)) {
+    $sshArgs = @("-i", $SshKey)
+} else {
+    Write-Host "SSH key '$SshKey' not found; using ssh default identities."
+}
+$scpArgs = $sshArgs + @("-r") + $requiredPaths + @("$RemoteHost`:$RemoteDir/")
 
 Write-Host "Uploading site files..."
 & scp @scpArgs
@@ -90,7 +97,11 @@ stat -c "%A %n" admin assets assets/css assets/js assets/images public includes 
 
 Write-Host "Normalizing server permissions..."
 $remoteScript = $remoteScript -replace "`r`n", "`n"
-$remoteScript | & ssh @sshArgs $RemoteHost "bash -s -- '$RemoteDir'"
+# Send the script base64-encoded in the command line instead of piping it over
+# stdin: Windows PowerShell prepends a UTF-8 BOM when piping to native programs,
+# which broke the remote script's first line (`set -e`).
+$encodedScript = [Convert]::ToBase64String((New-Object System.Text.UTF8Encoding $false).GetBytes($remoteScript))
+& ssh @sshArgs $RemoteHost "echo $encodedScript | base64 -d | bash -s -- '$RemoteDir'"
 if ($LASTEXITCODE -ne 0) {
     throw "ssh permission fix failed with exit code $LASTEXITCODE"
 }
