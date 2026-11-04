@@ -31,7 +31,7 @@ module.exports = defineConfig({
     }
   },
   webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
-    command: process.env.PLAYWRIGHT_WEB_SERVER_COMMAND || `php -S ${HOST}:${PORT} -t .`,
+    command: process.env.PLAYWRIGHT_WEB_SERVER_COMMAND || `node tests/support/php-server.js`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000

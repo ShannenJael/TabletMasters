@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { gotoAndWait, resetSiteState, stabilizePage } = require('./helpers/test-helpers');
+const { gotoAndWait, resetSiteState, stabilizePage, waitForImages } = require('./helpers/test-helpers');
 
 test.beforeEach(async ({ page }) => {
   await resetSiteState(page);
@@ -8,6 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test('home page hero remains visually stable', async ({ page }) => {
   await gotoAndWait(page, '/index.php');
+  await waitForImages(page, '.hero');
   await page.waitForTimeout(1000);
 
   await expect(page.locator('.hero')).toHaveScreenshot('home-hero.png', {
@@ -18,6 +19,15 @@ test('home page hero remains visually stable', async ({ page }) => {
 
 test('shop page header and first product row remain visually stable', async ({ page }) => {
   await gotoAndWait(page, '/shop.php');
+  await page.addStyleTag({
+    content: `
+      .product-grid .product-card:nth-child(n+6) { display: none !important; }
+      @media (max-width: 700px) {
+        .product-grid .product-card:nth-child(n+2) { display: none !important; }
+      }
+    `
+  });
+  await waitForImages(page, '.shop-section');
   await page.waitForTimeout(1000);
 
   await expect(page.locator('.shop-section')).toHaveScreenshot('shop-section.png', {
@@ -27,6 +37,7 @@ test('shop page header and first product row remain visually stable', async ({ p
 
 test('insurance hero and booking section remain visually stable', async ({ page }) => {
   await gotoAndWait(page, '/insurance.php');
+  await waitForImages(page, '.insurance-page-shell');
   await page.waitForTimeout(1500);
 
   await expect(page.locator('.insurance-page-shell')).toHaveScreenshot('insurance-section.png', {

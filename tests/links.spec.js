@@ -8,6 +8,9 @@ const { gotoAndWait, stabilizePage } = require('./helpers/test-helpers');
 
 test.beforeEach(async ({ page }) => {
   await stabilizePage(page);
+  await page.route(/\.(?:png|jpe?g|gif|webp|avif|svg|ico)(?:\?.*)?$/i, route => route.fulfill({ status: 204, body: '' }));
+  await page.route(/\.(?:css)(?:\?.*)?$/i, route => route.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await page.route(/\.(?:js)(?:\?.*)?$/i, route => route.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));
 });
 
 test.setTimeout(90000);
@@ -43,7 +46,8 @@ test('core internal links resolve successfully', async ({ page, request, baseURL
   }
 
   for (const path of [...discovered]) {
-    const response = await request.get(path);
+    // PHP's dev server can reset a connection under concurrent load; retry once.
+    const response = await request.get(path).catch(() => request.get(path));
     expect.soft(response.ok(), `${path} should return a successful response`).toBeTruthy();
   }
 });

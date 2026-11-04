@@ -40,6 +40,12 @@ Run with the local PHP server managed automatically by Playwright:
 npm test
 ```
 
+Playwright starts `tests/support/php-server.js`, which runs a small pool of
+`php -S` processes behind a Node proxy (PHP's built-in server is single-threaded
+and flaky on Windows under parallel browsers). It needs `php` on `PATH`, or set
+`$env:PHP_BINARY="C:\path\to\php.exe"`. Static `/assets/**` files are served
+straight from disk by the test helpers during local runs.
+
 If you want to point the tests at a live site instead, skip the local web server and set:
 
 ```bash

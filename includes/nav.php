@@ -36,7 +36,7 @@ $nav = [
 ?>
 <nav class="nav">
   <a class="logo" href="index.php" aria-label="Tablet Masters home">
-    <img src="assets/images/tabletmasters-logo.png" alt="Tablet Masters" class="logo-img" />
+    <img src="assets/images/tabletmasters-logo-nav.jpg" alt="Tablet Masters" class="logo-img" width="384" height="384" />
   </a>
 
   <ul class="nav-links">

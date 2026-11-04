@@ -1,4 +1,4 @@
-const CACHE = 'tm-v5';
+const CACHE = 'tm-v7';
 
 const PRECACHE = [
   '/',
@@ -16,7 +16,7 @@ const PRECACHE = [
   '/terms.php',
   '/sms-terms.php',
   '/assets/css/style.css',
-  '/assets/images/tabletmasters-logo.png',
+  '/assets/images/tabletmasters-logo-nav.jpg',
   '/assets/images/favicon-32.png',
   '/assets/images/apple-touch-icon.png',
 ];

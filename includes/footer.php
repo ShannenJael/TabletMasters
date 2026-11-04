@@ -2,7 +2,7 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <a class="logo" href="index.php" aria-label="Tablet Masters home">
-        <img src="assets/images/tabletmasters-logo.png" alt="Tablet Masters" class="logo-img" />
+        <img src="assets/images/tabletmasters-logo-nav.jpg" alt="Tablet Masters" class="logo-img" width="384" height="384" />
       </a>
       <p>Tablets sales, service and cloud solutions. Protecting your tech investment since 2019.</p>
       <p class="footer-address">
@@ -131,4 +131,4 @@
 <!-- Toast -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
