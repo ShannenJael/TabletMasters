@@ -147,6 +147,9 @@ function verifyStripeSignature(string $payload, string $sigHeader, string $secre
 
     if (!$timestamp || empty($signatures)) return false;
 
+    // Reject replays of old signed events (Stripe's recommended 5-minute window).
+    if (!ctype_digit($timestamp) || abs(time() - (int)$timestamp) > 300) return false;
+
     $signedPayload = "{$timestamp}.{$payload}";
     $expected      = hash_hmac('sha256', $signedPayload, $secret);
 

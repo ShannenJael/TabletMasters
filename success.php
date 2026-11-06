@@ -20,6 +20,22 @@ if ($sessionId !== null && !validStripeSessionId($sessionId)) {
     exit('Invalid session_id');
 }
 
+// A subscription is only shown as active once Stripe confirms the session was
+// a completed subscription checkout; the plan comes from Stripe, not the URL.
+$subscriptionVerified = false;
+
+if ($sessionId && $subscribed) {
+    $session = stripeGet('checkout/sessions/' . rawurlencode($sessionId));
+    if ($session
+        && ($session['id'] ?? '') === $sessionId
+        && ($session['mode'] ?? '') === 'subscription'
+        && (($session['status'] ?? '') === 'complete' || in_array($session['payment_status'] ?? '', ['paid', 'no_payment_required'], true))
+    ) {
+        $subscriptionVerified = true;
+        $plan = (string)($session['metadata']['plan'] ?? $plan);
+    }
+}
+
 if ($sessionId && !$subscribed) {
     $session = stripeGet('checkout/sessions/' . rawurlencode($sessionId) . '?expand[]=line_items');
     if ($session && isset($session['id'])) {
@@ -50,7 +66,7 @@ $planLabels = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><?= $subscribed ? 'Protection Active' : 'Order Confirmed' ?> — Tablet Masters</title>
+  <title><?= $subscribed ? ($subscriptionVerified ? 'Protection Active' : 'Confirming Your Plan') : 'Order Confirmed' ?> — Tablet Masters</title>
   <link rel="stylesheet" href="assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/assets/css/style.css'); ?>" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
@@ -66,7 +82,19 @@ $planLabels = [
 <div class="success-section">
   <div class="success-card">
 
-    <?php if ($subscribed): ?>
+    <?php if ($subscribed && !$subscriptionVerified): ?>
+      <div class="success-icon">⏳</div>
+      <h1 class="success-title">Confirming Your Plan</h1>
+      <p class="success-desc">
+        We couldn't confirm a completed plan signup from this link. If you just finished checkout, your
+        confirmation email will arrive shortly. Otherwise, choose a plan to get covered.
+      </p>
+      <div class="success-actions">
+        <a class="btn-primary" href="plans.php">View Plans</a>
+        <a class="btn-outline" href="support.php">Contact Support</a>
+      </div>
+
+    <?php elseif ($subscribed): ?>
       <div class="success-icon">🛡️</div>
       <h1 class="success-title">Protection Active!</h1>
       <p class="success-desc">

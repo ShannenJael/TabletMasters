@@ -2019,6 +2019,21 @@ footer {
   font-weight: 700;
 }
 
+/* Message shown on shop/plans after a cancelled or failed checkout */
+.checkout-notice {
+  max-width: 1160px;
+  margin:    24px auto 0;
+  padding:   0 40px;
+}
+.checkout-notice .alert {
+  margin-bottom: 0;
+}
+@media (max-width: 768px) {
+  .checkout-notice {
+    padding: 0 20px;
+  }
+}
+
 /* â”€â”€ RESPONSIVE â”€â”€ */
 @media (max-width: 1500px) {
   .nav {

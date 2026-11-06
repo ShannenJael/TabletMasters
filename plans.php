@@ -17,6 +17,7 @@
 <body>
 
 <?php include 'includes/nav.php'; ?>
+<?php include 'includes/checkout-notice.php'; ?>
 
 <?php
 $plans = [

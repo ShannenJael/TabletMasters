@@ -46,6 +46,23 @@ foreach (tm_build_accessory_products() as $product) {
     $productMap[(string)$product['id']] = $product;
 }
 
+// Refuse to sell more units than are in stock. Quantities are totalled per
+// product so splitting one product across several cart rows can't bypass it.
+// Accessories have no stock field and are not limited.
+$requestedQty = [];
+foreach ($cart as $item) {
+    $id  = (string)($item['id'] ?? '');
+    $qty = (int)($item['qty'] ?? 1);
+    if ($id === '' || $qty < 1 || !isset($productMap[$id])) continue;
+    $requestedQty[$id] = ($requestedQty[$id] ?? 0) + $qty;
+}
+foreach ($requestedQty as $id => $qty) {
+    if (array_key_exists('stock', $productMap[$id]) && $qty > (int)$productMap[$id]['stock']) {
+        header('Location: /shop.php?error=insufficient_stock');
+        exit;
+    }
+}
+
 // Build Stripe line items
 $lineItems = [];
 foreach ($cart as $item) {

@@ -20,6 +20,7 @@ require_once __DIR__ . '/includes/accessories-data.php';
 <body>
 
 <?php include 'includes/nav.php'; ?>
+<?php include 'includes/checkout-notice.php'; ?>
 
 <?php
 // Load inventory from JSON — edit via admin/inventory.php
