@@ -6533,7 +6533,13 @@ footer {
   .insurance-hero-layout,
   .conference-page-hero,
   .healthcare-page-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .insurance-hero-copy-shell .section-title,
+  .conference-page-copy-shell .section-title,
+  .healthcare-hero-copy-shell .section-title {
+    overflow-wrap: anywhere;
   }
 
   .insurance-claim-grid,

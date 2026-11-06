@@ -125,7 +125,6 @@ $sectorCards = [
 <div class="hero">
   <video class="hero-bg-video" id="hero-bg-video" autoplay muted loop playsinline preload="auto">
     <source src="public/AdobeStock_284077286.mp4" type="video/mp4" />
-    <source src="public/AdobeStock_284077286.mov" type="video/quicktime" />
   </video>
 
   <div class="hero-video-overlay"></div>

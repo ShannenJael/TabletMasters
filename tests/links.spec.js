@@ -13,9 +13,9 @@ test.beforeEach(async ({ page }) => {
   await page.route(/\.(?:js)(?:\?.*)?$/i, route => route.fulfill({ status: 200, contentType: 'text/javascript', body: '' }));
 });
 
-test.setTimeout(90000);
+test.setTimeout(180000);
 
-test('core internal links resolve successfully', async ({ page, request, baseURL }) => {
+test('public pages and their internal links and assets resolve successfully', async ({ page, request, baseURL }) => {
   const discovered = new Set(['/index.php']);
 
   for (const currentPage of internalPagesForLinkScan) {
@@ -27,8 +27,6 @@ test('core internal links resolve successfully', async ({ page, request, baseURL
         .filter(Boolean)
     );
 
-    const imageExts = /\.(png|jpg|jpeg|gif|webp|svg|ico|mp4|mov|webm|woff2?|ttf|eot)(\?|$)/i;
-
     for (const candidate of urls) {
       if (!candidate || candidate.startsWith('#') || candidate.startsWith('mailto:') || candidate.startsWith('tel:') || candidate.startsWith('javascript:')) {
         continue;
@@ -39,17 +37,21 @@ test('core internal links resolve successfully', async ({ page, request, baseURL
       }
 
       const normalized = normalizePath(candidate, baseURL);
-      if (imageExts.test(normalized)) continue;
-
       discovered.add(normalized);
     }
   }
 
-  for (const path of [...discovered]) {
-    // PHP's dev server can reset a connection under concurrent load; retry once.
-    const response = await request.get(path).catch(() => request.get(path));
-    expect.soft(response.ok(), `${path} should return a successful response`).toBeTruthy();
-  }
+  const paths = [...discovered];
+  // Check real HTTP responses even though assets are stubbed in the browser.
+  // HEAD avoids downloading large images and videos just to check their status.
+  await Promise.all(Array.from({ length: 4 }, async () => {
+    while (paths.length) {
+      const path = paths.shift();
+      const response = await request.head(path, { timeout: 20000 });
+      expect.soft(response.ok(), `${path} returned HTTP ${response.status()}`).toBeTruthy();
+      await response.dispose();
+    }
+  }));
 });
 
 test('navigation links avoid javascript URLs and empty hrefs', async ({ page }) => {

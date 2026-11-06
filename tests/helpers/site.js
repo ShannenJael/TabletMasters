@@ -1,22 +1,25 @@
-const corePages = [
-  '/',
+const publicPages = [
   '/index.php',
   '/shop.php',
-  '/shop.php?brand=Samsung',
   '/accessories.php',
   '/insurance.php',
   '/plans.php',
-  '/about.php'
+  '/register.php',
+  '/support.php',
+  '/tablet-games.php',
+  '/reviews.php',
+  '/forum.php',
+  '/schools.php',
+  '/healthcare-hospitals.php',
+  '/business-conferences.php',
+  '/about.php',
+  '/privacy.php',
+  '/terms.php',
+  '/sms-terms.php'
 ];
 
-const internalPagesForLinkScan = [
-  '/index.php',
-  '/shop.php',
-  '/accessories.php',
-  '/insurance.php',
-  '/plans.php',
-  '/about.php'
-];
+const corePages = ['/', ...publicPages, '/shop.php?brand=Samsung'];
+const internalPagesForLinkScan = publicPages;
 
 function isSameOriginUrl(candidate, baseURL) {
   try {
@@ -36,6 +39,7 @@ function normalizePath(candidate, baseURL) {
 
 module.exports = {
   corePages,
+  publicPages,
   internalPagesForLinkScan,
   isSameOriginUrl,
   normalizePath

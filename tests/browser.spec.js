@@ -15,10 +15,16 @@ test('homepage hero and primary navigation work', async ({ page }) => {
 
   await page.getByRole('link', { name: /shop tablets/i }).first().click();
   await expect(page).toHaveURL(/shop\.php/);
+  // The menu button's handler lives in main.js, loaded at the end of the page.
+  await page.waitForLoadState('domcontentloaded');
 
-  const plansLink = page.getByRole('link', { name: /plans & pricing/i }).first();
-  if (!(await plansLink.isVisible())) { await page.getByRole('button', { name: /menu/i }).click(); }
-  await page.goto('plans.php');
+  const desktopPlansLink = page.locator('.nav-links').getByRole('link', { name: /plans & pricing/i });
+  if (await desktopPlansLink.isVisible()) {
+    await desktopPlansLink.click();
+  } else {
+    await page.getByRole('button', { name: /menu/i }).click();
+    await page.locator('#mobile-nav').getByRole('link', { name: /plans & pricing/i }).click();
+  }
   await expect(page).toHaveURL(/plans\.php/);
 });
 
