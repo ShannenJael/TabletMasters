@@ -1,0 +1,100 @@
+Tablet Masters - full-site testing and deployment
+Date: 9 November 2026 (Asia/Singapore)
+
+Scope
+All 17 public pages of tablet-masters.com were tested on desktop Chromium and
+mobile Chrome (Pixel 7 emulation), together with admin pages, navigation, the
+cart, customer forms, internal links/assets, screenshots, offline behavior,
+malformed requests, and payment integration. External sites linked from the
+project were outside this audit.
+
+Repairs and updates
+- The financial dashboard previously rendered without authentication. Orders
+  now require a valid admin session before reading financial/customer data.
+- Removed the built-in production admin password. Authentication supports a
+  password hash in private configuration, renews the session ID at login, uses
+  HTTP-only/SameSite cookies, and invalidates sessions from old credentials.
+- Added Apache rules to deny direct access to includes/configuration, source
+  directories, repository metadata, databases, logs, and backup files.
+- Restricted service-worker caching to public pages and static assets. Admin
+  screens, receipts, registrations, personal query strings, failed responses,
+  and private/no-store responses are excluded. The cache version was updated
+  so old application caches are removed on activation.
+- Reproduced a PHP type error from malformed repair form fields and corrected
+  the repair, school, healthcare, conference, registration, and forum handlers.
+  Malformed input now fails validation without sending messages or showing
+  PHP errors.
+- Added safe scalar query-parameter handling for registration, school,
+  healthcare, conference, accessory, and review pages. Array-valued query
+  parameters no longer break pages or emit conversion warnings.
+- Included all payment repairs from PAYMENT_TEST_REPORT.txt: verified payment
+  confirmation, cart/preference preservation, strict checkout validation,
+  delayed paid events, locked webhook deduplication, complete line-item
+  retrieval, SMS consent, and registered-device activation/cancellation retry.
+- Expanded Playwright coverage for forms, authentication boundaries, malformed
+  requests, Apache restrictions, offline privacy, and an opt-in real Stripe
+  sandbox redirect. Live test timeouts allow for remote network latency.
+- Replaced direct recursive SCP deployment with a verified runtime manifest,
+  private staging/backups, server PHP linting, checksum verification, atomic
+  file replacement, and rollback on application/verification failures.
+- Updated testing/deployment documentation and ignored generated results,
+  customer databases/logs, configuration backups, and compiled Python files.
+
+Validation
+Local full-site suite: 103 passed, 3 expected skips.
+  The skips were the desktop mobile-menu check and two Apache-only checks.
+Payment suite: 104 passed on the final release code, using the isolated local
+  application and Stripe simulator, with real PHP endpoints and SQLite state.
+Deployment transaction checks: 4 passed, covering configuration/inventory
+  preservation, private password setup, path rejection, and rollback.
+Syntax: 25 changed/new PHP files passed lint; JavaScript, Python, PowerShell,
+  and git diff whitespace checks also passed. All staged runtime PHP files
+  were additionally linted by the server's PHP interpreter before deployment.
+Final live result: 107 passed, 0 failed, 1 expected desktop/mobile-menu skip.
+  This post-deployment run took approximately 4.5 minutes, with two workers
+  and no retries. Both real Stripe sandbox Checkout redirect checks passed.
+  All public pages, admin boundaries, form checks, screenshot comparisons,
+  Apache access restrictions, malformed requests, and offline privacy passed.
+
+Deployment
+GitHub: https://github.com/ShannenJael/TabletMasters
+Branch: master
+Application release commit: 476649b53d486b7bb4f2b5020897ab7b891fd22a
+Site: https://tablet-masters.com
+Server target: /home2/rzixjmmy/public_html/website_34e35390
+Changed runtime files: 27. All 173 runtime manifest checksums matched after
+deployment and again in the independent final integrity check.
+Private backup/staging directory:
+/home2/rzixjmmy/.tabletmasters-deployments/20261109T131702Z-c54dc292
+Local deployment manifest/result:
+test-results/deployment-20261109T131702Z-c54dc292/
+
+The live inventory checksum was unchanged before and after deployment:
+df6c6ae8ddeff7f0b76d63f38e69b24cb96524b08bc2585ec8d057c78d5c386d
+Live inventory, customer databases/logs, and existing Stripe/SMS settings were
+preserved. The configuration change adds only the private admin password hash.
+The generated admin password is in the ignored local file:
+test-results/deployment-20261109T131702Z-c54dc292/admin-password.txt
+It is also stored privately beside the server backup. It is not in GitHub.
+
+Production integration checks
+HTTPS certificate validation succeeded independently of Playwright settings.
+The server uses a Stripe TEST key. Actual Stripe API price lookups confirmed
+active USD monthly prices of $8 Basic and $12 Protected, both livemode=false.
+Sandbox Checkout is opened without entering customer/card information or
+submitting payment. No real charge or test email/SMS is generated by this audit.
+
+Reports
+Local site: playwright-report/local-all/index.html
+Payment: playwright-report/payment/index.html
+Live before deployment: playwright-report/live-before/index.html
+Live after deployment: playwright-report/live-after/index.html
+Console logs and deployment artifacts are under ignored test-results/.
+
+Limits
+The sandbox redirect checks do not complete a real Stripe-hosted payment.
+3-D Secure, live charges, active subscription renewal/cancellation, refunds,
+tax/shipping configuration, and real email/SMS delivery remain outside these
+checks. Successful business inquiry submissions were blocked or tested with
+invalid data to avoid sending unsolicited messages or creating production
+customer records. Earlier payment testing used a fully isolated simulator.
