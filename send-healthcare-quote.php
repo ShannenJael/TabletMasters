@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 function clean($val) {
-    return trim(strip_tags((string)($val ?? '')));
+    return is_string($val) ? trim(strip_tags($val)) : '';
 }
 
 function buildHealthcareRedirect(array $params = []): string {

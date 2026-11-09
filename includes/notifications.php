@@ -19,7 +19,7 @@ function tmNotifyOrderCompleted(array $session, array $lineItems = []): array
     $plan = (string)($metadata['plan'] ?? ($metadata['insurance_plan'] ?? ''));
     $itemSummary = tmItemSummary($lineItems);
 
-    if ($customerPhone !== '') {
+    if ($customerPhone !== '' && ($metadata['sms_opt_in'] ?? '0') === '1') {
         if ($checkoutType === 'subscription') {
             $body = "Tablet Masters: Hi {$customerName}, your {$plan} protection signup is active. If you still need to register your tablet, visit tablet-masters.com/register.php. Reply if you need help.";
             $results['customer'] = tmSendNotificationOnce('customer-subscription:' . $sessionId, $customerPhone, $body);
@@ -55,7 +55,7 @@ function tmNotifyDeviceRegistration(array $registration): array
     $plan = (string)($registration['plan'] ?? 'none');
     $email = (string)($registration['customer_email'] ?? '');
 
-    if ($phone !== '') {
+    if ($phone !== '' && (string)($registration['sms_opt_in'] ?? '0') === '1') {
         $planText = ($plan !== '' && $plan !== 'none')
             ? " Plan selected: {$plan}."
             : " No protection plan is attached yet.";

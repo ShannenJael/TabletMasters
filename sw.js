@@ -1,4 +1,4 @@
-const CACHE = 'tm-v7';
+const CACHE = 'tm-v8';
 
 const PRECACHE = [
   '/',
@@ -31,7 +31,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k.startsWith('tm-') && k !== CACHE).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();
@@ -40,13 +40,25 @@ self.addEventListener('activate', e => {
 // Network first, fall back to cache
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+  if (url.origin !== self.location.origin) return;
+  // Never retain receipts, registrations, admin pages, or user-specific queries.
+  const publicPage = PRECACHE.includes(url.pathname) && !url.search;
+  const staticAsset = url.pathname.startsWith('/assets/')
+    && /\.(?:css|js|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf)$/i.test(url.pathname);
+  if (!publicPage && !staticAsset) return;
   e.respondWith(
     fetch(e.request)
       .then(res => {
-        const clone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
+        if (res.ok && res.type === 'basic' && !/private|no-store/i.test(res.headers.get('cache-control') || '')) {
+          const clone = res.clone();
+          e.waitUntil(caches.open(CACHE).then(c => c.put(e.request, clone)));
+        }
         return res;
       })
-      .catch(() => caches.match(e.request))
+      .catch(async () => (await caches.match(e.request)) || new Response(
+        'You are offline. Reconnect to load this page.',
+        { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+      ))
   );
 });

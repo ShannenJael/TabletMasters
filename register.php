@@ -1,4 +1,4 @@
-<?php $currentPage = 'register'; ?>
+<?php require_once __DIR__ . '/includes/request.php'; $currentPage = 'register'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,9 +31,9 @@ $selectedSource = in_array($requestedSource, ['tablet-masters', 'external'], tru
   ? $requestedSource
   : ($selectedPlan !== 'none' ? 'external' : 'tablet-masters');
 $prefill   = [
-  'email' => htmlspecialchars($_GET['email'] ?? ''),
-  'order' => htmlspecialchars($_GET['order'] ?? ''),
-  'model' => htmlspecialchars($_GET['model'] ?? ''),
+  'email' => htmlspecialchars(tmQueryString('email', '')),
+  'order' => htmlspecialchars(tmQueryString('order', '')),
+  'model' => htmlspecialchars(tmQueryString('model', '')),
 ];
 ?>
 

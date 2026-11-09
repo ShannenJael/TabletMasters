@@ -6,6 +6,7 @@
     "test:browser": "playwright test tests/browser.spec.js",
     "test:links": "playwright test tests/links.spec.js",
     "test:regression": "playwright test tests/regression.spec.js",
+    "test:payment": "playwright test --config=playwright.payment.config.js",
     "test:headed": "playwright test --headed",
     "test:update-snapshots": "playwright test tests/regression.spec.js --update-snapshots"
   },

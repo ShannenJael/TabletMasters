@@ -9,11 +9,12 @@ const ignoreHTTPSErrors = process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === '1'
 
 module.exports = defineConfig({
   testDir: './tests',
+  testIgnore: '**/payment.spec.js',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : (process.env.PLAYWRIGHT_BASE_URL ? 3 : undefined),
-  timeout: 60000,
+  timeout: process.env.PLAYWRIGHT_BASE_URL ? 120000 : 60000,
   reporter: process.env.CI ? [['html'], ['github']] : 'list',
   use: {
     baseURL,
@@ -34,7 +35,8 @@ module.exports = defineConfig({
     command: process.env.PLAYWRIGHT_WEB_SERVER_COMMAND || `node tests/support/php-server.js`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000
+    timeout: 120 * 1000,
+    env: { TM_ADMIN_PASSWORD: process.env.TM_ADMIN_PASSWORD || 'playwright-admin-fixture-only' }
   },
   projects: [
     {

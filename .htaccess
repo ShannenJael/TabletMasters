@@ -1,0 +1,12 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Preserve ACME certificate validation while denying repository/config paths.
+  RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
+  RewriteRule ^(?:tests|node_modules|terraform|docs|playwright-report|test-results(?:-[^/]+)?)(?:/|$) - [F,L,NC]
+</IfModule>
+
+<FilesMatch "(?i)(^\.|^error_log$|^package(?:-lock)?\.json$|\.(?:bak|orig|rej)(?:[.-].*)?$|\.(?:ps1|py|sql|sqlite3?|db|log)(?:-(?:wal|shm))?$)">
+  Require all denied
+</FilesMatch>

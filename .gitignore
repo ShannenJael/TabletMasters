@@ -4,6 +4,15 @@ includes/config.php
 node_modules/
 playwright-report/
 test-results/
+test-results-*/
+debug.log
+error_log
+data/logs/
+data/*.sqlite*
+data/*.db*
+includes/config.php.*
+__pycache__/
+*.pyc
 blob-report/
 terraform/.terraform/
 terraform/terraform.tfvars

@@ -11,9 +11,11 @@ $tmCheckoutMessages = [
     'invalid_cart'       => ['error', 'Some items in your cart are no longer available. Please remove them and try again.'],
     'insufficient_stock' => ['error', 'We don\'t have enough stock for one of the items in your cart. Please lower the quantity and try again.'],
     'invalid_plan'       => ['error', 'Please choose the Basic or Protected plan to continue.'],
+    'invalid_email'      => ['error', 'Please enter a valid email address to continue.'],
+    'invalid_registration' => ['error', 'We could not match a pending device registration to this plan and email. Please check your registration details or <a href="support.php">contact support</a>.'],
 ];
 
-$tmNoticeKey = isset($_GET['cancelled']) ? 'cancelled' : (string)($_GET['error'] ?? '');
+$tmNoticeKey = isset($_GET['cancelled']) ? 'cancelled' : (is_string($_GET['error'] ?? null) ? $_GET['error'] : '');
 
 if (isset($tmCheckoutMessages[$tmNoticeKey])):
     [$tmNoticeType, $tmNoticeText] = $tmCheckoutMessages[$tmNoticeKey];

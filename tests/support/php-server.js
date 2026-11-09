@@ -11,6 +11,7 @@
 //
 // Env: HOST (default 127.0.0.1), PORT (default 3100),
 //      PHP_BINARY (default "php"), PHP_POOL_SIZE (default 4).
+//      PHP_DOC_ROOT and PHP_EXTRA_ARGS (JSON array) support isolated test apps.
 
 const http = require('http');
 const path = require('path');
@@ -20,13 +21,14 @@ const HOST = process.env.HOST || '127.0.0.1';
 const PORT = Number(process.env.PORT || 3100);
 const PHP = process.env.PHP_BINARY || 'php';
 const POOL_SIZE = Math.max(1, Number(process.env.PHP_POOL_SIZE || 4));
-const docRoot = path.resolve(__dirname, '..', '..');
+const docRoot = process.env.PHP_DOC_ROOT || path.resolve(__dirname, '..', '..');
+const extraArgs = JSON.parse(process.env.PHP_EXTRA_ARGS || '[]');
 
 const upstreamPorts = Array.from({ length: POOL_SIZE }, (_, i) => PORT + 1 + i);
 const children = upstreamPorts.map(port => {
   // output_buffering=0: with php.ini's usual 4096, `php -S` on Windows
   // intermittently truncates large pages (e.g. shop.php cut mid-script).
-  const child = spawn(PHP, ['-d', 'output_buffering=0', '-S', `${HOST}:${port}`, '-t', docRoot], {
+  const child = spawn(PHP, [...extraArgs, '-d', 'output_buffering=0', '-S', `${HOST}:${port}`, '-t', docRoot], {
     cwd: docRoot,
     stdio: ['ignore', 'ignore', 'inherit']
   });

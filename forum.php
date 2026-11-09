@@ -2,7 +2,7 @@
 $currentPage = 'forum';
 
 function cleanForumValue($value) {
-  return trim(strip_tags((string)($value ?? '')));
+  return is_string($value) ? trim(strip_tags($value)) : '';
 }
 
 $categories = [
@@ -105,7 +105,7 @@ try {
     $form['email'] = cleanForumValue($_POST['email'] ?? '');
     $form['category'] = cleanForumValue($_POST['category'] ?? '');
     $form['title'] = cleanForumValue($_POST['title'] ?? '');
-    $form['body'] = trim((string)($_POST['body'] ?? ''));
+    $form['body'] = is_string($_POST['body'] ?? null) ? trim($_POST['body']) : '';
 
     if ($form['name'] === '') {
       $errors[] = 'Name is required.';

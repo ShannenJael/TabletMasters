@@ -1,4 +1,4 @@
-<?php $currentPage = 'about'; ?>
+<?php require_once __DIR__ . '/includes/request.php'; $currentPage = 'about'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,15 +25,15 @@ $allowedPrograms = ['operations', 'patient', 'enterprise'];
 $requestedProgram = $_GET['program'] ?? 'operations';
 $selectedProgram = in_array($requestedProgram, $allowedPrograms, true) ? $requestedProgram : 'operations';
 $prefill = [
-  'organization' => htmlspecialchars($_GET['organization'] ?? ''),
-  'contact' => htmlspecialchars($_GET['contact'] ?? ''),
-  'email' => htmlspecialchars($_GET['email'] ?? ''),
-  'phone' => htmlspecialchars($_GET['phone'] ?? ''),
-  'location' => htmlspecialchars($_GET['location'] ?? ''),
-  'units' => htmlspecialchars($_GET['units'] ?? ''),
-  'devices' => htmlspecialchars($_GET['devices'] ?? ''),
-  'use_case' => htmlspecialchars($_GET['use_case'] ?? ''),
-  'support_level' => htmlspecialchars($_GET['support_level'] ?? 'managed'),
+  'organization' => htmlspecialchars(tmQueryString('organization', '')),
+  'contact' => htmlspecialchars(tmQueryString('contact', '')),
+  'email' => htmlspecialchars(tmQueryString('email', '')),
+  'phone' => htmlspecialchars(tmQueryString('phone', '')),
+  'location' => htmlspecialchars(tmQueryString('location', '')),
+  'units' => htmlspecialchars(tmQueryString('units', '')),
+  'devices' => htmlspecialchars(tmQueryString('devices', '')),
+  'use_case' => htmlspecialchars(tmQueryString('use_case', '')),
+  'support_level' => htmlspecialchars(tmQueryString('support_level', 'managed')),
 ];
 
 $useCases = [

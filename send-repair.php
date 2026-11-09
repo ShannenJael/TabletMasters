@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 function clean($val) {
-    return htmlspecialchars(strip_tags(trim($val)));
+    return is_string($val) ? htmlspecialchars(strip_tags(trim($val)), ENT_QUOTES, 'UTF-8') : '';
 }
 
 $name              = clean($_POST['name']              ?? '');

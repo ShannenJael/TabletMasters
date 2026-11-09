@@ -1,7 +1,10 @@
 /* Tablet Masters - main.js */
 
 function getCart() {
-  try { return JSON.parse(localStorage.getItem('tm_cart') || '[]'); }
+  try {
+    var cart = JSON.parse(localStorage.getItem('tm_cart') || '[]');
+    return Array.isArray(cart) ? cart : [];
+  }
   catch (e) { return []; }
 }
 
@@ -213,6 +216,7 @@ function escHtml(str) {
 function stripeCheckout() {
   var cart = getCart();
   if (cart.length === 0) return;
+  saveCheckoutPreferences();
 
   var btn = document.getElementById('checkout-btn');
   if (btn) {
@@ -250,6 +254,37 @@ function stripeCheckout() {
   document.body.appendChild(form);
   form.submit();
 }
+
+function saveCheckoutPreferences() {
+  var sms = document.getElementById('cart-sms-opt-in');
+  try {
+    localStorage.setItem('tm_checkout_preferences', JSON.stringify({
+      insurance_plan: getSelectedInsurancePlan().key,
+      sms_opt_in: !!(sms && sms.checked)
+    }));
+  } catch (e) {}
+}
+
+function restoreCheckoutPreferences() {
+  try {
+    var preferences = JSON.parse(localStorage.getItem('tm_checkout_preferences') || '{}') || {};
+    var planKey = Object.prototype.hasOwnProperty.call(TM_INSURANCE_PLANS, preferences.insurance_plan)
+      ? preferences.insurance_plan : 'none';
+    var selected = document.querySelector('input[name="insurance_plan"][value="' + planKey + '"]');
+    if (selected) selected.checked = true;
+    var sms = document.getElementById('cart-sms-opt-in');
+    if (sms) sms.checked = preferences.sms_opt_in === true;
+  } catch (e) {}
+}
+
+// Browsers can restore the disabled redirect button from their back/forward cache.
+window.addEventListener('pageshow', function() {
+  var button = document.getElementById('checkout-btn');
+  if (button) {
+    button.disabled = false;
+    button.textContent = 'Checkout';
+  }
+});
 
 function openCart() {
   renderCartItems();
@@ -430,6 +465,7 @@ function initTrackedLinks(selector) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  restoreCheckoutPreferences();
   updateCartBadge();
   updateCartPricing();
   initVideo();
@@ -442,9 +478,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.querySelectorAll('input[name="insurance_plan"]').forEach(function(input) {
     input.addEventListener('change', function() {
+      saveCheckoutPreferences();
       updateCartPricing();
     });
   });
+
+  var smsOptIn = document.getElementById('cart-sms-opt-in');
+  if (smsOptIn) smsOptIn.addEventListener('change', saveCheckoutPreferences);
 
   if (document.querySelector('.brand-tab')) {
     filterBrand(getInitialShopBrand());

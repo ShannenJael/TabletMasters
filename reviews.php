@@ -1,4 +1,4 @@
-<?php
+<?php require_once __DIR__ . '/includes/request.php';
 $currentPage = 'reviews';
 
 $products = [
@@ -263,8 +263,8 @@ foreach ($products as $product) {
 
 $brandFilters = ['Apple', 'Samsung', 'Microsoft', 'Amazon'];
 $typeFilters = ['Written', 'YouTube + Written'];
-$requestedBrand = trim((string)($_GET['brand'] ?? 'all'));
-$requestedType = trim((string)($_GET['type'] ?? 'all'));
+$requestedBrand = trim(tmQueryString('brand', 'all'));
+$requestedType = trim(tmQueryString('type', 'all'));
 $activeBrand = in_array($requestedBrand, array_merge(['all'], $brandFilters), true) ? $requestedBrand : 'all';
 $activeType = in_array($requestedType, array_merge(['all'], $typeFilters), true) ? $requestedType : 'all';
 $filteredReviews = array_values(array_filter($reviews, function ($review) use ($activeBrand, $activeType) {

@@ -1,10 +1,10 @@
-<?php
+<?php require_once __DIR__ . '/includes/request.php';
 $currentPage = 'accessories';
 require_once __DIR__ . '/includes/accessories-data.php';
 
 $catalog = tm_build_accessory_catalog();
-$brandFilter = trim((string)($_GET['brand'] ?? 'All'));
-$tabletFilter = trim((string)($_GET['tablet'] ?? ''));
+$brandFilter = trim(tmQueryString('brand', 'All'));
+$tabletFilter = trim(tmQueryString('tablet', ''));
 $brands = ['All'];
 foreach ($catalog as $entry) {
     if (!in_array($entry['brand'], $brands, true)) {

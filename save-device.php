@@ -13,7 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-function clean($v) { return trim(strip_tags($v ?? '')); }
+function clean($v) { return is_string($v) ? trim(strip_tags($v)) : ''; }
+function tmStartRegisteredPlanCheckout(string $plan, string $email, int $smsOptIn, string $registrationNumber): void {
+    header('Cache-Control: private, no-store');
+    echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Secure checkout</title></head><body>';
+    echo '<p style="font-family:sans-serif;padding:40px;text-align:center">Setting up your plan&hellip;</p>';
+    echo '<form id="pf" method="POST" action="/subscribe.php">';
+    foreach (['plan' => $plan, 'email' => $email, 'sms_opt_in' => (string)$smsOptIn, 'registration_number' => $registrationNumber] as $key => $value) {
+        echo '<input type="hidden" name="' . $key . '" value="' . htmlspecialchars($value, ENT_QUOTES, 'UTF-8') . '">';
+    }
+    echo '<noscript><button type="submit">Continue to secure checkout</button></noscript></form>';
+    echo '<script>document.getElementById("pf").submit();</script></body></html>';
+    exit;
+}
 function buildRegisterRedirect(array $params = []): string {
     $base = [
         'email' => clean($_POST['email'] ?? ''),
@@ -80,6 +92,10 @@ if (!in_array($source, ['tablet-masters', 'external'])) {
 if ($source === 'tablet-masters') {
     $plan = 'none';
 }
+if (!in_array($plan, ['none', 'basic', 'protected'], true)) {
+    header('Location: ' . buildRegisterRedirect(['error' => 1]));
+    exit;
+}
 
 // Determine initial plan_status
 if ($source === 'tablet-masters') {
@@ -94,9 +110,18 @@ try {
     $db = getDB();
 
     // Check for duplicate serial number
-    $dup = $db->prepare("SELECT id FROM devices WHERE serial_number = ?");
+    $dup = $db->prepare("SELECT * FROM devices WHERE serial_number = ?");
     $dup->execute([$serial]);
-    if ($dup->fetch()) {
+    if ($existing = $dup->fetch()) {
+        // A cancelled checkout already has a device record. Resume only the
+        // matching pending registration, without inserting or notifying again.
+        if ($source === 'external' && $plan !== 'none'
+            && $existing['purchase_source'] === 'external'
+            && $existing['plan_status'] === 'pending_payment'
+            && $existing['plan'] === $plan
+            && strcasecmp($existing['customer_email'], $email) === 0) {
+            tmStartRegisteredPlanCheckout($plan, $existing['customer_email'], $sms_opt_in, $existing['registration_number']);
+        }
         header('Location: ' . buildRegisterRedirect(['duplicate' => 1]));
         exit;
     }
@@ -136,17 +161,7 @@ try {
 
     // If external + plan selected, auto-submit to subscribe.php (Stripe checkout)
     if ($source === 'external' && $plan !== 'none') {
-        $safeEmail = htmlspecialchars($email, ENT_QUOTES);
-        $safePlan  = htmlspecialchars($plan,  ENT_QUOTES);
-        echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Redirecting&hellip;</title></head><body>';
-        echo '<p style="font-family:sans-serif;color:#888;padding:40px;text-align:center">Setting up your plan&hellip;</p>';
-        echo '<form id="pf" method="POST" action="/subscribe.php">';
-        echo '<input type="hidden" name="plan"  value="' . $safePlan  . '">';
-        echo '<input type="hidden" name="email" value="' . $safeEmail . '">';
-        echo '</form>';
-        echo '<script>document.getElementById("pf").submit();</script>';
-        echo '</body></html>';
-        exit;
+        tmStartRegisteredPlanCheckout($plan, $email, $sms_opt_in, $regNumber);
     }
 
     header('Location: /register.php?success=1');

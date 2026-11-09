@@ -5,26 +5,36 @@
  */
 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/stripe-client.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /plans.php');
     exit;
 }
 
-$plan  = trim($_POST['plan']  ?? '');
-$email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+$plan = is_string($_POST['plan'] ?? null) ? trim($_POST['plan']) : '';
+$emailInput = $_POST['email'] ?? '';
+$email = is_string($emailInput) ? filter_var(trim($emailInput), FILTER_VALIDATE_EMAIL) : false;
 
 $allowedPlans = [
-    'basic'     => STRIPE_PRICE_BASIC,
-    'protected' => STRIPE_PRICE_PROTECTED,
+    'basic'     => defined('STRIPE_PRICE_BASIC') ? STRIPE_PRICE_BASIC : '',
+    'protected' => defined('STRIPE_PRICE_PROTECTED') ? STRIPE_PRICE_PROTECTED : '',
 ];
 
 if (!isset($allowedPlans[$plan])) {
     header('Location: /plans.php?error=invalid_plan');
     exit;
 }
+if (!is_string($emailInput) || (trim($emailInput) !== '' && !$email)) {
+    header('Location: /plans.php?error=invalid_email');
+    exit;
+}
 
 $priceId = $allowedPlans[$plan];
+if ($priceId === '') {
+    header('Location: /plans.php?error=stripe');
+    exit;
+}
 
 $payload = [
     'mode'       => 'subscription',
@@ -40,6 +50,7 @@ $payload = [
     'metadata' => [
         'checkout_type' => 'subscription',
         'plan' => $plan,
+        'sms_opt_in' => ($_POST['sms_opt_in'] ?? '0') === '1' ? '1' : '0',
     ],
 ];
 
@@ -47,51 +58,39 @@ if ($email) {
     $payload['customer_email'] = $email;
 }
 
-$response = stripePost('checkout/sessions', $payload);
+$registrationNumber = $_POST['registration_number'] ?? '';
+if ($registrationNumber !== '') {
+    if (!is_string($registrationNumber) || !preg_match('/^REG-[A-F0-9]{8}$/', $registrationNumber) || !$email) {
+        header('Location: /plans.php?error=invalid_registration');
+        exit;
+    }
+    require_once __DIR__ . '/includes/database.php';
+    try {
+        $statement = getDB()->prepare('SELECT customer_email, plan, plan_status, purchase_source FROM devices WHERE registration_number = ?');
+        $statement->execute([$registrationNumber]);
+        $registration = $statement->fetch();
+        if (!$registration || strcasecmp($registration['customer_email'], $email) !== 0
+            || $registration['plan'] !== $plan || $registration['plan_status'] !== 'pending_payment'
+            || $registration['purchase_source'] !== 'external') {
+            header('Location: /plans.php?error=invalid_registration');
+            exit;
+        }
+        $payload['metadata']['registration_number'] = $registrationNumber;
+        $payload['metadata']['registration_email'] = $registration['customer_email'];
+    } catch (Throwable $error) {
+        error_log('subscribe.php: Unable to verify device registration.');
+        header('Location: /plans.php?error=stripe');
+        exit;
+    }
+}
 
-if (!$response || empty($response['url'])) {
-    error_log('subscribe.php: Stripe session creation failed. Response: ' . json_encode($response));
+$response = tmStripeRequest('POST', 'checkout/sessions', $payload);
+
+if (!$response || !is_string($response['url'] ?? null) || !filter_var($response['url'], FILTER_VALIDATE_URL)) {
+    error_log('subscribe.php: Stripe session creation failed.');
     header('Location: /plans.php?error=stripe');
     exit;
 }
 
 header('Location: ' . $response['url']);
 exit;
-
-// ── Stripe API helper ─────────────────────────────────────────────────────────
-
-function stripePost(string $endpoint, array $data): ?array {
-    $url     = 'https://api.stripe.com/v1/' . $endpoint;
-    $secret  = STRIPE_SECRET_KEY;
-    $payload = http_build_query(flattenForStripe($data));
-
-    $ctx = stream_context_create([
-        'http' => [
-            'method'  => 'POST',
-            'header'  =>
-                "Authorization: Bearer {$secret}\r\n" .
-                "Content-Type: application/x-www-form-urlencoded\r\n" .
-                "Content-Length: " . strlen($payload) . "\r\n",
-            'content'         => $payload,
-            'ignore_errors'   => true,
-        ],
-    ]);
-
-    $result = file_get_contents($url, false, $ctx);
-    if ($result === false) return null;
-
-    return json_decode($result, true);
-}
-
-function flattenForStripe(array $data, string $prefix = ''): array {
-    $flat = [];
-    foreach ($data as $key => $value) {
-        $fullKey = $prefix ? "{$prefix}[{$key}]" : $key;
-        if (is_array($value)) {
-            $flat = array_merge($flat, flattenForStripe($value, $fullKey));
-        } else {
-            $flat[$fullKey] = $value;
-        }
-    }
-    return $flat;
-}

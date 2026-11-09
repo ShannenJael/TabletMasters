@@ -1,4 +1,4 @@
-<?php $currentPage = 'about'; ?>
+<?php require_once __DIR__ . '/includes/request.php'; $currentPage = 'about'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,16 +25,16 @@ $allowedPackages = ['starter', 'managed', 'enterprise'];
 $requestedPackage = $_GET['package'] ?? 'managed';
 $selectedPackage = in_array($requestedPackage, $allowedPackages, true) ? $requestedPackage : 'managed';
 $prefill = [
-  'company' => htmlspecialchars($_GET['company'] ?? ''),
-  'contact' => htmlspecialchars($_GET['contact'] ?? ''),
-  'email' => htmlspecialchars($_GET['email'] ?? ''),
-  'phone' => htmlspecialchars($_GET['phone'] ?? ''),
-  'event' => htmlspecialchars($_GET['event'] ?? ''),
-  'location' => htmlspecialchars($_GET['location'] ?? ''),
-  'dates' => htmlspecialchars($_GET['dates'] ?? ''),
-  'count' => htmlspecialchars($_GET['count'] ?? ''),
-  'use_case' => htmlspecialchars($_GET['use_case'] ?? ''),
-  'support_level' => htmlspecialchars($_GET['support_level'] ?? 'remote'),
+  'company' => htmlspecialchars(tmQueryString('company', '')),
+  'contact' => htmlspecialchars(tmQueryString('contact', '')),
+  'email' => htmlspecialchars(tmQueryString('email', '')),
+  'phone' => htmlspecialchars(tmQueryString('phone', '')),
+  'event' => htmlspecialchars(tmQueryString('event', '')),
+  'location' => htmlspecialchars(tmQueryString('location', '')),
+  'dates' => htmlspecialchars(tmQueryString('dates', '')),
+  'count' => htmlspecialchars(tmQueryString('count', '')),
+  'use_case' => htmlspecialchars(tmQueryString('use_case', '')),
+  'support_level' => htmlspecialchars(tmQueryString('support_level', 'remote')),
 ];
 
 $useCases = [

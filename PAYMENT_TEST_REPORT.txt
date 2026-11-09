@@ -1,0 +1,98 @@
+Tablet Masters - payment testing and repairs
+Date: 9 November 2026 (Asia/Singapore)
+
+Scope
+The project was tested locally with Playwright on desktop Chromium and mobile
+Chrome (Pixel 7 emulation). Tests execute the real application PHP, JavaScript,
+forms, redirects, SQLite registration records, and webhook verification. Stripe
+API responses and the hosted payment screen are simulated on loopback.
+
+Corrections
+1. Purchase receipts previously showed "Order Confirmed" and erased the cart
+   even without a verified payment. Confirmation now requires the exact Stripe
+   session, a completed checkout, and paid/no-payment-required status. Pending,
+   invalid, mismatched, and unavailable sessions preserve the cart.
+2. Subscription confirmation no longer treats "checkout complete" alone as proof
+   of payment. Plan and checkout type come from verified session metadata, so
+   editing the return URL cannot select another plan or receipt type. Buying a
+   standalone subscription preserves an unrelated shopping cart.
+3. Malformed cart and subscription fields no longer trigger PHP type errors.
+   Checkout rejects unknown products, invalid quantities, non-list carts, and
+   oversized requests before contacting Stripe. Duplicate product rows are
+   consolidated; catalog prices and aggregate stock limits remain authoritative.
+4. Selecting protection with missing price configuration now produces a clear
+   error instead of silently charging for the device without its protection.
+   Subscription email and registration details are validated as well.
+5. Cancellations and provider failures preserve the cart, protection choice, and
+   SMS preference. The browser Back button restores an enabled checkout button.
+   Confirmed purchases clear both the cart and checkout preferences.
+6. Four duplicate Stripe API helpers were replaced by one shared client with a
+   15-second timeout, HTTP failure handling, and JSON response validation.
+   Transport warnings and raw provider responses are not shown to customers.
+7. Unpaid webhook events no longer create completed orders or send purchase
+   notifications. Delayed success is handled through
+   checkout.session.async_payment_succeeded as well as checkout.session.completed.
+8. Webhook order updates use a file lock around the read/deduplicate/write
+   transaction. Concurrent retries cannot insert duplicate orders or repeat their
+   notification workflow. Temporary line-item failures return a retryable error;
+   paginated responses are collected completely rather than truncated at 20.
+9. Customer order and registration SMS notifications now honor the explicit
+   opt-in checkbox. Registration passes the preference through to subscription
+   metadata. Staff notifications retain their existing configuration.
+10. Paid registered-device subscriptions previously left coverage permanently
+    pending_payment. Checkout now carries a validated registration reference;
+    the signed paid webhook activates that device and records its session ID.
+    Database activation failures stay retryable.
+11. A customer who cancelled registration checkout previously hit a duplicate
+    serial-number error on retry. Matching pending registrations can now resume
+    payment without creating another device or sending registration messages
+    again. The registration email and plan must match; active registrations
+    cannot use this pending-payment recovery path.
+
+Test infrastructure and documentation
+- Added tests/payment.spec.js and playwright.payment.config.js.
+- Added an isolated application/Stripe simulator and test-only PHP HTTPS
+  transport under tests/support. Each test has independent fake Stripe state.
+- The simulator creates its own config and data directory. Real config files,
+  customer databases, and logs are not copied. Email transport and SMS are
+  disabled; no real charges or messages are created.
+- Added npm run test:payment. The existing npm test command continues to run
+  the public-site suite separately.
+- Updated TESTING.md with setup, coverage, reports, and a real Stripe sandbox
+  smoke-test procedure. Added includes/config.example.php without credentials.
+
+Validation
+Final payment run: 104 passed, 0 failed (52 scenarios on each browser profile).
+Runtime: approximately 1.3 minutes, with two workers and no test retries.
+Payment HTML report: playwright-report/payment/index.html
+Payment console log: test-results/payment-final.log
+Public-site HTML report: playwright-report/site-regression/index.html
+Public-site console log: test-results/site-regression.log
+PHP syntax checks passed for all 11 changed/new PHP files.
+JavaScript syntax checks passed for the browser code, payment tests, both test
+servers, and the payment configuration. git diff --check passed.
+The existing public-site suite passed 61 tests, with one expected desktop skip
+for the mobile-only menu check. Existing screenshot baselines were unchanged.
+Combined result: 165 passed, 1 expected skip, 0 failed.
+
+Run again (PowerShell)
+$env:PHP_BINARY = 'C:\path\to\php.exe'
+npm run test:payment
+npx playwright show-report playwright-report/payment
+
+PHP 8.1+ and pdo_sqlite are required for registration tests. On this machine,
+PHP 8.3.30 was located at:
+C:\Users\pascu\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe
+Playwright 1.59.1 and Node.js 24.14.1 were used.
+
+Limits
+The repository did not contain the ignored includes/config.php or configured
+Stripe sandbox credentials. Actual Stripe-hosted Checkout, account price IDs,
+3-D Secure, real webhook forwarding, renewals/cancellations of active plans,
+refunds, tax/shipping setup, and real email/SMS delivery were not verified.
+Card approvals and declines in this suite are simulator scenarios. A real
+Stripe sandbox smoke test remains necessary to validate account configuration.
+All application changes are local; no deployment was performed.
+
+Stripe reference used to check paid-state and delayed-payment handling:
+https://docs.stripe.com/checkout/fulfillment

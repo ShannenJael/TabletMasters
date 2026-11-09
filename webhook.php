@@ -7,15 +7,26 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/notifications.php';
 require_once __DIR__ . '/includes/stripe-security.php';
+require_once __DIR__ . '/includes/stripe-client.php';
+
+header('Content-Type: application/json');
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    header('Allow: POST');
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit;
+}
 
 $payload   = file_get_contents('php://input');
 $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
 
 $logDir  = __DIR__ . '/data/logs';
-if (!is_dir($logDir)) mkdir($logDir, 0755, true);
+if (!is_dir($logDir) && !@mkdir($logDir, 0755, true) && !is_dir($logDir)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Order storage unavailable']);
+    exit;
+}
 $logFile = $logDir . '/webhook_' . date('Y-m-d') . '.log';
-
-header('Content-Type: application/json');
 
 // ── Signature verification ────────────────────────────────────────────────────
 
@@ -28,7 +39,7 @@ if (!verifyStripeSignature($payload, $sigHeader, STRIPE_WEBHOOK_SECRET)) {
 }
 
 $event = json_decode($payload, true);
-if (!$event) {
+if (!is_array($event) || !is_string($event['type'] ?? null)) {
     file_put_contents($logDir . '/webhook_errors.log',
         date('Y-m-d H:i:s') . " | Invalid JSON payload\n", FILE_APPEND);
     http_response_code(400);
@@ -43,8 +54,13 @@ http_response_code(200);
 
 // ── Handle: checkout.session.completed ───────────────────────────────────────
 
-if ($eventType === 'checkout.session.completed') {
+if (in_array($eventType, ['checkout.session.completed', 'checkout.session.async_payment_succeeded'], true)) {
     $session = $event['data']['object'] ?? [];
+    if (!is_array($session)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid session']);
+        exit;
+    }
 
     $stripeSessionId = $session['id']                        ?? null;
     $paymentIntent   = $session['payment_intent']            ?? null;
@@ -53,7 +69,7 @@ if ($eventType === 'checkout.session.completed') {
     $customerPhone   = $session['customer_details']['phone'] ?? null;
     $totalAmount     = $session['amount_total']              ?? 0;
     $currency        = $session['currency']                  ?? 'usd';
-    $paymentStatus   = $session['payment_status']            ?? 'completed';
+    $paymentStatus   = $session['payment_status']            ?? 'unpaid';
     $mode            = $session['mode']                      ?? '';
     $metadata        = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
     $checkoutType    = $metadata['checkout_type']            ?? ($mode === 'subscription' ? 'subscription' : 'purchase');
@@ -68,16 +84,82 @@ if ($eventType === 'checkout.session.completed') {
         exit;
     }
 
+    // Checkout can finish while a bank payment is still processing. Only the
+    // paid completion (or its later async success event) may fulfill the order.
+    if (!stripeCheckoutIsPaid($session)) {
+        echo json_encode(['received' => true]);
+        exit;
+    }
+
+    // Keep the entire read/check/write transaction under one lock, including
+    // notifications, so simultaneous retries cannot fulfill an order twice.
+    $orderFile = $logDir . '/orders.json';
+    $orderHandle = @fopen($orderFile, 'c+');
+    if (!$orderHandle || !flock($orderHandle, LOCK_EX)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Order storage unavailable']);
+        exit;
+    }
+    $stored = stream_get_contents($orderHandle);
+    $orders = $stored === '' ? [] : json_decode($stored, true);
+    if (!is_array($orders) || !array_is_list($orders)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Order storage invalid']);
+        exit;
+    }
+    foreach ($orders as $existing) {
+        if (($existing['session_id'] ?? '') === $stripeSessionId
+            && in_array($existing['payment_status'] ?? '', ['paid', 'no_payment_required'], true)) {
+            echo json_encode(['received' => true]);
+            exit;
+        }
+    }
+
     // Fetch line items via direct API call
     $lineItems = [];
-    $itemsResponse = stripeGet('checkout/sessions/' . rawurlencode($stripeSessionId) . '/line_items?limit=20');
-    if ($itemsResponse && isset($itemsResponse['data'])) {
+    $cursor = '';
+    do {
+        $endpoint = 'checkout/sessions/' . rawurlencode($stripeSessionId) . '/line_items?limit=100';
+        if ($cursor !== '') $endpoint .= '&starting_after=' . rawurlencode($cursor);
+        $itemsResponse = tmStripeRequest('GET', $endpoint);
+        if (!$itemsResponse || !is_array($itemsResponse['data'] ?? null)) {
+            http_response_code(502);
+            echo json_encode(['error' => 'Unable to retrieve order items']);
+            exit;
+        }
         foreach ($itemsResponse['data'] as $item) {
             $lineItems[] = [
                 'name'     => $item['description'] ?? ($item['price']['product']['name'] ?? 'Item'),
                 'quantity' => $item['quantity'] ?? 1,
                 'price'    => $item['amount_total'] ?? 0,
             ];
+        }
+        $hasMore = !empty($itemsResponse['has_more']);
+        $lastItem = end($itemsResponse['data']);
+        $nextCursor = is_array($lastItem) ? ($lastItem['id'] ?? '') : '';
+        if ($hasMore && (!is_string($nextCursor) || $nextCursor === '' || $nextCursor === $cursor)) {
+            http_response_code(502);
+            echo json_encode(['error' => 'Invalid order item pagination']);
+            exit;
+        }
+        $cursor = $nextCursor;
+    } while ($hasMore);
+
+    // Activation belongs to the signed paid webhook, not the browser redirect.
+    // Keep failures retryable so a transient database error cannot lose coverage.
+    if ($checkoutType === 'subscription' && isset($metadata['registration_number'])) {
+        require_once __DIR__ . '/includes/database.php';
+        try {
+            $activate = getDB()->prepare("UPDATE devices SET plan_status = 'active', order_id = ?, updated_at = CURRENT_TIMESTAMP
+                WHERE registration_number = ? AND customer_email = ? AND plan = ? AND purchase_source = 'external'
+                  AND (plan_status = 'pending_payment' OR (plan_status = 'active' AND order_id = ?))");
+            $activate->execute([$stripeSessionId, $metadata['registration_number'], $metadata['registration_email'] ?? '', $plan, $stripeSessionId]);
+            if ($activate->rowCount() !== 1) throw new RuntimeException('Registration did not match');
+        } catch (Throwable $error) {
+            error_log('webhook.php: Unable to activate registered device.');
+            http_response_code(500);
+            echo json_encode(['error' => 'Unable to activate registered device']);
+            exit;
         }
     }
 
@@ -95,36 +177,36 @@ if ($eventType === 'checkout.session.completed') {
     $notificationResults = tmNotifyOrderCompleted($session, $lineItems);
 
     // Persist a lightweight order record as JSON
-    $orderFile = $logDir . '/orders.json';
-    $orders    = [];
-    if (file_exists($orderFile)) {
-        $orders = json_decode(file_get_contents($orderFile), true) ?: [];
+    // Replace any legacy unpaid record; unpaid checkouts are no longer stored.
+    $orders = array_values(array_filter($orders, static function ($order) use ($stripeSessionId) {
+        return ($order['session_id'] ?? '') !== $stripeSessionId;
+    }));
+    $orders[] = [
+        'session_id'    => $stripeSessionId,
+        'payment_intent'=> $paymentIntent,
+        'email'         => $customerEmail,
+        'name'          => $customerName,
+        'phone'         => $customerPhone,
+        'total'         => $totalAmount,
+        'currency'      => $currency,
+        'payment_status'=> $paymentStatus,
+        'mode'          => $mode,
+        'checkout_type' => $checkoutType,
+        'plan'          => $plan,
+        'items'         => $lineItems,
+        'notifications' => $notificationResults,
+        'stripe_created'=> $stripeCreated,
+        'created_at'    => date('Y-m-d H:i:s'),
+    ];
+    $encoded = json_encode($orders, JSON_PRETTY_PRINT);
+    rewind($orderHandle);
+    if ($encoded === false || !ftruncate($orderHandle, 0) || fwrite($orderHandle, $encoded) !== strlen($encoded) || !fflush($orderHandle)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Unable to save order']);
+        exit;
     }
-    // Deduplicate by session id
-    $exists = false;
-    foreach ($orders as $o) {
-        if (($o['session_id'] ?? '') === $stripeSessionId) { $exists = true; break; }
-    }
-    if (!$exists) {
-        $orders[] = [
-            'session_id'    => $stripeSessionId,
-            'payment_intent'=> $paymentIntent,
-            'email'         => $customerEmail,
-            'name'          => $customerName,
-            'phone'         => $customerPhone,
-            'total'         => $totalAmount,
-            'currency'      => $currency,
-            'payment_status'=> $paymentStatus,
-            'mode'          => $mode,
-            'checkout_type' => $checkoutType,
-            'plan'          => $plan,
-            'items'         => $lineItems,
-            'notifications' => $notificationResults,
-            'stripe_created'=> $stripeCreated,
-            'created_at'    => date('Y-m-d H:i:s'),
-        ];
-        file_put_contents($orderFile, json_encode($orders, JSON_PRETTY_PRINT));
-    }
+    flock($orderHandle, LOCK_UN);
+    fclose($orderHandle);
 }
 
 echo json_encode(['received' => true]);
@@ -138,7 +220,7 @@ function verifyStripeSignature(string $payload, string $sigHeader, string $secre
     foreach (explode(',', $sigHeader) as $part) {
         $kv = explode('=', $part, 2);
         if (count($kv) === 2) {
-            $parts[$kv[0]][] = $kv[1];
+            $parts[trim($kv[0])][] = trim($kv[1]);
         }
     }
 
@@ -157,22 +239,4 @@ function verifyStripeSignature(string $payload, string $sigHeader, string $secre
         if (hash_equals($expected, $sig)) return true;
     }
     return false;
-}
-
-function stripeGet(string $endpoint): ?array {
-    $url    = 'https://api.stripe.com/v1/' . $endpoint;
-    $secret = STRIPE_SECRET_KEY;
-
-    $ctx = stream_context_create([
-        'http' => [
-            'method'        => 'GET',
-            'header'        => "Authorization: Bearer {$secret}\r\n",
-            'ignore_errors' => true,
-        ],
-    ]);
-
-    $result = file_get_contents($url, false, $ctx);
-    if ($result === false) return null;
-
-    return json_decode($result, true);
 }

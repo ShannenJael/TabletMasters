@@ -6,13 +6,17 @@ $currentPage = 'shop';
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/accessories-data.php';
 require_once __DIR__ . '/includes/stripe-security.php';
+require_once __DIR__ . '/includes/stripe-client.php';
+
+header('Cache-Control: private, no-store');
 
 $sessionId  = $_GET['session_id'] ?? null;
 $type       = $_GET['type'] ?? '';
-$plan       = $_GET['plan'] ?? '';
 $subscribed = ($type === 'subscription');
 $order      = null;
-$insurancePlan = $plan;
+$plan = '';
+$insurancePlan = 'none';
+$registrationNumber = '';
 $recommendedAccessories = [];
 
 if ($sessionId !== null && !validStripeSessionId($sessionId)) {
@@ -20,27 +24,26 @@ if ($sessionId !== null && !validStripeSessionId($sessionId)) {
     exit('Invalid session_id');
 }
 
-// A subscription is only shown as active once Stripe confirms the session was
-// a completed subscription checkout; the plan comes from Stripe, not the URL.
+// URL parameters are only hints for the pending screen. Confirmation, order
+// type and plan must all come from the matching, completed and paid session.
 $subscriptionVerified = false;
+$purchaseVerified = false;
 
-if ($sessionId && $subscribed) {
-    $session = stripeGet('checkout/sessions/' . rawurlencode($sessionId));
+if ($sessionId) {
+    $session = tmStripeRequest('GET', 'checkout/sessions/' . rawurlencode($sessionId) . '?expand[]=line_items');
     if ($session
         && ($session['id'] ?? '') === $sessionId
-        && ($session['mode'] ?? '') === 'subscription'
-        && (($session['status'] ?? '') === 'complete' || in_array($session['payment_status'] ?? '', ['paid', 'no_payment_required'], true))
+        && stripeCheckoutIsPaid($session)
     ) {
-        $subscriptionVerified = true;
-        $plan = (string)($session['metadata']['plan'] ?? $plan);
-    }
-}
-
-if ($sessionId && !$subscribed) {
-    $session = stripeGet('checkout/sessions/' . rawurlencode($sessionId) . '?expand[]=line_items');
-    if ($session && isset($session['id'])) {
-        $order = $session;
-        $insurancePlan = $session['metadata']['insurance_plan'] ?? ($session['metadata']['plan'] ?? $insurancePlan);
+        $metadata = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
+        $checkoutType = $metadata['checkout_type'] ?? ($session['mode'] === 'subscription' ? 'subscription' : 'purchase');
+        $subscribed = $checkoutType === 'subscription';
+        $plan = is_string($metadata['plan'] ?? null) ? $metadata['plan'] : '';
+        $subscriptionVerified = $subscribed && $session['mode'] === 'subscription' && in_array($plan, ['basic', 'protected'], true);
+        $purchaseVerified = $checkoutType === 'purchase';
+        if ($purchaseVerified) $order = $session;
+        $insurancePlan = $metadata['insurance_plan'] ?? ($metadata['plan'] ?? 'none');
+        $registrationNumber = is_string($metadata['registration_number'] ?? null) ? $metadata['registration_number'] : '';
 
         $tabletNames = [];
         foreach (($session['line_items']['data'] ?? []) as $lineItem) {
@@ -50,7 +53,7 @@ if ($sessionId && !$subscribed) {
             }
         }
 
-        if ($tabletNames) {
+        if ($purchaseVerified && $tabletNames) {
             $recommendedAccessories = tm_find_accessories_for_tablets($tabletNames);
         }
     }
@@ -66,7 +69,7 @@ $planLabels = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><?= $subscribed ? ($subscriptionVerified ? 'Protection Active' : 'Confirming Your Plan') : 'Order Confirmed' ?> — Tablet Masters</title>
+  <title><?= $subscribed ? ($subscriptionVerified ? 'Protection Active' : 'Confirming Your Plan') : ($purchaseVerified ? 'Order Confirmed' : 'Confirming Your Order') ?> — Tablet Masters</title>
   <link rel="stylesheet" href="assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/assets/css/style.css'); ?>" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
@@ -86,8 +89,8 @@ $planLabels = [
       <div class="success-icon">⏳</div>
       <h1 class="success-title">Confirming Your Plan</h1>
       <p class="success-desc">
-        We couldn't confirm a completed plan signup from this link. If you just finished checkout, your
-        confirmation email will arrive shortly. Otherwise, choose a plan to get covered.
+        We couldn't confirm a completed plan signup from this link. If you just finished checkout,
+        check your payment receipt or contact support before trying again.
       </p>
       <div class="success-actions">
         <a class="btn-primary" href="plans.php">View Plans</a>
@@ -99,21 +102,36 @@ $planLabels = [
       <h1 class="success-title">Protection Active!</h1>
       <p class="success-desc">
         Your <strong><?= htmlspecialchars($planLabels[$plan] ?? 'protection plan') ?></strong> is now active.
-        You're covered — we'll send your plan details by email.
+        Keep your payment receipt and plan details for your records.
       </p>
       <p class="success-note">
+        <?php if ($registrationNumber !== ''): ?>
+        Your tablet registration <strong><?= htmlspecialchars($registrationNumber) ?></strong> is linked to this plan.
+        <?php else: ?>
         Please go to the <a href="register.php">registration page</a> to register your device.
+        <?php endif; ?>
       </p>
       <div class="success-actions">
         <a class="btn-primary" href="shop.php">Continue Shopping</a>
         <a class="btn-outline" href="insurance.php">View Coverage</a>
       </div>
 
+    <?php elseif (!$purchaseVerified): ?>
+      <div class="success-icon">⏳</div>
+      <h1 class="success-title">Confirming Your Order</h1>
+      <p class="success-desc">
+        We couldn't confirm a completed payment from this link. Your cart is saved.
+        If you just paid, check your confirmation email or contact support before trying again.
+      </p>
+      <div class="success-actions">
+        <a class="btn-primary" href="shop.php">Return to Shop</a>
+        <a class="btn-outline" href="support.php">Contact Support</a>
+      </div>
+
     <?php else: ?>
       <div class="success-icon">✅</div>
       <h1 class="success-title">Order Confirmed!</h1>
 
-      <?php if ($order && ($order['payment_status'] ?? '') === 'paid'): ?>
         <p class="success-desc">
           Thank you for your purchase! Your order has been received and is being processed.
         </p>
@@ -129,21 +147,16 @@ $planLabels = [
         </div>
         <?php
         $insurancePlan = $order['metadata']['insurance_plan'] ?? ($order['metadata']['plan'] ?? $insurancePlan);
-        if (!empty($insurancePlan) && $insurancePlan !== 'none'):
+        if (is_string($insurancePlan) && in_array($insurancePlan, ['basic', 'protected'], true)):
         ?>
         <p class="success-note" style="color:var(--blue)">
           <i class="fas fa-shield-alt"></i> Your <?= htmlspecialchars($planLabels[$insurancePlan] ?? 'protection plan') ?> is included with this checkout and will continue monthly through Stripe.
         </p>
         <?php else: ?>
         <p class="success-note">
-          A confirmation email has been sent. We'll follow up with shipping details within 24 hours.
+          Keep your payment receipt for your records. Contact support if you need help with shipping.
         </p>
         <?php endif; ?>
-      <?php else: ?>
-        <p class="success-desc">
-          Thank you for your order! You'll receive a confirmation email shortly.
-        </p>
-      <?php endif; ?>
 
       <div class="success-actions">
         <a class="btn-primary" href="shop.php">Continue Shopping</a>
@@ -191,10 +204,13 @@ $planLabels = [
   </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php if ($purchaseVerified): ?>
 <script>
 localStorage.removeItem('tm_cart');
+localStorage.removeItem('tm_checkout_preferences');
 </script>
+<?php endif; ?>
+<?php include 'includes/footer.php'; ?>
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/sw.js");
@@ -202,24 +218,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
-<?php
-// ── Stripe API helper ─────────────────────────────────────────────────────────
-
-function stripeGet(string $endpoint): ?array {
-    $url    = 'https://api.stripe.com/v1/' . $endpoint;
-    $secret = STRIPE_SECRET_KEY;
-
-    $ctx = stream_context_create([
-        'http' => [
-            'method'        => 'GET',
-            'header'        => "Authorization: Bearer {$secret}\r\n",
-            'ignore_errors' => true,
-        ],
-    ]);
-
-    $result = file_get_contents($url, false, $ctx);
-    if ($result === false) return null;
-
-    return json_decode($result, true);
-}

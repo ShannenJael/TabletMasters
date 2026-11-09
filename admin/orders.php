@@ -1,9 +1,13 @@
 <?php
 require_once __DIR__ . '/bootstrap.php';
 
-$auth = tmAdminHandleAuth('orders.php', true);
+$auth = tmAdminHandleAuth('orders.php');
 $loggedIn = $auth['loggedIn'];
 $adminAuthenticated = $auth['isAuthenticated'];
+if (!$loggedIn) {
+    header('Location: inventory.php?next=orders');
+    exit;
+}
 
 $configFile = __DIR__ . '/../includes/config.php';
 if (file_exists($configFile)) {
