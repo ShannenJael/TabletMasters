@@ -182,6 +182,10 @@ const server = http.createServer(async (req, res) => {
   upstream.on('error', error => { if (!res.headersSent) res.writeHead(502); res.end(error.message); });
   req.pipe(upstream);
 });
+// Keep idle sockets open longer than clients do; Node's 5s default closes a
+// socket just as Playwright's request context reuses it (ECONNRESET flakes).
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
 
 const extraArgs = ['-d', 'disable_functions=mail', '-d', `auto_prepend_file=${path.join(__dirname, 'payment-prepend.php')}`];
 const php = process.env.PHP_BINARY;

@@ -80,6 +80,10 @@ function shutdown(code = 0) {
 }
 ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach(sig => process.on(sig, () => shutdown(0)));
 
+// Outlive client idle timeouts so reused keep-alive sockets are not reset.
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
+
 // Give the PHP processes a moment to bind before accepting traffic.
 setTimeout(() => {
   server.listen(PORT, HOST, () => {
