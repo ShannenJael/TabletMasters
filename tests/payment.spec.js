@@ -77,6 +77,7 @@ test('purchase completes through the cart, hosted checkout, webhook, and receipt
   const number = await orderNumber.textContent();
   expect(number).toMatch(/^TM-[A-F0-9]{24}$/);
   await page.getByRole('link', { name: 'Track Shipment', exact: true }).first().click();
+  await expect(page).toHaveURL('/track.php?order=' + number);
   await expect(page.getByLabel('Order number')).toHaveValue(number);
   await page.getByLabel('Checkout email').fill('buyer@example.test');
   await page.getByRole('button', { name: 'Track shipment' }).click();
@@ -120,9 +121,12 @@ test('staff can save tracking, notify the buyer, and show progress for verified 
   expect(shipmentMail).toHaveLength(1);
   expect(shipmentMail[0].to).toBe('buyer@example.test');
   expect(shipmentMail[0].message).toContain('Shipment status: Shipped');
-  expect(shipmentMail[0].message).toContain('track-shipment.php?order=' + number);
+  expect(shipmentMail[0].message).toContain('track.php?order=' + number);
 
-  await gotoAndWait(page, '/track-shipment.php?order=' + number);
+  const legacyLink = await request.get('/track-shipment.php?order=' + number, { maxRedirects: 0 });
+  expect(legacyLink.status()).toBe(308);
+  expect(legacyLink.headers().location).toBe('/track.php?order=' + number);
+  await gotoAndWait(page, '/track.php?order=' + number);
   await page.getByLabel('Checkout email').fill('wrong@example.test');
   await page.getByRole('button', { name: 'Track shipment' }).click();
   await expect(page.getByRole('alert')).toContainText('We couldn’t find that order');
@@ -134,7 +138,7 @@ test('staff can save tracking, notify the buyer, and show progress for verified 
     'href', 'https://tools.usps.com/go/TrackConfirmAction?tLabels=9400000000000000000000'
   );
   expect(page.url()).not.toContain('BUYER');
-  expect((await request.get('/track-shipment.php')).headers()['cache-control']).toContain('no-store');
+  expect((await request.get('/track.php')).headers()['cache-control']).toContain('no-store');
 
   await gotoAndWait(page, managePath);
   await page.getByLabel('Shipment status').selectOption('delivered');
@@ -142,6 +146,7 @@ test('staff can save tracking, notify the buyer, and show progress for verified 
   await expect(page.getByRole('status')).toHaveText('Shipment saved.');
   expect((await control(request)).shipmentMail).toHaveLength(1);
   const delivered = await request.post('/track-shipment.php', { form: { order: number, email: 'buyer@example.test' } });
+  expect(new URL(delivered.url()).pathname).toBe('/track.php');
   expect(await delivered.text()).toContain('<h2 id="shipment-status">Delivered</h2>');
 });
 

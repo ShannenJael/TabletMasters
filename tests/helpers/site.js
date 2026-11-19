@@ -6,7 +6,7 @@ const publicPages = [
   '/plans.php',
   '/register.php',
   '/support.php',
-  '/track-shipment.php',
+  '/track.php',
   '/tablet-games.php',
   '/reviews.php',
   '/forum.php',

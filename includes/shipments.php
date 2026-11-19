@@ -21,6 +21,11 @@ function tmOrderNumber(string $sessionId): string
     return 'TM-' . strtoupper(substr(hash('sha256', $sessionId), 0, 24));
 }
 
+function tmValidOrderNumber(string $number): bool
+{
+    return preg_match('/^TM-[A-F0-9]{24}$/D', $number) === 1;
+}
+
 function tmShipmentFormValue(array $input, string $key): string
 {
     return is_string($input[$key] ?? null) ? trim($input[$key]) : '';
@@ -60,7 +65,7 @@ function tmShipmentOrders(array $orders): array
 
 function tmShipmentPath(string $number): string
 {
-    if (!preg_match('/^TM-[A-F0-9]{24}$/D', $number)) throw new InvalidArgumentException('Invalid order number');
+    if (!tmValidOrderNumber($number)) throw new InvalidArgumentException('Invalid order number');
     return __DIR__ . '/../data/logs/shipments/' . $number . '.json';
 }
 
@@ -156,7 +161,7 @@ function tmSendShipmentUpdates(string $path, string $number, array $order, array
 
     $status = TM_SHIPMENT_STATUSES[$shipment['status']];
     $site = defined('SITE_URL') ? rtrim(SITE_URL, '/') : 'https://tablet-masters.com';
-    $link = $site . '/track-shipment.php?order=' . rawurlencode($number);
+    $link = $site . '/track.php?order=' . rawurlencode($number);
     $email = (string)($order['email'] ?? '');
     $phone = (string)($order['phone'] ?? '');
     $results = [];

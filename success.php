@@ -164,7 +164,7 @@ $planLabels = [
         <?php endif; ?>
 
       <div class="success-actions">
-        <a class="btn-primary" href="track-shipment.php?order=<?= urlencode(tmOrderNumber($sessionId)) ?>">Track Shipment</a>
+        <a class="btn-primary" href="track.php?order=<?= urlencode(tmOrderNumber($sessionId)) ?>">Track Shipment</a>
         <a class="btn-outline" href="shop.php">Continue Shopping</a>
       </div>
 
