@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__ . '/../includes/shipments.php';
 
 $auth = tmAdminHandleAuth('orders.php');
 $loggedIn = $auth['loggedIn'];
@@ -27,15 +28,13 @@ if (defined('STRIPE_SECRET_KEY') && STRIPE_SECRET_KEY !== '') {
 
 $logDir = __DIR__ . '/../data/logs';
 $orderFile = $logDir . '/orders.json';
-$orders = [];
-
-if (file_exists($orderFile)) {
-    $orders = json_decode(file_get_contents($orderFile), true) ?: [];
-}
-
-if (!is_array($orders)) {
+try {
+    $orders = tmReadOrderRecords();
+} catch (Throwable $exception) {
+    error_log('Orders dashboard could not read the order records.');
     $orders = [];
 }
+$shipmentOrders = tmShipmentOrders($orders);
 
 $stripeOrders = [];
 if ($stripeMode === 'live') {
@@ -58,6 +57,7 @@ if (count($stripeOrders) > 0) {
 $normalizedOrders = [];
 foreach ($orders as $order) {
     $sessionId = (string)($order['session_id'] ?? '');
+    $orderNumber = tmOrderNumber($sessionId);
     $paymentIntent = (string)($order['payment_intent'] ?? '');
     $email = (string)($order['email'] ?? '');
     $name = (string)($order['name'] ?? '');
@@ -97,6 +97,7 @@ foreach ($orders as $order) {
 
     $normalizedOrders[] = [
         'session_id' => $sessionId,
+        'order_number' => isset($shipmentOrders[$orderNumber]) ? $orderNumber : '',
         'payment_intent' => $paymentIntent,
         'email' => $email,
         'name' => $name,
@@ -132,6 +133,7 @@ $visibleOrders = array_values(array_filter($normalizedOrders, function ($order) 
 
     $haystack = strtolower(implode(' ', [
         $order['session_id'],
+        $order['order_number'],
         $order['payment_intent'],
         $order['email'],
         $order['name'],
@@ -742,7 +744,7 @@ function h(string $value): string
   <form method="GET" class="filters">
     <div>
       <label class="field-label" for="q">Search Transactions</label>
-      <input type="search" id="q" name="q" value="<?= h($query) ?>" placeholder="Search by email, name, session ID, payment intent, or item" />
+      <input type="search" id="q" name="q" value="<?= h($query) ?>" placeholder="Search by order number, email, name, item, or payment reference" />
     </div>
     <div>
       <label class="field-label" for="type">Transaction Type</label>
@@ -819,6 +821,10 @@ function h(string $value): string
             <td>
               <strong><?= h($order['session_id'] !== '' ? $order['session_id'] : 'Missing session ID') ?></strong>
               <div class="muted">PI: <?= h($order['payment_intent'] !== '' ? $order['payment_intent'] : 'n/a') ?></div>
+              <?php if ($order['order_number'] !== ''): ?>
+              <div class="muted"><?= h($order['order_number']) ?></div>
+              <a class="btn btn-ghost" href="shipments.php?order=<?= h($order['order_number']) ?>">Manage shipment</a>
+              <?php endif; ?>
             </td>
           </tr>
           <?php endforeach; ?>

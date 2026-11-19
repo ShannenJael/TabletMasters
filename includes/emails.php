@@ -5,6 +5,19 @@ function tmCleanEmailHeader(string $value): string
     return trim(str_replace(["\r", "\n"], '', $value));
 }
 
+function tmSendShipmentEmail(string $email, string $number, string $status, string $link, string $tracking, ?string $carrierUrl): bool
+{
+    $from = tmCleanEmailHeader(defined('TM_FROM_EMAIL') ? TM_FROM_EMAIL : 'Tabletmasters@clouddogg.com');
+    if (!function_exists('mail') || !filter_var($from, FILTER_VALIDATE_EMAIL)) return false;
+
+    $message = "Tablet Masters order {$number}\nShipment status: {$status}\n";
+    if ($tracking !== '') $message .= "Tracking number: {$tracking}\n";
+    if ($carrierUrl !== null) $message .= "Carrier tracking: {$carrierUrl}\n";
+    $message .= "\nCheck your shipment using your checkout email and order number:\n{$link}\n";
+
+    return @mail($email, "Shipment update for {$number} - Tablet Masters", $message, "From: {$from}\r\nReply-To: {$from}");
+}
+
 function sendDeviceRegistrationEmail(
     string $email,
     string $name,

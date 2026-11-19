@@ -1,7 +1,14 @@
 <?php
 // The harness disables PHP's mail transport before defining this local stub.
 if (!function_exists('mail')) {
-    function mail(...$arguments): bool { return true; }
+    function mail($to, $subject, $message, ...$headers): bool {
+        if (!str_starts_with($subject, 'Shipment update for ')) return true;
+        $case = hash('sha256', $_SERVER['HTTP_X_PAYMENT_TEST_CASE'] ?? 'default');
+        $path = $_SERVER['DOCUMENT_ROOT'] . '/data/logs/shipment-mail-' . $case . '.json';
+        $messages = is_file($path) ? json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR) : [];
+        $messages[] = compact('to', 'subject', 'message');
+        return file_put_contents($path, json_encode($messages, JSON_THROW_ON_ERROR), LOCK_EX) !== false;
+    }
 }
 /** Test-only HTTPS transport: route Stripe calls to the loopback simulator. */
 class PaymentTestHttpsStream

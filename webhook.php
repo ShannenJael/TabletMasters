@@ -64,7 +64,7 @@ if (in_array($eventType, ['checkout.session.completed', 'checkout.session.async_
 
     $stripeSessionId = $session['id']                        ?? null;
     $paymentIntent   = $session['payment_intent']            ?? null;
-    $customerEmail   = $session['customer_details']['email'] ?? null;
+    $customerEmail   = $session['customer_details']['email'] ?? ($session['customer_email'] ?? null);
     $customerName    = $session['customer_details']['name']  ?? null;
     $customerPhone   = $session['customer_details']['phone'] ?? null;
     $totalAmount     = $session['amount_total']              ?? 0;
@@ -187,6 +187,7 @@ if (in_array($eventType, ['checkout.session.completed', 'checkout.session.async_
         'email'         => $customerEmail,
         'name'          => $customerName,
         'phone'         => $customerPhone,
+        'sms_opt_in'    => ($metadata['sms_opt_in'] ?? '0') === '1' ? '1' : '0',
         'total'         => $totalAmount,
         'currency'      => $currency,
         'payment_status'=> $paymentStatus,

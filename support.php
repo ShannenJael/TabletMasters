@@ -139,6 +139,7 @@ $responseHighlights = [
         <a href="#support-workflow">How It Works</a>
         <a href="#support-faq">FAQ</a>
         <a href="#support-cta">Get Help</a>
+        <a href="track-shipment.php">Track Shipment</a>
       </div>
 
       <div class="support-priority-grid">

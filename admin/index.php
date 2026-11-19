@@ -14,6 +14,13 @@ $resources = [
         'label' => 'Open Orders',
     ],
     [
+        'title' => 'Shipments',
+        'href' => 'shipments.php',
+        'icon' => 'fa-truck',
+        'reason' => 'Set shipment status, save tracking numbers, and send customer updates.',
+        'label' => 'Manage Shipments',
+    ],
+    [
         'title' => 'Inventory Dashboard',
         'href' => 'inventory.php',
         'icon' => 'fa-boxes-stacked',

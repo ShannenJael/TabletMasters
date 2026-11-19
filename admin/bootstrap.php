@@ -44,8 +44,9 @@ function tmAdminHandleAuth(string $redirectPath, bool $allowPublic = false): arr
             $_SESSION['tm_admin'] = true;
             $_SESSION['tm_admin_version'] = tmAdminCredentialVersion();
             $isAuthenticated = true;
-            if ($redirectPath === 'inventory.php' && ($_GET['next'] ?? '') === 'orders') {
-                header('Location: orders.php');
+            $next = $_GET['next'] ?? '';
+            if ($redirectPath === 'inventory.php' && in_array($next, ['orders', 'shipments'], true)) {
+                header('Location: ' . $next . '.php');
                 exit;
             }
         } else {

@@ -72,6 +72,77 @@ test('purchase completes through the cart, hosted checkout, webhook, and receipt
   await expect(page.locator('#cart-badge')).toHaveText('0');
   const after = await control(request);
   expect(after.orders.filter(order => order.session_id === Object.keys(before.sessions)[0])).toHaveLength(1);
+
+  const orderNumber = page.locator('.success-detail-row').filter({ hasText: 'Order number' }).locator('strong');
+  const number = await orderNumber.textContent();
+  expect(number).toMatch(/^TM-[A-F0-9]{24}$/);
+  await page.getByRole('link', { name: 'Track Shipment', exact: true }).first().click();
+  await expect(page.getByLabel('Order number')).toHaveValue(number);
+  await page.getByLabel('Checkout email').fill('buyer@example.test');
+  await page.getByRole('button', { name: 'Track shipment' }).click();
+  await expect(page.getByRole('heading', { name: 'Order received' })).toBeVisible();
+});
+
+test('staff can save tracking, notify the buyer, and show progress for verified lookups', async ({ page, request, caseId }) => {
+  const id = 'cs_test_' + caseId.replace(/-/g, '');
+  const number = 'TM-' + crypto.createHash('sha256').update(id).digest('hex').slice(0, 24).toUpperCase();
+  const value = session(id, { metadata: { checkout_type: 'purchase', sms_opt_in: '1' } });
+  await control(request, { sessions: { [id]: value } });
+  expect((await webhook(request, value)).ok()).toBeTruthy();
+  expect((await control(request)).orders.find(order => order.session_id === id).sms_opt_in).toBe('1');
+
+  const managePath = '/admin/shipments.php?order=' + number;
+  const anonymous = await request.get(managePath, { maxRedirects: 0 });
+  expect(anonymous.headers().location).toBe('inventory.php?next=shipments');
+  await gotoAndWait(page, managePath);
+  await page.getByLabel('Password').fill('payment-test-admin-only');
+  await page.getByRole('button', { name: 'Sign In' }).click();
+  await expect(page.getByRole('heading', { name: 'Shipments', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: number, exact: true }).click();
+
+  const rejected = await page.request.post('/admin/shipments.php', {
+    form: { order: number, status: 'shipped', carrier: 'usps', tracking: '9400000000000000000000' }
+  });
+  expect(rejected.status()).toBe(403);
+  await page.getByLabel('Shipment status').selectOption('shipped');
+  await page.getByRole('button', { name: 'Save shipment', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('Enter both a carrier and a tracking number');
+
+  await page.getByLabel('Shipment status').selectOption('shipped');
+  await page.getByRole('combobox', { name: 'Carrier', exact: true }).selectOption('usps');
+  await page.getByLabel('Tracking number').fill('9400 0000 0000 0000 0000 00');
+  await page.getByRole('button', { name: 'Save and notify customer' }).click();
+  await expect(page.getByRole('status')).toContainText('Email submitted');
+  await expect(page.getByRole('status')).toContainText('Text could not be sent');
+  await page.getByRole('button', { name: 'Save and notify customer' }).click();
+  await expect(page.getByRole('status')).toContainText('Email already sent for this update');
+  const { shipmentMail } = await control(request);
+  expect(shipmentMail).toHaveLength(1);
+  expect(shipmentMail[0].to).toBe('buyer@example.test');
+  expect(shipmentMail[0].message).toContain('Shipment status: Shipped');
+  expect(shipmentMail[0].message).toContain('track-shipment.php?order=' + number);
+
+  await gotoAndWait(page, '/track-shipment.php?order=' + number);
+  await page.getByLabel('Checkout email').fill('wrong@example.test');
+  await page.getByRole('button', { name: 'Track shipment' }).click();
+  await expect(page.getByRole('alert')).toContainText('We couldn’t find that order');
+  await expect(page.getByRole('link', { name: 'Track with carrier' })).toHaveCount(0);
+  await page.getByLabel('Checkout email').fill('BUYER@example.test');
+  await page.getByRole('button', { name: 'Track shipment' }).click();
+  await expect(page.getByRole('heading', { name: 'Shipped', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Track with carrier' })).toHaveAttribute(
+    'href', 'https://tools.usps.com/go/TrackConfirmAction?tLabels=9400000000000000000000'
+  );
+  expect(page.url()).not.toContain('BUYER');
+  expect((await request.get('/track-shipment.php')).headers()['cache-control']).toContain('no-store');
+
+  await gotoAndWait(page, managePath);
+  await page.getByLabel('Shipment status').selectOption('delivered');
+  await page.getByRole('button', { name: 'Save shipment', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Shipment saved.');
+  expect((await control(request)).shipmentMail).toHaveLength(1);
+  const delivered = await request.post('/track-shipment.php', { form: { order: number, email: 'buyer@example.test' } });
+  expect(await delivered.text()).toContain('<h2 id="shipment-status">Delivered</h2>');
 });
 
 test('cancelling preserves the cart, protection plan, and SMS preference', async ({ page }) => {

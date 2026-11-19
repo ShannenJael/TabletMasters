@@ -15,7 +15,7 @@ for (const entry of fs.readdirSync(repo)) {
     fs.copyFileSync(path.join(repo, entry), path.join(root, entry));
   }
 }
-for (const dir of ['includes', 'assets', 'public']) {
+for (const dir of ['admin', 'includes', 'assets', 'public']) {
   if (fs.existsSync(path.join(repo, dir))) {
     fs.cpSync(path.join(repo, dir), path.join(root, dir), {
       recursive: true,
@@ -38,6 +38,7 @@ define('STRIPE_PRICE_BASIC', ($_SERVER['HTTP_X_PAYMENT_TEST_PRICE'] ?? '') === '
 define('STRIPE_PRICE_PROTECTED', 'price_test_protected');
 define('TM_SMS_ENABLED', false);
 define('TM_SUPPORT_ALERT_NUMBER', '');
+define('ADMIN_PASSWORD', 'payment-test-admin-only');
 `);
 fs.writeFileSync(path.join(root, '__payment-devices.php'), `<?php
 require __DIR__ . '/includes/database.php';
@@ -147,8 +148,11 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, origin);
   if (url.pathname === '/__payment/control') {
     if (req.method === 'POST') Object.assign(state, JSON.parse(await body(req)));
-    const [orders, notifications] = await Promise.all([readLog('orders.json', []), readLog('sms_notifications.json', {})]);
-    json(res, { ...state, orders, notifications });
+    const mailLog = 'shipment-mail-' + crypto.createHash('sha256').update(caseId).digest('hex') + '.json';
+    const [orders, notifications, shipmentMail] = await Promise.all([
+      readLog('orders.json', []), readLog('sms_notifications.json', {}), readLog(mailLog, [])
+    ]);
+    json(res, { ...state, orders, notifications, shipmentMail });
     return;
   }
   const match = /^\/__payment\/checkout\/(cs_[\w]+)$/.exec(url.pathname);

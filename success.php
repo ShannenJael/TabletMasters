@@ -7,6 +7,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/accessories-data.php';
 require_once __DIR__ . '/includes/stripe-security.php';
 require_once __DIR__ . '/includes/stripe-client.php';
+require_once __DIR__ . '/includes/shipments.php';
 
 header('Cache-Control: private, no-store');
 
@@ -137,12 +138,16 @@ $planLabels = [
         </p>
         <div class="success-details">
           <div class="success-detail-row">
+            <span>Order number</span>
+            <span><strong><?= htmlspecialchars(tmOrderNumber($sessionId)) ?></strong></span>
+          </div>
+          <div class="success-detail-row">
             <span>Order Total</span>
             <span><strong>$<?= number_format(($order['amount_total'] ?? 0) / 100, 2) ?></strong></span>
           </div>
           <div class="success-detail-row">
             <span>Email</span>
-            <span><?= htmlspecialchars($order['customer_details']['email'] ?? 'N/A') ?></span>
+            <span><?= htmlspecialchars($order['customer_details']['email'] ?? $order['customer_email'] ?? 'N/A') ?></span>
           </div>
         </div>
         <?php
@@ -154,13 +159,13 @@ $planLabels = [
         </p>
         <?php else: ?>
         <p class="success-note">
-          Keep your payment receipt for your records. Contact support if you need help with shipping.
+          Keep your order number and checkout email to track your shipment.
         </p>
         <?php endif; ?>
 
       <div class="success-actions">
-        <a class="btn-primary" href="shop.php">Continue Shopping</a>
-        <a class="btn-outline" href="index.php">Back to Home</a>
+        <a class="btn-primary" href="track-shipment.php?order=<?= urlencode(tmOrderNumber($sessionId)) ?>">Track Shipment</a>
+        <a class="btn-outline" href="shop.php">Continue Shopping</a>
       </div>
 
       <?php if (!empty($recommendedAccessories)): ?>
