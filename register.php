@@ -128,12 +128,12 @@ $prefill   = [
           </div>
           <label class="sms-opt-in-row">
             <input type="checkbox" name="sms_opt_in" value="1" id="reg-sms-opt-in" />
-            <span>Yes, send me SMS updates about my coverage, claims, and device protection</span>
+            <span>Yes, send me SMS updates about my registration, coverage, and claims</span>
           </label>
           <p class="sms-opt-in-note">
-            Requires a phone number above. By checking this box, you agree to receive Tablet Masters SMS updates.
-            Message &amp; data rates may apply. Reply STOP to unsubscribe. See <a href="sms-terms.php">SMS Terms</a>
-            and <a href="privacy.php">Privacy Policy</a>.
+            SMS is optional. Enter a mobile number above to receive texts from Tablet Masters. Message frequency varies.
+            Message &amp; data rates may apply. Reply HELP for help or STOP to unsubscribe.
+            See <a href="sms-terms.php">SMS Terms</a> and <a href="privacy.php">Privacy Policy</a>.
           </p>
         </div>
 

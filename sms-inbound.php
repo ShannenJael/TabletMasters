@@ -61,7 +61,13 @@ tmRecordInboundSms([
     'message_uuid' => (string)($message['inboundMessageId'] ?? ''),
 ]);
 
-$alertNumber = tmSmsConfig()['support_alert_number'];
+$config = tmSmsConfig();
+if ($config['provider'] !== 'aws') {
+    echo json_encode(['received' => true]);
+    exit;
+}
+
+$alertNumber = $config['support_alert_number'];
 if ($alertNumber !== '' && $from !== '' && $from !== tmNormalizePhoneNumber($alertNumber)) {
     $forward = "Tablet Masters reply from {$from}: " . ($body !== '' ? $body : '[empty message]');
     tmSendSmsMessage($alertNumber, $forward);

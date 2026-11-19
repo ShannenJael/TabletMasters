@@ -120,8 +120,9 @@
       <span>Send me SMS updates on my order &amp; coverage</span>
     </label>
     <p class="cart-sms-opt-in-note sms-opt-in-note">
-      By checking this box, you agree to receive Tablet Masters SMS updates. Message &amp; data rates may apply.
-      Reply STOP to unsubscribe. See <a href="sms-terms.php">SMS Terms</a> and <a href="privacy.php">Privacy Policy</a>.
+      By checking this box, you agree to receive Tablet Masters SMS updates. Message frequency varies.
+      Message &amp; data rates may apply. Reply HELP for help or STOP to unsubscribe.
+      See <a href="sms-terms.php">SMS Terms</a> and <a href="privacy.php">Privacy Policy</a>.
     </p>
     <button class="btn-primary full" id="checkout-btn" onclick="stripeCheckout()">Checkout</button>
     <a class="cart-insurance-link" href="plans.php">View all coverage plans →</a>

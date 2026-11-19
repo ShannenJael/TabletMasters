@@ -11,7 +11,8 @@ Tablet Masters sends/receives SMS through **AWS End User Messaging** (Pinpoint S
 ## Files
 
 - `includes/aws-sigv4.php` — AWS Signature Version 4 request signer
-- `includes/aws-sms.php` — outbound SMS client (`tmSendSmsMessage`, config, logging)
+- `includes/sms.php` — shared SMS configuration, sending, and logging
+- `includes/aws-sms.php` — AWS outbound SMS client
 - `includes/aws-sns.php` — SNS HTTPS message signature verification + subscription confirmation
 - `includes/notifications.php` — business logic (order/registration notifications), unchanged except its `require_once` target
 - `sms-inbound.php` — SNS HTTPS endpoint for inbound customer replies
@@ -51,6 +52,7 @@ Add to your untracked `includes/config.php`:
 
 ```php
 define('TM_SMS_ENABLED', true);
+define('TM_SMS_PROVIDER', 'aws');
 define('AWS_REGION', 'us-east-2');
 define('AWS_ACCESS_KEY_ID', 'your_aws_access_key_id');
 define('AWS_SECRET_ACCESS_KEY', 'your_secret_access_key');

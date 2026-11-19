@@ -3,7 +3,7 @@
  * Tablet Masters - SMS notification workflows
  */
 
-require_once __DIR__ . '/aws-sms.php';
+require_once __DIR__ . '/sms.php';
 
 function tmNotifyOrderCompleted(array $session, array $lineItems = []): array
 {
@@ -59,7 +59,7 @@ function tmNotifyDeviceRegistration(array $registration): array
         $planText = ($plan !== '' && $plan !== 'none')
             ? " Plan selected: {$plan}."
             : " No protection plan is attached yet.";
-        $body = "Tablet Masters: Hi {$name}, your {$brand} {$model} is now registered. Registration #: {$registrationNumber}.{$planText} Reply here if you need support.";
+        $body = "Tablet Masters: Hi {$name}, your {$brand} {$model} is now registered. Registration #: {$registrationNumber}.{$planText} Reply HELP for help or STOP to unsubscribe.";
         $results['customer'] = tmSendNotificationOnce('customer-registration:' . $registrationNumber, $phone, $body);
     }
 
@@ -106,49 +106,27 @@ function tmSendNotificationOnce(string $key, string $to, string $body): array
     return $result;
 }
 
-function tmRecordInboundSms(array $payload): void
+function tmRecordInboundSms(array $payload, string $provider = 'aws'): bool
 {
-    $logDir = __DIR__ . '/../data/logs';
-    if (!is_dir($logDir)) {
-        mkdir($logDir, 0755, true);
-    }
-
-    $inboxFile = $logDir . '/sms_inbox.json';
-    $messages = file_exists($inboxFile)
-        ? (json_decode((string)file_get_contents($inboxFile), true) ?: [])
-        : [];
-
     $messageId = tmSmsPayloadValue($payload, ['MessageUUID', 'message_uuid', 'MessageSid', 'SmsSid', 'message_sid']);
     $from = tmSmsPayloadValue($payload, ['From', 'from', 'from_number']);
     $to = tmSmsPayloadValue($payload, ['To', 'to', 'to_number']);
     $body = tmSmsPayloadValue($payload, ['Text', 'Body', 'text', 'body']);
 
-    $messages[] = [
-        'provider' => 'aws',
+    return tmAppendSmsEvent('sms_inbox.json', [
+        'provider' => $provider,
         'message_id' => $messageId,
         'from' => tmNormalizePhoneNumber($from) ?: $from,
         'to' => tmNormalizePhoneNumber($to) ?: $to,
         'body' => trim($body),
         'received_at' => date('Y-m-d H:i:s'),
-    ];
-
-    file_put_contents($inboxFile, json_encode($messages, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    ], $messageId !== '' ? ['provider', 'message_id'] : []);
 }
 
-function tmRecordSmsStatusCallback(array $payload): void
+function tmRecordSmsStatusCallback(array $payload, string $provider = 'aws'): void
 {
-    $logDir = __DIR__ . '/../data/logs';
-    if (!is_dir($logDir)) {
-        mkdir($logDir, 0755, true);
-    }
-
-    $statusFile = $logDir . '/sms_status_callbacks.json';
-    $rows = file_exists($statusFile)
-        ? (json_decode((string)file_get_contents($statusFile), true) ?: [])
-        : [];
-
-    $rows[] = [
-        'provider' => 'aws',
+    tmAppendSmsEvent('sms_status_callbacks.json', [
+        'provider' => $provider,
         'message_id' => tmSmsPayloadValue($payload, ['MessageUUID', 'message_uuid', 'MessageSid', 'message_sid']),
         'message_status' => tmSmsPayloadValue($payload, ['Status', 'MessageStatus', 'message_state', 'status']),
         'to' => tmSmsPayloadValue($payload, ['To', 'to', 'to_number']),
@@ -156,9 +134,53 @@ function tmRecordSmsStatusCallback(array $payload): void
         'error_code' => tmSmsPayloadValue($payload, ['ErrorCode', 'error_code']),
         'error_message' => tmSmsPayloadValue($payload, ['ErrorMessage', 'error_message']),
         'recorded_at' => date('Y-m-d H:i:s'),
-    ];
+    ], $provider === 'twilio' ? ['provider', 'message_id', 'message_status', 'error_code'] : []);
+}
 
-    file_put_contents($statusFile, json_encode($rows, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+function tmAppendSmsEvent(string $filename, array $row, array $deduplicateBy): bool
+{
+    $directory = __DIR__ . '/../data/logs';
+    if (!is_dir($directory) && !@mkdir($directory, 0755, true) && !is_dir($directory)) {
+        throw new RuntimeException('Could not create SMS log directory');
+    }
+
+    $path = $directory . '/' . $filename;
+    $lock = fopen($path . '.lock', 'c');
+    if ($lock === false) {
+        throw new RuntimeException('Could not open SMS log lock');
+    }
+
+    $temporary = false;
+    try {
+        if (!flock($lock, LOCK_EX)) {
+            throw new RuntimeException('Could not lock SMS log');
+        }
+
+        $rows = is_file($path) ? json_decode((string)file_get_contents($path), true, 512, JSON_THROW_ON_ERROR) : [];
+        if ($deduplicateBy !== []) {
+            $key = array_intersect_key($row, array_flip($deduplicateBy));
+            foreach ($rows as $record) {
+                if (array_intersect_key($record, $key) == $key) {
+                    return false;
+                }
+            }
+        }
+
+        $rows[] = $row;
+        $json = json_encode($rows, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR);
+        $temporary = tempnam($directory, 'sms-');
+        if ($temporary === false || file_put_contents($temporary, $json) !== strlen($json) || !rename($temporary, $path)) {
+            throw new RuntimeException('Could not save SMS log');
+        }
+        $temporary = false;
+
+        return true;
+    } finally {
+        if ($temporary !== false) {
+            unlink($temporary);
+        }
+        fclose($lock);
+    }
 }
 
 function tmNotificationLedgerPath(): string
