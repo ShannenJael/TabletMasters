@@ -200,13 +200,21 @@ app.on('error', error => { console.error(error); process.exit(1); });
 app.on('exit', code => process.exit(code || 0));
 mock.listen(mockPort, '127.0.0.1');
 // Wait for the PHP pool before advertising readiness to Playwright.
-const ready = setInterval(async () => {
+let readinessTimer;
+async function startWhenReady() {
   try {
-    const response = await fetch(`http://127.0.0.1:${appPort}/shop.php`);
-    if (!response.ok) return;
-    clearInterval(ready);
-    server.listen(port, '127.0.0.1', () => console.log(`Isolated payment app: ${origin}`));
+    const response = await fetch(`http://127.0.0.1:${appPort}/shop.php`, {
+      method: 'HEAD',
+      signal: readiness.signal
+    });
+    if (response.ok) {
+      server.listen(port, '127.0.0.1', () => console.log(`Isolated payment app: ${origin}`));
+      return;
+    }
   } catch {}
-}, 250);
-function shutdown() { clearInterval(ready); server.close(); mock.close(); app.kill(); }
+  if (!readiness.signal.aborted) readinessTimer = setTimeout(startWhenReady, 250);
+}
+const readiness = new AbortController();
+void startWhenReady();
+function shutdown() { readiness.abort(); clearTimeout(readinessTimer); server.close(); mock.close(); app.kill(); }
 for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(signal, shutdown);

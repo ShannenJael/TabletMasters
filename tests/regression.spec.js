@@ -42,9 +42,8 @@ test('insurance hero and booking section remain visually stable', async ({ page 
 
   await expect(page.locator('.insurance-page-shell')).toHaveScreenshot('insurance-section.png', {
     timeout: 15000,
-    // The tall element is captured while scrolled, so the sticky nav would be
-    // painted over it at a scroll-dependent offset. Hide it (layout unchanged).
-    style: '.nav { visibility: hidden !important; }',
+    // Capture the tall section at a fixed scroll position and exclude the sticky nav.
+    style: 'html { scroll-behavior: auto !important; } .nav { visibility: hidden !important; }',
     maxDiffPixelRatio: 0.02,
   });
 });

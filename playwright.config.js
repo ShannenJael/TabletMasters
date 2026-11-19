@@ -13,7 +13,7 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 2 : (process.env.PLAYWRIGHT_BASE_URL ? 3 : undefined),
+  workers: process.env.CI || !process.env.PLAYWRIGHT_BASE_URL ? 2 : 3,
   timeout: process.env.PLAYWRIGHT_BASE_URL ? 120000 : 60000,
   reporter: process.env.CI ? [['html'], ['github']] : 'list',
   use: {
