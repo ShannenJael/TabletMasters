@@ -27,3 +27,18 @@ for (const path of publicPages) {
     expect(dimensions.content, `${path} has horizontal overflow`).toBeLessThanOrEqual(dimensions.viewport + 1);
   });
 }
+
+test('Terms of Service includes an SMS Terms box that links to the full policy', async ({ page }) => {
+  await page.goto('/index.php', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('link', { name: 'Terms of Service', exact: true }).click();
+  await expect(page).toHaveURL(/\/terms\.php$/);
+  await expect(page).toHaveTitle(/^Terms of Service - Tablet Masters$/);
+
+  const smsTerms = page.getByRole('region', { name: 'SMS Terms' });
+  await expect(smsTerms).toBeVisible();
+  await expect(smsTerms).toContainText('Tablet Masters (TabletmastersLLC)');
+  await expect(smsTerms).toContainText('Message and data rates may apply.');
+  await smsTerms.getByRole('link', { name: 'full SMS Terms' }).click();
+  await expect(page).toHaveURL(/\/sms-terms\.php$/);
+  await expect(page).toHaveTitle(/^SMS Terms - Tablet Masters$/);
+});

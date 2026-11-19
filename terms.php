@@ -18,7 +18,7 @@
 
 <?php include 'includes/nav.php'; ?>
 
-<?php $lastUpdated = 'April 3, 2026'; ?>
+<?php $lastUpdated = 'November 19, 2026'; ?>
 
 <div class="policy-section">
   <div class="policy-hero">
@@ -39,6 +39,15 @@
         By accessing or using the site, submitting a request, or purchasing a product or service,
         you agree to these Terms of Service and our <a href="privacy.php">Privacy Policy</a>. If
         you do not agree, do not use the site or services.
+      </p>
+    </section>
+
+    <section class="policy-card" aria-labelledby="sms-terms-heading">
+      <h2 id="sms-terms-heading">SMS Terms</h2>
+      <p>
+        If you opt in, Tablet Masters (TabletmastersLLC) may text you about orders, device registration,
+        and coverage. Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong>
+        to opt out or <strong>HELP</strong> for help. See our <a href="sms-terms.php">full SMS Terms</a>.
       </p>
     </section>
 
