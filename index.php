@@ -238,7 +238,7 @@ $sectorCards = [
         <?php foreach ($brandCards as $card): ?>
         <article class="home-brand-card">
           <div class="home-brand-visual">
-            <img src="<?= htmlspecialchars($card['image']) ?>" alt="<?= htmlspecialchars($card['name']) ?>" />
+            <img src="<?= htmlspecialchars($card['image']) ?>" alt="<?= htmlspecialchars($card['name']) ?>" loading="lazy" decoding="async" />
           </div>
           <h3><?= htmlspecialchars($card['name']) ?></h3>
           <p><?= htmlspecialchars($card['copy']) ?></p>

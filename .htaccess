@@ -5,6 +5,19 @@ Options -Indexes
   # Preserve ACME certificate validation while denying repository/config paths.
   RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
   RewriteRule ^(?:tests|node_modules|terraform|docs|playwright-report|test-results(?:-[^/]+)?)(?:/|$) - [F,L,NC]
+
+  # Serve the lightweight WebP sibling (photo.png -> photo.png.webp, made by
+  # scripts/optimize-images.py) to browsers that accept it. URLs never change.
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{REQUEST_FILENAME}.webp -f
+  RewriteRule ^(.+\.(?:png|jpe?g))$ $1.webp [T=image/webp,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "(?i)\.(?:png|jpe?g|webp)$">
+    Header append Vary Accept
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
 </IfModule>
 
 <FilesMatch "(?i)(^\.|^error_log$|^package(?:-lock)?\.json$|\.(?:bak|orig|rej)(?:[.-].*)?$|\.(?:ps1|py|sql|sqlite3?|db|log)(?:-(?:wal|shm))?$)">
