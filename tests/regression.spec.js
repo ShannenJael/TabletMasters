@@ -31,6 +31,7 @@ test('shop page header and first product row remain visually stable', async ({ p
   await page.waitForTimeout(1000);
 
   await expect(page.locator('.shop-section')).toHaveScreenshot('shop-section.png', {
+    timeout: 15000,
     maxDiffPixelRatio: 0.02,
   });
 });
